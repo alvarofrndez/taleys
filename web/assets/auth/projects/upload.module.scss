@@ -1,0 +1,750 @@
+@use '@/assets/variables.scss' as variables;
+@use '@/assets/mixins.scss' as mixins;
+
+.container{
+    // size
+    width: 100%;
+
+    // display
+    @include mixins.flex(column, center, flex-start, nowrap, variables.$spacing-10);
+
+    // margin
+    padding: variables.$spacing-16 variables.$spacing-10;
+    
+    .header{
+        // size
+        width: 100%;
+
+        // display
+        @include mixins.flex(row, space-between, center);
+
+        .navList{
+            // display
+            @include mixins.flex(row, center, center, nowrap, variables.$spacing-1);
+
+            // margin
+            padding: variables.$spacing-1;
+
+            // decoration
+            list-style: none;
+            background-color: var(--color-muted);
+            border-radius: variables.$border-radius-lg;
+
+            .navItem{
+                // display
+                @include mixins.flex(row, center, center);
+
+                // decoration
+                border-radius: variables.$border-radius-lg;
+
+                button{
+                    // margin
+                    padding: variables.$spacing-1 variables.$spacing-4;
+
+                    // decoration
+                    background-color: transparent;
+                    color: var(--color-primary);
+                    cursor: pointer;
+                    font-weight: variables.$font-weight-medium;
+                    font-size: variables.$font-size-sm;
+                    border: none;
+                    border-radius: variables.$border-radius-md;
+                    outline: none;
+                }
+
+                &:hover{
+                    // decoration
+                    background-color: var(--color-muted);
+
+                    button{
+                        // decoration
+                        background-color: var(--color-accent);
+                    }
+                }
+            }
+            
+            .active{
+                // display
+                @include mixins.flex(row, center, center);
+
+                // decoration
+                border-radius: variables.$border-radius-lg;
+
+                button{
+                    // margin
+                    padding: variables.$spacing-1 variables.$spacing-4;
+
+                    // decoration
+                    background-color: var(--color-accent);
+                    font-weight: variables.$font-weight-semibold;
+                    color: var(--color-primary);
+                    cursor: pointer;
+                    font-size: variables.$font-size-sm;
+                    border: none;
+                    border-radius: variables.$border-radius-md;
+                    outline: none;
+                }
+            }
+        }
+
+        .upload{
+            // margin
+            padding: variables.$spacing-2 variables.$spacing-4;
+
+            // decoration
+            background-color: var(--color-primary);
+            color: var(--color-primary-foreground);
+            border-radius: variables.$border-radius-md;
+            border: none;
+            cursor: pointer;
+        }
+    }
+
+    .section{
+        // size
+        width: 100%;
+
+        // display
+        @include mixins.flex(row, flex-start, flex-start, nowrap, variables.$spacing-10);
+
+        // margin
+        padding: variables.$spacing-2;
+        
+        .content{
+            // size
+            width: 70%;
+
+            // display
+            @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-12);
+
+            .contentHeader{
+                // size
+                width: 100%;
+
+                // display
+                @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-1);
+
+                h2{
+                    // decoration
+                    font-size: variables.$font-size-2xl;
+                    font-weight: variables.$font-weight-bold;
+                    color: var(--color-primary);
+                }
+                
+                span{
+                    // decoration
+                    font-size: variables.$font-size-sm;
+                    font-weight: variables.$font-weight-normal;
+                    color: var(--color-muted-foreground);
+                }
+            }
+
+            .form{
+                // size
+                width: 100%;
+
+                // display
+                @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-8);
+
+                .formGroup{
+                    // size
+                    width: 100%;
+
+                    // display
+                    @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-2);
+
+                    label{
+                        // decoration
+                        font-size: variables.$font-size-sm;
+                        font-weight: variables.$font-weight-semibold;
+
+                        span{
+                            color: var(--color-danger);
+                        }
+                    }
+
+                    .formGroupInputs{
+                        // size
+                        width: 100%;
+
+                        // display
+                        @include mixins.flex(row, space-between, flex-start, nowrap, variables.$spacing-2);
+
+                        input, select{
+                            // size
+                            width: 90%;
+        
+                            // margin
+                            padding: variables.$spacing-2;
+        
+                            // decoration
+                            font-size: variables.$font-size-sm;
+                            font-weight: variables.$font-weight-normal;
+                            background-color: var(--color-muted);
+                            border-radius: variables.$border-radius-md;
+                            border: 1px solid var(--color-border);
+                        }
+
+                        .formGroupInputsCategories{
+                            // size
+                            width: 100%;
+                        }
+
+                        button{
+                            // size
+                            width: 10%;
+
+                            // display
+                            @include mixins.flex(row, center, center);
+
+                            // margin
+                            padding: variables.$spacing-2;
+
+                            // decoration
+                            background-color: var(--color-muted);
+                            border-radius: variables.$border-radius-md;
+                            border: 1px solid var(--color-border);
+                            
+                            *{
+                                // size
+                                width: variables.$font-size-lg;
+                                height: variables.$font-size-lg;
+                            }
+                        }
+                    }
+
+                    input, textarea{
+                        // size
+                        width: 100%;
+    
+                        // margin
+                        padding: variables.$spacing-2;
+    
+                        // decoration
+                        font-size: variables.$font-size-sm;
+                        font-weight: variables.$font-weight-normal;
+                        background-color: var(--color-muted);
+                        border-radius: variables.$border-radius-md;
+                        border: 1px solid var(--color-border);
+                    }
+
+                    span{
+                        // decoration
+                        font-size: variables.$font-size-sm;
+                        font-weight: variables.$font-weight-normal;
+                        color: var(--color-muted-foreground);
+                    }
+
+                    .formGroupList{
+                        // size
+                        width: 100%;
+
+                        // display
+                        @include mixins.flex(row, flex-start, flex-start, wrap, variables.$spacing-1);
+
+                        .formGroupListItem{
+                            // display
+                            @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
+
+                            // margin
+                            padding: variables.$spacing-1 variables.$spacing-3;
+
+                            //decoration
+                            background-color: var(--color-accent);
+                            border-radius: variables.$border-radius-full;
+
+                            label{
+                                // decoration
+                                font-size: variables.$font-size-xs;
+                                font-weight: variables.$font-weight-bold;
+                                color: var(--color-primary);
+                            }
+
+                            .formGroupListItemActions{
+                                // display
+                                @include mixins.flex(row, center, center);
+
+                                *{
+                                    color: var(--color-danger) !important;
+                                    cursor: pointer;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .img{
+                    // size
+                    width: 100%;
+
+                    // display
+                    @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-2);
+
+                    .imgHeader{
+                        // size
+                        width: 100%;
+
+                        // display
+                        @include mixins.flex(row, space-between, flex-start);
+
+                        label{
+                            
+                            // decoration
+                            font-size: variables.$font-size-sm;
+                            font-weight: variables.$font-weight-semibold;
+
+                            span{
+                                //margin
+                                padding-left: variables.$spacing-1;
+
+                                // decoration
+                                color: var(--color-danger);
+                            }
+                        }
+
+                        p{
+                            // decoration
+                            font-size: variables.$font-size-sm;
+                            font-weight: variables.$font-weight-normal;
+                            color: var(--color-muted-foreground);
+                        }
+                    }
+
+                    .contentImg{
+                        // size
+                        width: 100%;
+
+                        // display
+                        @include mixins.flex(column, center, center);
+
+                        // margin
+                        padding: variables.$spacing-16;
+
+                        // decoration
+                        border: 2px dashed var(--color-border);
+                        border-radius: variables.$border-radius-lg;
+                        cursor: pointer;
+
+                        &:hover{
+                            // decoration
+                            background-color: var(--color-muted);
+                        }
+
+                        .inputContent{
+                            width: 100%;
+                            // display
+                            @include mixins.flex(column, center, center, nowrap, variables.$spacing-4);
+
+                            span{
+                                // decoration
+                                font-size: variables.$font-size-sm;
+                                font-weight: variables.$font-weight-normal;
+                                color: var(--color-muted-foreground);
+                            }
+
+                            button{
+                                // margin
+                                padding: variables.$spacing-2;
+
+                                // decoration
+                                background-color: var(--color-muted);
+                                border: 1px solid var(--color-border);
+                                border-radius: variables.$border-radius-lg;
+                                font-size: variables.$font-size-sm;
+                                font-weight: variables.$font-weight-normal;
+                                color: var(--color-muted-foreground);
+                            }
+                        }
+                    }
+                }
+            }
+
+            .config{
+                // size
+                width: 100%;
+
+                // display
+                @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-8);
+
+                .configItem{
+                    // size
+                    width: 100%;
+
+                    // display
+                    @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-4);
+
+                    // margin
+                    padding-bottom: variables.$spacing-8;
+
+                    // decoration
+                    border-bottom: 1px solid var(--color-border);
+
+                    &:nth-child(4){
+                        // decoration
+                        border-bottom: none;
+                    }
+
+                    .configItemVisibility{
+                        // size
+                        width: 100%;
+
+                        // display
+                        @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-3);
+
+                        .configItemVisibilityItem{
+                            // size
+                            width: 100%;
+                            
+                            // display
+                            @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-8);
+                            div{
+                                // display
+                                @include mixins.flex(column, flex-start, flex-start3);
+
+                                p{
+                                    // decoration
+                                    font-size: variables.$font-size-sm;
+                                    font-weight: variables.$font-weight-medium;
+                                }
+
+                                span{
+                                    // decoration
+                                    font-size: variables.$font-size-sm;
+                                    font-weight: variables.$font-weight-normal;
+                                    color: var(--color-muted-foreground);
+                                }
+                            }
+
+                            input{
+                                // size
+                                width: min-content;
+                                
+                                // decoration
+                                cursor: pointer;
+                            }
+                        }
+                    }
+
+                    label{
+                        // decoration
+                        font-size: variables.$font-size-lg;
+                        font-weight: variables.$font-weight-semibold;
+                    }
+
+                    .formGroupInputs{
+                        // size
+                        width: 100%;
+
+                        // display
+                        @include mixins.flex(row, space-between, flex-start, nowrap, variables.$spacing-2);
+
+                        button{
+                            // size
+                            width: 10%;
+
+                            // display
+                            @include mixins.flex(row, center, center);
+
+                            // margin
+                            padding: variables.$spacing-2;
+
+                            // decoration
+                            background-color: var(--color-muted);
+                            border-radius: variables.$border-radius-md;
+                            border: 1px solid var(--color-border);
+                        }
+                    }
+
+                    input{
+                        // size
+                        width: 100%;
+    
+                        // margin
+                        padding: variables.$spacing-2;
+    
+                        // decoration
+                        font-size: variables.$font-size-sm;
+                        font-weight: variables.$font-weight-normal;
+                        background-color: var(--color-muted);
+                        border-radius: variables.$border-radius-md;
+                        border: 1px solid var(--color-border);
+                    }
+
+                    span{
+                        // decoration
+                        font-size: variables.$font-size-sm;
+                        font-weight: variables.$font-weight-normal;
+                        color: var(--color-muted-foreground);
+                    }
+
+                    .formGroupList{
+                        // size
+                        width: 100%;
+
+                        // display
+                        @include mixins.flex(row, flex-start, flex-start, wrap, variables.$spacing-1);
+
+                        .formGroupListItem{
+                            // display
+                            @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
+
+                            // margin
+                            padding: variables.$spacing-1 variables.$spacing-3;
+
+                            //decoration
+                            background-color: var(--color-terciary);
+                            border-radius: variables.$border-radius-full;
+
+                            label{
+                                // decoration
+                                font-size: variables.$font-size-xs;
+                                font-weight: variables.$font-weight-bold;
+                                color: var(--color-primary);
+                            }
+
+                            .formGroupListItemActions{
+                                // display
+                                @include mixins.flex(row, center, center);
+
+                                *{
+                                    color: var(--color-danger) !important;
+                                    cursor: pointer;
+                                }
+                            }
+                        }
+                    }
+
+                    .checkboxContainer{
+                        // size
+                        width: 100%;
+
+                        // display
+                        @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
+
+                        input{
+                            // size
+                            width: auto;
+                        }
+
+                        p{
+                            // decoration
+                            font-size: variables.$font-size-sm;
+                            font-weight: variables.$font-weight-medium;
+                        }
+                    }
+                }
+            }
+        }
+
+        .general{
+            // size
+            width: 30%;
+
+            // display
+            @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-8);
+
+            .preview{
+                // size
+                width: 100%;
+    
+                // display
+                @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-8);
+    
+                // margin
+                padding: variables.$spacing-4;
+    
+                // decoration
+                border: 1px solid var(--color-border);
+                background-color: var(--color-background);
+                border-radius: variables.$border-radius-lg;
+
+                & > div{
+                    // decoration
+                    overflow: hidden;
+                }
+    
+                .previewHeader{
+                    // size
+                    width: 100%;
+    
+                    // display
+                    @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-1);
+    
+                    h2{
+                        // decoration
+                        font-size: variables.$font-size-2xl;
+                        font-weight: variables.$font-weight-bold;
+                        color: var(--color-primary);
+                    }
+                    
+                    span{
+                        // decoration
+                        font-size: variables.$font-size-sm;
+                        font-weight: variables.$font-weight-normal;
+                        color: var(--color-muted-foreground);
+                    }
+                }
+    
+                .previewImages{
+                    // size
+                    width: 100%;
+                    height: 200px;
+    
+                    // display
+                    @include mixins.flex(column, center, center);
+    
+                    // decoration
+                    background-color: var(--color-muted);
+                    border: 1px solid var(--color-border);
+                    border-radius: variables.$border-radius-lg;
+                    overflow: hidden;
+    
+                    img{
+                        //size
+                        width: 100%;
+                        height: 100%;
+    
+                        // decoration
+                        object-fit: cover;
+                        object-position: center;
+    
+                    }
+                }
+    
+                .previewContent{
+                    // size
+                    width: 100%;
+    
+                    // display
+                    @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-3);
+    
+                    .previewContentUser{
+                        // size
+                        width: 100%;
+    
+                        // display
+                        @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
+    
+                        span{
+                            // decoration
+                            font-size: variables.$font-size-sm;
+                            font-weight: variables.$font-weight-normal;
+                            color: var(--color-muted-foreground);
+                        }
+                    }
+    
+                    .previewContentDescription{
+                        // decoration
+                        font-size: variables.$font-size-sm;
+                        font-weight: variables.$font-weight-semibold;
+                        color: var(--color-muted-foreground);
+                    }
+                }
+    
+                .previewLists{
+                    // size
+                    width: 100%;
+    
+                    // display
+                    @include mixins.flex(row, flex-start, center, wrap, variables.$spacing-2);
+    
+                    .listCategories, .listTags{
+                        // display
+                        @include mixins.flex(row, flex-start, center, wrap, variables.$spacing-2);
+    
+                        .listCategoriesItem, .listTagsItem{
+                            // display
+                            @include mixins.flex(row, center, center);
+        
+                            // margin
+                            padding: variables.$spacing-2;
+        
+                            // decoraion
+                            background-color: var(--color-background);
+                            border-radius: variables.$border-radius-full;
+                            border: 1px solid var(--color-border);
+    
+                            label{
+                                // decoration
+                                font-size: variables.$font-size-xs;
+                                font-weight: variables.$font-weight-bold;
+                                color: var(--color-primary);
+                            }
+                        }
+    
+                        .listTagsItem{
+                            // decoraion
+                            background-color: var(--color-muted);
+                        }
+                    }
+                }
+    
+                .previewInfo{
+                    // size
+                    width: 100%;
+    
+                    // display
+                    @include mixins.flex(row, space-between, flex-start);
+    
+                    .previewVisuals{
+                        // display
+                        @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-3);
+    
+                        .previewVisualsItem{
+                            // display
+                            @include mixins.flex(row, center, center, nowrap, variables.$spacing-1);
+    
+                            *{
+                                color: var(--color-muted-foreground);
+                            }
+                        }
+                    }
+                }
+            }
+
+            .info{
+                // size
+                width: 100%;
+    
+                // display
+                @include mixins.flex(column, flex-start, flex-start, nowrap);
+    
+                // margin
+                padding: variables.$spacing-4;
+    
+                // decoration
+                border: 1px solid var(--color-border);
+                background-color: var(--color-muted);
+                border-radius: variables.$border-radius-lg;
+
+                .headerInfo{
+                    // display
+                    @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
+
+                    h3{
+                        // decoration
+                        font-size: variables.$font-size-lg;
+                        font-weight: variables.$font-weight-semibold;
+                        color: var(--color-primary);
+                    }
+                }
+
+                .contentInfo{
+                    // display
+                    @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-2);
+                    
+                    // margin
+                    padding: variables.$spacing-4;
+
+                    li{
+                        // decoration
+                        font-size: variables.$font-size-sm;
+                        font-weight: variables.$font-weight-normal;
+                        color: var(--color-muted-foreground);
+                    }
+                }
+            }
+        }
+        
+    }
+}

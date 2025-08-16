@@ -1,0 +1,122 @@
+// Colores base
+$color-white: #ffffff;
+$color-black: #000000;
+
+// Paleta de colores (modo claro)
+$color-background-light: #ffffff;
+$color-foreground-light: #111111;
+$color-primary-light: #1a1a1a;
+$color-primary-foreground-light: #ffffff;
+$color-primary-hover-light: #333333;
+$color-secondary-light: #fafafa;
+$color-secondary-foreground-light: #1a1a1a;
+$color-secondary-hover-light: #333333;
+$color-terciary-light: #e7e7e7;
+$color-terciary-foreground-light: #969696;
+$color-terciary-hover-light: #333333;
+$color-muted-light: #f4f4f5;
+$color-muted-foreground-light: #71717a;
+$color-muted-hover-light: #e6e4e4;
+$color-accent-light: #e3e3e3;
+$color-accent-foreground-light: #1a1a1a;
+$color-accent-hover-light:#d5d5d5;
+$color-border-light: #e4e4e7;
+$color-card-light: #ffffff;
+$color-card-foreground-light: #111111;
+$color-flashy-light: #7c3bed1a;
+$color-flashy-foreground-light: #7c3bed;
+$color-flashy-hover-light: #c2c2e9;
+$color-danger-light: #ea1135;
+$color-danger-hover-light: #bc0826;
+$color-success-light: #249224;
+$color-success-hover-light: #006400;
+
+// Paleta de colores (modo oscuro)
+$color-background-dark: #09090b;
+$color-foreground-dark: #fafafa;
+$color-primary-dark: #fafafa;
+$color-primary-foreground-dark: #09090b;
+$color-secondary-dark: #27272a;
+$color-secondary-foreground-dark: #fafafa;
+$color-terciary-dark: #303030;
+$color-terciary-foreground-dark: #e7e7e7;
+$color-muted-dark: #27272a;
+$color-muted-foreground-dark: #a1a1aa;
+$color-muted-hover-dark: #434347;
+$color-accent-dark: #27272a;
+$color-accent-foreground-dark: #fafafa;
+$color-border-dark: #27272a;
+$color-card-dark: #09090b;
+$color-card-foreground-dark: #fafafa;
+$color-flashy-dark: #7c3bed1a;
+$color-flashy-foreground-dark: #7c3bed;
+$color-flashy-hover-dark: #a6a6cb;
+$color-danger-dark: #ea1135;
+$color-danger-hover-dark: #bc0826;
+$color-success-dark: #008000;
+$color-success-hover-dark: #006400;
+
+// Breakpoints
+$breakpoint-sm: 640px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+
+// Espaciado
+$spacing-1: 0.25rem;
+$spacing-2: 0.5rem;
+$spacing-3: 0.75rem;
+$spacing-4: 1rem;
+$spacing-5: 1.25rem;
+$spacing-6: 1.5rem;
+$spacing-8: 2rem;
+$spacing-10: 2.5rem;
+$spacing-12: 3rem;
+$spacing-16: 4rem;
+
+// Tamaños
+$size-height-header: 5vh;
+$size-width-navigation-default: $spacing-10;
+$size-width-navigation-pointer: 10vw;
+
+// Bordes
+$border-radius-sm: 0.125rem;
+$border-radius: 0.25rem;
+$border-radius-md: 0.375rem;
+$border-radius-lg: 0.5rem;
+$border-radius-xl: 0.75rem;
+$border-radius-2xl: 1rem;
+$border-radius-full: 9999px;
+
+// Tipografía
+$font-size-xs: 0.75rem;
+$font-size-sm: 0.875rem;
+$font-size-base: 1rem;
+$font-size-lg: 1.125rem;
+$font-size-xl: 1.25rem;
+$font-size-2xl: 1.5rem;
+$font-size-3xl: 1.875rem;
+$font-size-4xl: 2.25rem;
+
+// Font weight
+$font-weight-light: 300;
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+
+// Sombras
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+$shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+$shadow-md: 0 0px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+$shadow-lg: 0 0px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+// z-index
+$z-index-navigation: 100;
+$z-index-header: 100;
+$z-index-modal: 200;
+$z-index-toast: 300;
+$z-index-tooltip: 400;
+$z-index-dropdown: 500;
+$z-index-loader: 600;

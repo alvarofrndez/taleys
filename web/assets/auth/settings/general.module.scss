@@ -1,0 +1,182 @@
+@use '@/assets/variables.scss' as variables;
+@use '@/assets/mixins.scss' as mixins;
+
+.container{
+    // size
+    width: 100%;
+
+    // display
+    @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-4);
+
+    .section{
+        // size
+        width: 100%;
+
+        // display
+        @include mixins.flex(column, flex-start, flex-start);
+
+        & > *{
+            // margin
+            padding: variables.$spacing-4 0;
+        }
+
+        .header{
+            // size
+            width: 100%;
+
+            // display
+            @include mixins.flex(row, space-between, center);
+
+            // decoration
+            border-bottom: 1px solid var(--color-border);
+
+            h2{
+                // decoration
+                font-size: variables.$font-size-xl;
+                font-weight: variables.$font-weight-semibold;
+            }
+
+            button{
+                // margin
+                padding: variables.$spacing-1 variables.$spacing-2;
+
+                // decoration
+                font-size: variables.$font-size-sm;
+                font-weight: variables.$font-weight-medium;
+                border: 1px solid var(--color-border);
+                border-radius: variables.$border-radius-md;
+                background-color: var(--color-muted);
+
+                // transition
+                transition: background-color 0.3s ease;
+
+                &:hover{
+                    // decoration
+                    background-color: var(--color-accent);
+
+                    // transition
+                    transition: background-color 0.3s ease;
+                }
+            }
+        }
+
+        .content{
+            // size
+            width: 100%;
+
+            // display
+            @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-4);
+
+            span{
+                // decoration
+                font-size: variables.$font-size-sm;
+                color: var(--color-muted-foreground);
+            }
+
+            .form{
+                // size
+                width: 100%;
+
+                // display
+                @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-4);
+                
+                .formGroup{
+                    // size
+                    width: 100%;
+
+                    // display
+                    @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-2);
+
+                    label{
+                        // decoration
+                        font-size: variables.$font-size-sm;
+                        font-weight: variables.$font-weight-medium;
+                    }
+
+                    input{
+                        // decoration
+                        border: 1px solid var(--color-border);
+                        border-radius: variables.$border-radius-md;
+                        padding: variables.$spacing-2;
+                        background-color: var(--color-muted);
+                    }
+
+                    textarea{
+                        // size
+                        width: max-content;
+
+                        // decoration
+                        border: 1px solid var(--color-border);
+                        border-radius: variables.$border-radius-md;
+                        padding: variables.$spacing-2;
+                        background-color: var(--color-muted);
+                    }
+                }
+
+                .update{
+                    // margin
+                    padding: variables.$spacing-2;
+
+                    // decoration
+                    font-size: variables.$font-size-sm;
+                    font-weight: variables.$font-weight-semibold;
+                    border: 1px solid var(--color-border);
+                    border-radius: variables.$border-radius-md;
+                    background-color: var(--color-success);
+
+                    // transition
+                    transition: background-color 0.3s ease;
+
+                    span{
+                        // decoration
+                        color: var(--color-primary-foreground);
+                        font-weight: variables.$font-weight-normal;
+                    }
+
+                    &:hover{
+                        // decoration
+                        background-color: var(--color-success-hover);
+
+                        // transition
+                        transition: background-color 0.3s ease;
+                    }
+                }
+            }
+
+            .buttonsContainer{
+                // size
+                width: 100%;
+
+                // display
+                @include mixins.flex(row, flex-start, flex-start, nowrap, variables.$spacing-2);
+
+                .logout{
+                    // margin
+                    padding: variables.$spacing-2;
+
+                    // decoration
+                    font-size: variables.$font-size-sm;
+                    font-weight: variables.$font-weight-medium;
+                    border: 1px solid var(--color-border);
+                    border-radius: variables.$border-radius-md;
+                    background-color: var(--color-muted);
+
+                    // transition
+                    transition: background-color 0.3s ease;
+
+                    &:hover{
+                        // decoration
+                        background-color: var(--color-accent);
+
+                        // transition
+                        transition: background-color 0.3s ease;
+                    }
+                }
+
+                .delete{
+                    @include mixins.button-danger;
+                }
+            }
+        }
+    }
+}

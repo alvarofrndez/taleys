@@ -1,0 +1,305 @@
+@use '@/assets/variables.scss' as variables;
+@use '@/assets/mixins.scss' as mixins;
+
+.container{
+    // size
+    width: 100%;
+    min-height: calc(100vh - variables.$size-height-header);
+
+    // display
+    @include mixins.flex(column, flex-start, center, nowrap, variables.$spacing-12);
+
+    background-color: var(--color-secondary);
+
+    .header{
+        // size
+        width: 100%;
+        min-height: 50vh;
+
+        // position
+        position: relative;
+
+        // display
+        @include mixins.flex(row, center, flex-end, nowrap, variables.$spacing-6);
+
+        .backgroundImage{
+            // size
+            width: 100%;
+            height: 75%;
+
+            // position
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            // decoration
+            object-fit: cover;
+            object-position: center;
+            image-rendering: auto;
+            -webkit-mask-image: linear-gradient(to bottom, black 0, transparent 100%);
+            mask-image: linear-gradient(to bottom, black 0, transparent 100%);
+        }
+
+        .info{
+            // size
+            width: calc(100% - variables.$spacing-8 - 4px);
+
+            // position
+            z-index: 1;
+
+            // display
+            @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-6);
+
+            @media (min-width: 1400px) {
+                max-width: 1400px;
+            }
+
+            .user{
+                // size
+                width: 100%;
+
+                // display
+                @include mixins.flex(row, flex-start, flex-start, nowrap, variables.$spacing-8);
+
+                .userInfo{
+                    // size
+                    width: 100%;
+
+                    // display
+                    @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-1);
+
+                    // decoration
+                    transform: translateY(- variables.$spacing-2);
+                
+                    .userInfoTop{
+                        // display
+                        @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-3);
+
+                        .name{
+                            // decoration
+                        }
+
+                        .verify{
+                            // display
+                            @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
+
+                            // margin
+                            padding: variables.$spacing-2;
+
+                            // decoration
+                            transform: translateY(1px);
+                            border-radius: variables.$border-radius;
+                            background-color: var(--color-flashy-foreground);
+                            color: var(--color-primary-foreground);
+                            font-weight: variables.$font-weight-medium;
+                            font-size: variables.$font-size-sm;
+                        }
+
+                        .notVerify{
+                            // decoration
+                            transform: translateY(1px);
+                            color: var(--color-muted-foreground);
+                            font-size: variables.$font-size-sm;
+                        }
+                    }
+                    
+                    .userInfoBottom{
+                        // size
+                        width: 100%;
+
+                        // display
+                        @include mixins.flex(row, space-between, center);
+
+                        .username{
+                            // decoration
+                            font-size: variables.$font-size-sm;
+                            color: var(--color-muted-foreground)
+                        }
+
+                        .userInfoBottomActions{
+                            // display
+                            @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
+
+                            .userInfoBottomActionsFollow{
+                                // margin
+                                padding: variables.$spacing-2 variables.$spacing-4;
+            
+                                // decoration
+                                background-color: var(--color-primary);
+                                color: var(--color-primary-foreground);
+                                border-radius: variables.$border-radius-md;
+                                border: none;
+                                cursor: pointer;
+                                font-weight: variables.$font-weight-medium;
+                                transition: background-color .1s ease;
+            
+                                &:hover{
+                                    // decoration
+                                    background-color: var(--color-terciary-hover);
+                                    transition: background-color .1s ease;
+                                }
+                            }
+
+                            .userInfoBottomActionsMessage{
+                                // margin
+                                padding: variables.$spacing-2 variables.$spacing-4;
+
+                                // decoration
+                                background-color: var(--color-accent);
+                                border-radius: variables.$border-radius-lg;
+                                border: 1px solid var(--color-border);
+                                cursor: pointer;
+                                transition: all .1s ease-in;
+
+                                &:hover{
+                                    background-color: var(--color-accent-hover);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .follow{
+                    // margin
+                    padding: variables.$spacing-2 variables.$spacing-2;
+
+                    // decoration
+                    background-color: var(--color-primary);
+                    color: var(--color-primary-foreground);
+                    border-radius: variables.$border-radius-md;
+                    border: none;
+                    cursor: pointer;
+                    font-weight: variables.$font-weight-medium;
+                    transition: background-color .1s ease;
+
+                    &:hover{
+                        // decoration
+                        background-color: var(--color-terciary-hover);
+                        transition: background-color .1s ease;
+                    }
+                }
+            }
+
+            .stats{
+                // size
+                width: 100%;
+
+                // display
+                @include mixins.flex(row);
+
+                //decoration
+                border: 2px solid var(--color-border);
+                border-radius: variables.$border-radius-lg;
+                background-color: var(--color-background);
+                box-shadow: variables.$shadow-lg;
+
+                .statItem{
+                    // size
+                    width: calc(100% / 3);
+
+                    // display
+                    @include mixins.flex(column, center, center, nowrap, variables.$spacing-2);
+                    
+                    // margin
+                    padding: variables.$spacing-4;
+                    
+                    //decoration
+                    border-left: 2px solid var(--color-border);
+
+                    &:nth-child(1){
+                        //decoration
+                        border-left: none;
+                    }
+
+                    .statItemLabel{
+                        // decoration
+                        color: var(--color-muted-foreground);
+                    }
+                }
+            }
+        }
+    }
+
+    .section{
+        // size
+        width: calc(100% - variables.$spacing-8);
+
+        // position
+        position: relative;
+
+        // display
+        @include mixins.flex(row, flex-start, flex-start, nowrap, 5%);
+
+        // padding
+        padding-bottom: variables.$spacing-8;
+
+        @media (min-width: 1400px) {
+            max-width: 1400px;
+        }
+
+        .about{
+            // size
+            width: 35%;
+
+            // display
+            @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-8);
+
+            // decoration
+            overflow: hidden;
+
+            .aboutItem{
+                // size
+                width: 100%;
+
+                // display
+                @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-3);
+                
+                .aboutTitle{
+                    // decoration
+                    font-weight: variables.$font-weight-semibold;
+                }
+
+                .aboutDescriptionContent{
+                    font-size: variables.$font-size-sm;
+                }
+
+                .aboutInfoItem{
+                    // size
+                    width: 100%;
+
+                    // display
+                    @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
+
+                    *{
+                        font-size: variables.$font-size-sm;
+                    }
+
+                    a{
+                        // display
+                        @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-1);
+                        
+                        span{
+                            // decoration
+                            color: var(--color-flashy-foreground);
+
+                            &:hover{
+                                text-decoration: underline;
+                            }
+                        }
+                    }
+
+                    .aboutInfoItemUndefined{
+                        // decoration
+                        color: var(--color-muted-foreground);
+                        font-style: italic;
+                    }
+                }
+            }
+        }
+
+        .projects{
+            // size
+            width: 60%;
+        }
+    }
+}

@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS roles (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    type TEXT NOT NULL UNIQUE,
+    priority INT
+)

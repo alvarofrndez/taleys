@@ -1,0 +1,74 @@
+@use '@/assets/variables.scss' as variables;
+@use '@/assets/mixins.scss' as mixins;
+
+.commentsContainer {
+    // size
+    width: 100%;
+
+    // display
+    @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-8);
+      
+    .commentList {
+        // size
+        width: 100%;
+        
+        // display        
+        @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-4);
+
+        // decoration
+        list-style: none;
+    
+        .noComments {
+            // decoration
+            color: var(--color-muted-foreground);
+            font-weight: variables.$font-weight-normal;
+            font-style: italic;
+            text-align: center;
+        }
+    }
+
+    .commentInput {
+        // size
+        width: 100%;
+        
+        // display
+        @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-2);
+      
+        textarea {
+            // size
+            width: 100%;
+            height: 80px;
+
+            // margin
+            padding: variables.$spacing-3;
+
+            // decoration
+            border: 1px solid var(--color-border);
+            border-radius: variables.$border-radius-md;
+            font-size: variables.$font-size-base;
+            resize: none;
+            background-color: var(--color-muted);
+            outline: none;
+        }
+      
+        button {
+            // display
+            align-self: flex-end;
+
+            // decoration
+            padding: variables.$spacing-2 variables.$spacing-4;
+            background-color: var(--color-primary);
+            color: var(--color-primary-foreground);
+            border: none;
+            border-radius: variables.$border-radius-md;
+            font-weight: variables.$font-weight-medium;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        
+            &:hover {
+                // decoration
+                background-color: var(--color-primary-hover);
+            }
+        }
+    }
+}

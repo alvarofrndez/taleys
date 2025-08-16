@@ -1,0 +1,11 @@
+@use '@/assets/variables.scss' as variables;
+@use '@/assets/mixins.scss' as mixins;
+
+.main{
+    // size
+    width: 100%;
+    height: 90vh;
+
+    // display
+    @include mixins.flex(column, center, center);
+}

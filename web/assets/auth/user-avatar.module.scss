@@ -1,0 +1,25 @@
+@use '@/assets/variables.scss' as variables;
+@use '@/assets/mixins.scss' as mixins;
+
+.userAvatar{
+    // position
+    position: relative;
+
+    // display
+    @include mixins.flex(column, center, center);
+
+    // decoration
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+
+    img{
+        // decoration
+        object-fit: cover;
+        object-position: center;
+    }
+
+    &:hover{
+        cursor: pointer;
+    }
+}

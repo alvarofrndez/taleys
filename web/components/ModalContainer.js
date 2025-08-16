@@ -1,0 +1,52 @@
+import { useSelector, useDispatch } from 'react-redux'
+import { closeModal } from '@/stores/modalSlice'
+import styles from '@/assets/global/modal/modal.module.scss'
+import Image from 'next/image'
+import Loader from '@/components/Loader'
+import TwoFactorAuthenticationComponent from '@/components/modal/auth/settings/security/twoFactorAuthentication'
+import Dialog from '@/components/modal/Dialog'
+import ChangePassword from '@/components/modal/auth/settings/security/changePassword'
+import CreateProject from '@/components/modal/auth/projects/createProject'
+import CreateUniverse from '@/components/modal/auth/projects/childs/createUniverse'
+import CreateSaga from '@/components/modal/auth/projects/childs/createSaga'
+import CreateBook from '@/components/modal/auth/projects/childs/CreateBook'
+import CreateUniverseChild from '@/components/modal/auth/projects/universes/childs/CreateUniverseChild'
+import CreateUniverseSaga from '@/components/modal/auth/projects/universes/childs/CreateUniverseSaga'
+import CreateUniverseBook from '@/components/modal/auth/projects/universes/childs/CreateUniverseBook'
+import CreateSagaChild from '@/components/modal/auth/projects/sagas/childs/CreateSagaChild'
+import CreateSagaBook from '@/components/modal/auth/projects/sagas/childs/CreateSagaBook'
+
+const component_map = {
+  'TwoFactorAuthenticationComponent': TwoFactorAuthenticationComponent,
+  'Dialog': Dialog,
+  'ChangePassword': ChangePassword,
+  'CreateProject': CreateProject,
+  'CreateUniverse': CreateUniverse,
+  'CreateSaga': CreateSaga,
+  'CreateBook': CreateBook,
+  'CreateUniverseChild': CreateUniverseChild,
+  'CreateUniverseSaga': CreateUniverseSaga,
+  'CreateUniverseBook': CreateUniverseBook,
+  'CreateSagaChild': CreateSagaChild,
+  'CreateSagaBook': CreateSagaBook,
+}
+
+const ModalContainer = () => {
+  const dispatch = useDispatch()
+  const { is_open, component, props } = useSelector((state) => state.modal)
+
+  const ComponentToRender = component_map[component]
+
+  if (!is_open) return null
+
+  return (
+    <div className={styles.modalOverlay} onClick={() => dispatch(closeModal())}>
+      <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+        <Image className={styles.closeButton} src='/images/icons/close.svg' onClick={() => dispatch(closeModal())} alt='close' width={15} height={15} />
+        {ComponentToRender ? <ComponentToRender {...props} /> : <Loader />}
+      </div>
+    </div>
+  )
+}
+
+export default ModalContainer

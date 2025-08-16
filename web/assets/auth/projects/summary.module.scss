@@ -1,0 +1,45 @@
+@use '@/assets/variables.scss' as variables;
+@use '@/assets/mixins.scss' as mixins;
+
+.summary{
+    // size
+    width: 100%;
+
+    // display
+    @include mixins.flex(column, flex-start, center, nowrap, variables.$spacing-6);
+
+    .fastActions{
+        // size
+        width: 100%;
+
+        // display
+        @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-6);
+
+        // margin
+        padding: variables.$spacing-6;
+
+        // decoration
+        border: 1px solid var(--color-border);
+        border-radius: variables.$border-radius-lg;
+        background-color: var(--color-white);
+
+        header{
+            // size
+            width: 100%;
+
+            // display
+            @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-1);
+
+            .title{
+                // display
+                @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
+            }
+
+            .subtitle{
+                // decoration
+                color: var(--color-muted-foreground);
+                font-size: variables.$font-size-sm;
+            }
+        }
+    }
+}

@@ -1,0 +1,129 @@
+@use './variables.scss' as variables;
+@use './mixins.scss' as mixins;
+
+:root {
+    --color-white: #{variables.$color-white};
+    --color-black: #{variables.$color-black};
+    --color-background: #{variables.$color-background-light};
+    --color-foreground: #{variables.$color-foreground-light};
+    --color-primary: #{variables.$color-primary-light};
+    --color-primary-foreground: #{variables.$color-primary-foreground-light};
+    --color-primary-hover: #{variables.$color-primary-hover-light};
+    --color-secondary: #{variables.$color-secondary-light};
+    --color-secondary-foreground: #{variables.$color-secondary-foreground-light};
+    --color-secondary-hover: #{variables.$color-secondary-hover-light};
+    --color-terciary: #{variables.$color-terciary-light};
+    --color-terciary-foreground: #{variables.$color-terciary-foreground-light};
+    --color-terciary-hover: #{variables.$color-terciary-hover-light};
+    --color-muted: #{variables.$color-muted-light};
+    --color-muted-foreground: #{variables.$color-muted-foreground-light};
+    --color-muted-hover: #{variables.$color-muted-hover-light};
+    --color-accent: #{variables.$color-accent-light};
+    --color-accent-foreground: #{variables.$color-accent-foreground-light};
+    --color-accent-hover: #{variables.$color-accent-hover-light};
+    --color-border: #{variables.$color-border-light};
+    --color-card: #{variables.$color-card-light};
+    --color-card-foreground: #{variables.$color-card-foreground-light};
+    --color-flashy: #{variables.$color-flashy-light};
+    --color-flashy-foreground: #{variables.$color-flashy-foreground-light};
+    --color-flashy-hover: #{variables.$color-flashy-hover-light};
+    --color-danger: #{variables.$color-danger-light};
+    --color-danger-hover: #{variables.$color-danger-hover-light};
+    --color-success: #{variables.$color-success-light};
+    --color-success-hover: #{variables.$color-success-hover-light};
+}
+
+.dark {
+    --color-white: #{variables.$color-white};
+    --color-black: #{variables.$color-black};
+    --color-background: #{variables.$color-background-dark};
+    --color-foreground: #{variables.$color-foreground-dark};
+    --color-primary: #{variables.$color-primary-dark};
+    --color-primary-foreground: #{variables.$color-primary-foreground-dark};
+    --color-secondary: #{variables.$color-secondary-dark};
+    --color-secondary-foreground: #{variables.$color-secondary-foreground-dark};
+    --color-terciary: #{variables.$color-terciary-dark};
+    --color-terciary-foreground: #{variables.$color-terciary-foreground-dark};
+    --color-muted: #{variables.$color-muted-dark};
+    --color-muted-foreground: #{variables.$color-muted-foreground-dark};
+    --color-muted-hover: #{variables.$color-muted-hover-dark};
+    --color-accent: #{variables.$color-accent-dark};
+    --color-accent-foreground: #{variables.$color-accent-foreground-dark};
+    --color-border: #{variables.$color-border-dark};
+    --color-card: #{variables.$color-card-dark};
+    --color-card-foreground: #{variables.$color-card-foreground-dark};
+    --color-flashy: #{variables.$color-flashy-dark};
+    --color-flashy-foreground: #{variables.$color-flashy-foreground-dark};
+    --color-flashy-hover: #{variables.$color-flashy-hover-dark};
+    --color-danger: #{variables.$color-danger-dark};
+    --color-danger-hover: #{variables.$color-danger-hover-dark};
+    --color-success: #{variables.$color-success-dark};
+    --color-success-hover: #{variables.$color-success-hover-dark};
+}
+
+* {
+    // marign
+    padding: 0;
+    margin: 0;
+
+    // decoration
+    box-sizing: border-box;
+}
+    
+body {
+    // size
+    max-width: 100vw;
+    min-height: 100vh;
+}
+    
+body {
+    // display
+    @include mixins.flex(column);
+
+    // decoration
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+
+    // transition
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+    
+a {
+    // decoration
+    color: inherit;
+    text-decoration: none;
+}
+    
+button {
+    // decoration
+    font-family: inherit;
+}
+    
+input,
+button,
+textarea,
+select {
+    // decoration
+    font-family: inherit;
+}
+
+button,
+a {
+    // decoration
+    cursor: pointer;
+}
+
+ul{
+    // margin
+    margin: 0;
+    padding: 0;
+
+    // decoration
+    list-style: none;
+
+    li{
+        // margin
+        margin: 0;
+        padding: 0;
+    }
+}

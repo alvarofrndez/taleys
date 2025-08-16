@@ -1,0 +1,286 @@
+@use '@/assets/variables.scss' as variables;
+@use '@/assets/mixins.scss' as mixins;
+
+.layout{
+    // size
+    width: 100%;
+
+    // display
+    @include mixins.flex(column, flex-start, center);
+
+    // margin
+    margin-bottom: variables.$spacing-6;
+
+    // decoration
+    overflow-y: scroll;
+
+    .auth{
+        // margin
+        padding: variables.$spacing-6;
+
+        // decoration
+        border: 1px solid var(--color-border);
+        border-radius: variables.$border-radius-lg;
+        box-shadow: variables.$shadow-sm;
+
+        .form{
+            // display
+            @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-10);
+
+            .title{
+                // display
+                @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-1);
+
+                p{
+                    // decoration
+                    font-size: variables.$font-size-sm;
+                    color: var(--color-muted-foreground);
+                }
+            }
+
+            .content{
+                // size
+                width: 100%;
+
+                // display
+                @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-4);
+
+                div{
+                    // size
+                    width: 100%;
+
+                    // postion
+                    position: relative;
+
+                    // display
+                    @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-2);
+
+                    label{
+                        // decoration
+                        font-size: variables.$font-size-sm;
+                        font-weight: variables.$font-weight-medium;
+                        line-height: 1
+                    }
+
+                    input{
+                        // size
+                        width: 100%;
+
+                        // margin
+                        padding: variables.$spacing-2 variables.$spacing-3;
+
+                        // decoration
+                        font-size: variables.$font-size-sm;
+                        color: var(--color-foreground);
+                        border: 1px solid var(--color-border);
+                        border-radius: variables.$border-radius-md;
+                    }
+
+                    .icon{
+                        // position
+                        position: absolute;
+                        right: variables.$spacing-3;
+                        bottom: variables.$spacing-2;
+
+                        // decoration
+                        cursor: pointer;
+                    }
+                }
+
+                .terms{
+                    // size
+                    width: 100%;
+
+                    // display
+                    @include mixins.flex(row-reverse, flex-end, center, nowrap, variables.$spacing-2);
+                    
+                    input[type='checkbox']{
+                        // size
+                        width: variables.$spacing-4;
+                        height: variables.$spacing-4;
+
+                        // margin
+                        padding: variables.$spacing-2 variables.$spacing-3;
+
+                        // decoration
+                        border: 1px solid var(--color-border);
+                        border-radius: variables.$border-radius-md;
+                        cursor: pointer;
+
+                        &:checked{
+                            background-color: var(--color-primary);
+                        }
+                    }
+                }
+
+                .resetPasswordLink{
+                    // display
+                    align-self: flex-end;
+
+                    // decoration
+                    font-size: variables.$font-size-sm;
+                    font-weight: variables.$font-weight-medium;
+                    color: var(--color-primary);
+
+                    &:hover{
+                        text-decoration: underline;
+                    }
+                }
+
+                .handleToggleMode{
+                    // display
+                    align-self: flex-end;
+                    
+                    // decoration
+                    font-size: variables.$font-size-sm;
+                    font-weight: variables.$font-weight-medium;
+                    color: var(--color-primary);
+                    border: none;
+                    background-color: transparent;
+
+                    &:hover{
+                        text-decoration: underline;
+                    }
+                }
+
+                .email_sent{
+                    // display
+                    @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-2);
+                    
+                    p{
+                        // decoration
+                        font-size: variables.$font-size-sm;
+                        color: var(--color-muted-foreground);
+                    }
+                }
+
+            }
+
+            .actions{
+                // size
+                width: 100%;
+
+                // display
+                @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-4);
+
+                .button{
+                    // size
+                    width: 100%;
+                    height: variables.$spacing-10;
+
+                    // display
+                    @include mixins.flex(row, center, center, nowrap, variables.$spacing-2);
+
+                    // decoration
+                    background-color: var(--color-primary);
+                    border: none;
+                    border-radius: variables.$border-radius-md;
+                    padding: variables.$spacing-2 variables.$spacing-4;
+                    font-weight: variables.$font-weight-medium;
+                    font-size: variables.$font-size-sm;
+
+                    // transition
+                    transition: background-color .15s ease;
+
+                    &:hover{
+                        background-color: var(--color-primary-hover);
+                    }
+
+                    &:disabled{
+                        opacity: 0.5;
+                    }
+
+                    *{
+                        color: var(--color-primary-foreground);
+                    }
+                }
+
+                .divider{
+                    // size
+                    width: 100%;
+
+                    // display
+                    @include mixins.flex(row, center, center, nowrap, variables.$spacing-2);
+
+                    span{
+                        font-size: variables.$font-size-sm;
+                        color: var(--color-muted-foreground);
+                    }
+                }
+
+                .providers{
+                    // size
+                    width: 100%;
+
+                    // display
+                    @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-4);
+                    
+                    .buttonProvider{
+                        // size
+                        width: calc(50% - variables.$spacing-2);
+                        height: variables.$spacing-10;
+
+                        // display
+                        @include mixins.flex(row, center, center, nowrap, variables.$spacing-2);
+
+                        // decoration
+                        background-color: var(--color-background);
+                        border: 1px solid var(--color-border);
+                        border-radius: variables.$border-radius-md;
+                        padding: variables.$spacing-4 variables.$spacing-2;
+                        font-weight: variables.$font-weight-medium;
+                        font-size: variables.$font-size-sm;
+
+                        &:hover{
+                            // decoration
+                            background-color: var(--color-secondary) !important;
+                        }
+                    }
+                }
+
+                .register{
+                    // size
+                    width: 100%;
+
+                    // display
+                    @include mixins.flex(row, center, center, nowrap, variables.$spacing-2);
+
+                    span{
+                        font-size: variables.$font-size-sm;
+                        color: var(--color-muted-foreground);
+                    }
+
+                    a{
+                        // decoration
+                        color: var(--color-primary);
+                        font-weight: variables.$font-weight-medium;
+                        font-size: variables.$font-size-sm;
+
+                        &:hover{
+                            text-decoration: underline;
+                        }
+                    }
+                }
+
+                .back{
+                    // size
+                    width: 100%;
+
+                    // display
+                    @include mixins.flex(row, flex-end, center, nowrap, variables.$spacing-2);
+                    
+                    a{
+                        // decoration
+                        color: var(--color-primary);
+                        font-weight: variables.$font-weight-medium;
+                        font-size: variables.$font-size-sm;
+                        
+                        &:hover{
+                            text-decoration: underline;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

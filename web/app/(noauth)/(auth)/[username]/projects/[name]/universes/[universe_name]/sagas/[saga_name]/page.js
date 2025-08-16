@@ -1,0 +1,43 @@
+'use client'
+
+import styles from '@/assets/auth/projects/sagas/view.module.scss'
+import { useState, useEffect } from 'react'
+import { useRouter, useParams } from 'next/navigation'
+import { useProject } from '@/context/ProjectContext'
+import { apiCall } from '@/services/apiCall'
+import GlobalLoader from '@/components/GlobalLoader'
+import SagaView from '@/components/auth/projects/sagas/SagaView'
+
+export default function SagaUniverseViewPage() {
+    const router = useRouter()
+    const params = useParams()
+    const universe_name = params['universe_name']
+    const saga_name = params['saga_name']
+
+    const { project, setProject } = useProject()
+    const [ saga, setSaga ] = useState(null)
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        async function fetchSaga() {
+            setLoading(true)
+
+            const response = await apiCall('GET', `/projects/${project.id}/sagas/universes/${universe_name}/sagas/name/${saga_name}`)
+            if (response.success) {
+                setSaga(response.data)
+            } else {
+                router.push('/not-found')
+            }
+            
+            setLoading(false)
+        }
+        fetchSaga()
+    }, [universe_name, saga_name])
+
+    if (loading) return <GlobalLoader />
+    if(!saga) return <GlobalLoader />
+
+    return (
+        <SagaView saga={saga} universe_name={universe_name}/>
+    )
+}

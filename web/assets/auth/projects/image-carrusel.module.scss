@@ -1,0 +1,154 @@
+@use '@/assets/variables.scss' as variables;
+@use '@/assets/mixins.scss' as mixins;
+
+.carousel {
+    // size
+    width: 100%;
+
+    // decoration
+    overflow: hidden;
+
+    @include mixins.flex(column, center, center, nowrap, variables.$spacing-6);
+
+    .imageContainer {
+        //size
+        width: 100%;
+
+        // position
+        position: relative;
+
+        //decoration
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+
+        .imageZoom{
+            // position
+            position: absolute;
+            top: variables.$spacing-4;
+            right: variables.$spacing-4;
+
+            // decoration
+            cursor: pointer;
+        }
+
+        .img {
+            //size
+            width: 100%;
+
+            // decoration
+            object-fit: cover;
+            object-position: center;
+            border: 1px solid var(--color-border);
+            border-radius: variables.$border-radius-xl;
+            cursor: pointer;
+        }
+    }
+
+    .controls {
+        // display
+        @include mixins.flex(row, center, center, nowrap, variables.$spacing-4);
+
+        // margin
+        padding-bottom: variables.$spacing-3;
+
+        button {
+            // margin
+            padding: variables.$spacing-2 variables.$spacing-4;
+
+            //decoration
+            background-color: var(--color-muted);
+            border: 1px solid var(--color-border);
+            border-radius: variables.$border-radius-md;
+            cursor: pointer;
+            font-weight: variables.$font-weight-bold;
+            transition: background-color 0.1s ease-in;
+
+            &:hover {
+                //decoration
+                transition: background-color 0.1s ease-in;
+                background-color: var(--color-muted-hover);
+            }
+        }
+
+        span {
+            font-size: variables.$font-size-sm;
+            color: var(--color-muted-foreground);
+        }
+    }
+
+    .thumbnailRow {
+        // size
+        width: 100%;
+
+        // display
+        @include mixins.flex(row, center, center, nowrap, variables.$spacing-2);
+
+        .thumbnail {
+            // size
+            width: 200px;
+
+            //decoration
+            aspect-ratio: 16 / 9;
+            border-radius: variables.$border-radius-md;
+            object-fit: cover;
+            object-position: center;
+            border: 2px solid var(--color-transparent);
+            cursor: pointer;
+            transition: all 0.2s ease;
+
+            &:hover {
+                //decoration
+                transform: scale(1.05);
+                border: 2px solid var(--color-border);
+            }
+        }
+
+        .active {
+            border: 2px solid var(--color-flashy-foreground);
+
+            &:hover {
+                //decoration
+                border: 2px solid var(--color-flashy-foreground);
+            }
+        }
+    }
+
+    .zoomOverlay {
+        // size
+        width: 100vw;
+        height: 100vh;
+
+        // position
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: variables.$z-index-modal;
+
+        // display
+        @include mixins.flex(row, center, center);
+
+        // decoration
+        background-color: rgba(0, 0, 0, 0.85);
+        cursor: pointer;
+        aspect-ratio: 16 / 9;
+
+        .zoomedImage {
+            // size
+            width: 80%;
+            height: 80%;
+
+            // display
+            @include mixins.flex(row, center, center);
+
+            img{
+                // decoration
+                object-fit:fill;
+                border-radius: variables.$border-radius-xl;
+                box-shadow: variables.$shadow-lg;
+                transition: transform 0.3s ease;
+                background-color: var(--color-background);
+            }
+            
+        }
+    }
+}

@@ -1,0 +1,10 @@
+@use '@/assets/variables.scss' as variables;
+@use '@/assets/mixins.scss' as mixins;
+
+.main{
+    // size
+    height: calc(100vh - variables.$size-height-header);
+
+    // display
+    @include mixins.flex(row, flex-start, flex-start);
+}

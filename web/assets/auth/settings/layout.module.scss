@@ -1,0 +1,51 @@
+@use '@/assets/variables.scss' as variables;
+@use '@/assets/mixins.scss' as mixins;
+
+.container{
+    // size
+    width: 70%;
+
+    // display
+    @include mixins.flex(column, flex-start, flex-start);
+    align-self: center;
+
+    // margin
+    padding: variables.$spacing-8;
+
+    .header{
+        // size
+        width: 100%;
+
+        // display
+        @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-4);
+
+        // margin
+        padding: 0 variables.$spacing-6;
+
+        span{
+            // decoration
+            font-size: variables.$font-size-sm;
+            font-weight: variables.$font-weight-medium;
+            color: var(--color-muted-foreground);
+        }
+    }
+
+    .main{
+        // size
+        width: 100%;
+
+        // display
+        @include mixins.flex(row, flex-start, flex-start);
+
+        .content{
+            // size
+            width:80%;
+    
+            // display
+            @include mixins.flex(column, flex-start, flex-start);
+    
+            // margin
+            padding: variables.$spacing-6;
+        }
+    }
+}

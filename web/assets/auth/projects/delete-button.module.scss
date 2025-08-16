@@ -1,0 +1,7 @@
+@use '@/assets/variables.scss' as variables;
+@use '@/assets/mixins.scss' as mixins;
+
+
+.button{
+    @include mixins.button-danger;
+}

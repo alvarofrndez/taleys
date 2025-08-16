@@ -1,0 +1,300 @@
+@use '@/assets/variables.scss' as variables;
+@use '@/assets/mixins.scss' as mixins;
+
+.container{
+    // size
+    width: 100%;
+    height: 100%;
+
+    // display
+    @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-10);
+
+    .header{
+        width: 100%;
+
+        // display
+        @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-1);
+        
+        .title{
+            // display
+            @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
+
+            h3{
+                // decoration
+                font-size: variables.$font-size-lg;
+                font-weight: variables.$font-weight-bold;
+            }
+        }
+        
+        p{
+            // decoration
+            font-size: variables.$font-size-sm;
+            font-weight: variables.$font-weight-normal;
+            color: var(--color-muted-foreground);
+        }
+    }
+
+    .content{
+        // size
+        width: 100%;
+
+        // display
+        @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-6);
+
+        .why{
+            width: 100%;
+
+            // display
+            @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-4);
+
+            // margin
+            padding: variables.$spacing-4;
+
+            // decoration
+            border-radius: variables.$border-radius-md;
+            border: 1px solid var(--color-border);
+            background-color: var(--color-muted);
+
+            h3{
+                // decoration
+                font-size: variables.$font-size-lg;
+                font-weight: variables.$font-weight-normal;
+            }
+
+            p{
+                // decoration
+                font-size: variables.$font-size-sm;
+                font-weight: variables.$font-weight-normal;
+                color: var(--color-muted-foreground);
+            }
+        }
+
+        .step{
+            // size
+            width: 100%;
+
+            // display
+            @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-2);
+            
+            .title{
+                // decoration
+                font-size: variables.$font-size-sm;
+                font-weight: variables.$font-weight-medium;
+            }
+
+            .description{
+                // decoration
+                font-size: variables.$font-size-sm;
+                font-weight: variables.$font-weight-normal;
+                color: var(--color-muted-foreground);
+            }
+
+            .qr_code{
+                // size 
+                width: 100%;
+
+                // display
+                @include mixins.flex(row, center, center);
+
+                // decoration
+                border-radius: variables.$border-radius-md;
+                border: 1px solid var(--color-border);
+            }
+
+            .manual_key{
+                // size
+                width: 100%;
+
+                // display
+                @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
+
+                .manual_key_text{
+                    // size
+
+                    // display
+                    @include mixins.flex(row, flex-start, center);
+
+                    // margin
+                    padding: variables.$spacing-2;
+
+                    // decoration
+                    font-size: variables.$font-size-sm;
+                    font-weight: variables.$font-weight-normal;
+                    background-color: var(--color-muted);
+                    border-radius: variables.$border-radius-sm;
+                }
+
+                .buttonCopy{
+                    // decoration
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .formTotp{
+            // size
+            width: 100%;
+
+            // display
+            @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-2);
+
+            label{
+                // decoration
+                font-size: variables.$font-size-sm;
+                font-weight: variables.$font-weight-medium;
+            }
+
+            input{
+                // size
+                width: 100%;
+
+                // margin
+                padding: variables.$spacing-2;
+
+                // decoration
+                font-size: variables.$font-size-sm;
+                font-weight: variables.$font-weight-normal;
+                background-color: var(--color-muted);
+                border-radius: variables.$border-radius-md;
+                border: 1px solid var(--color-border);
+            }
+
+            span{
+                // decoration
+                font-size: variables.$font-size-sm;
+                font-weight: variables.$font-weight-normal;
+                color: var(--color-muted-foreground);
+            }
+        }
+
+        .formBackup{
+            // size
+            width: 100%;
+
+            // display
+            @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-2);
+            
+            .backupCodes{
+                // size
+                width: 100%;
+
+                // display
+                @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-2);
+
+                label{
+                    // decoration
+                    font-size: variables.$font-size-sm;
+                    font-weight: variables.$font-weight-medium;
+                }
+
+                .backupCodesInput{
+                    // size
+                    width: 100%;
+
+                    // display
+                    @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
+
+                    input{
+        
+                        // display
+                        @include mixins.flex(row, flex-start, center);
+    
+                        // margin
+                        padding: variables.$spacing-2;
+    
+                        // decoration
+                        font-size: variables.$font-size-sm;
+                        font-weight: variables.$font-weight-normal;
+                        background-color: var(--color-muted);
+                        border-radius: variables.$border-radius-sm;
+                        border: none;
+                    }
+
+                    .buttonBackup{
+                        // decoration
+                        cursor: pointer;
+                    }
+                }
+    
+                span{
+                    // decoration
+                    font-size: variables.$font-size-sm;
+                    font-weight: variables.$font-weight-normal;
+                    color: var(--color-muted-foreground);
+                }
+            }
+        }
+    }
+
+    .footer{
+        // size
+        width: 100%;
+
+        // display
+        @include mixins.flex(row, space-between, center);
+
+        .close{
+            // display
+            @include mixins.flex(row, center, center);
+
+            // margin
+            padding: variables.$spacing-2;
+
+            // decoration
+            font-size: variables.$font-size-sm;
+            font-weight: variables.$font-weight-normal;
+            background-color: var(--color-background);
+            border-radius: variables.$border-radius-md;
+            border: 1px solid var(--color-border);
+
+            &:hover{
+                background-color: var(--color-muted);
+            }
+        }
+
+        .buttonNext{
+            // display
+            @include mixins.flex(row, center, center);
+
+            // margin
+            padding: variables.$spacing-2;
+
+            // decoration
+            font-size: variables.$font-size-sm;
+            font-weight: variables.$font-weight-normal;
+            background-color: var(--color-primary);
+            color: var(--color-primary-foreground);
+            border-radius: variables.$border-radius-md;
+            border: 1px solid var(--color-border);
+
+            &:hover{
+                background-color: var(--color-primary-hover);
+            }
+        }
+
+        .buttonsRightContainer{
+            // display
+            @include mixins.flex(row, center, center, nowrap, variables.$spacing-2);
+
+            .buttonPrevious{
+                // display
+                @include mixins.flex(row, center, center);
+
+                // margin
+                padding: variables.$spacing-2;
+
+                // decoration
+                font-size: variables.$font-size-sm;
+                font-weight: variables.$font-weight-normal;
+                background-color: var(--color-muted);
+                color: var(--color-primary);
+                border-radius: variables.$border-radius-md;
+                border: 1px solid var(--color-border);
+
+                &:hover{
+                    background-color: var(--color-accent);
+                }
+            }
+        }
+    }
+}

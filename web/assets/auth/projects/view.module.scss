@@ -1,0 +1,108 @@
+@use '@/assets/variables.scss' as variables;
+@use '@/assets/mixins.scss' as mixins;
+
+.container{
+    // size
+    width: 100%;
+    min-height: calc(100vh - variables.$size-height-header);
+
+    // display
+    @include mixins.flex(row, center, center, nowrap);
+
+    // margin
+    padding: variables.$spacing-10;
+
+    // decoration
+    background-color: var(--color-secondary);
+
+    .wrapper{
+        // size
+        width: 60%;
+        min-height: calc(100vh - variables.$size-height-header - variables.$spacing-10 * 2);
+
+        // display
+        @include mixins.flex(column, flex-start, center, nowrap, variables.$spacing-10);
+
+        // decoration
+        background-color: var(--color-secondary);
+
+        .header{
+            // size
+            width: 100%;
+
+            // position
+            position: relative;
+
+            // display
+            @include mixins.flex(row, space-between, center);
+
+            // margin
+            padding: variables.$spacing-2 0;
+
+            // decoration
+            border-bottom: 1px solid var(--color-border);
+
+            .menuButtons{
+                // display
+                @include mixins.flex(row, space-between, center, nowrap, variables.$spacing-2);
+
+                .separator{
+                    border: 2px solid var(--color-accent);
+                }
+
+                button{
+                    // display
+                    @include mixins.flex(row);
+
+                    // margin
+                    padding: variables.$spacing-2;
+
+                    // decoration
+                    border: none;
+                    background-color: transparent;
+                }
+
+                .active{
+                    font-weight: variables.$font-weight-bold;
+                }
+            }
+
+            .actionButtonsMember{
+                // display
+                @include mixins.flex(row, space-between, center, nowrap, variables.$spacing-1);
+
+                .actionButtonsMemberEdit{
+                    // margin
+                    padding: variables.$spacing-2;
+
+                    // decoration
+                    background-color: var(--color-accent);
+                    color: var(--color-accent-foreground);
+                    border-radius: variables.$border-radius-md;
+                    border: none;
+                    cursor: pointer;
+                    font-weight: variables.$font-weight-medium;
+                    transition: background-color .1s ease;
+
+                    &:hover{
+                        // decoration
+                        background-color: var(--color-accent-hover);
+                        transition: background-color .1s ease;
+                    }
+                }
+            }
+
+            .actionButtons{
+                // display
+                @include mixins.flex(row, space-between, center, nowrap, variables.$spacing-2);
+
+                .actionButtonsLike, .actionButtonsSave{
+                    svg{
+                        // decoration
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,61 @@
+@use '@/assets/variables.scss' as variables;
+@use '@/assets/mixins.scss' as mixins;
+
+.container{
+    // size
+    width: 100%;
+
+    // display
+    @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-12);
+
+    header{
+        // size
+        width: 100%;
+
+        // display
+        @include mixins.flex(row, space-between, center);
+
+        .projectsMenu{
+            // display
+            @include mixins.flex(row, space-between, flex-start, nowrap, variables.$spacing-1);
+
+            // margin
+            padding: calc(variables.$spacing-1 / 2);
+
+            // decoration
+            list-style: none;
+            overflow: hidden;
+
+            li{
+                // margin
+                padding: variables.$spacing-2;
+
+                // decoration
+                cursor: pointer;
+                transition: all .1s ease-in;
+                font-size: variables.$font-size-sm;
+                
+                &:hover{
+                    //decoration
+                    background-color: var(--color-muted);
+                }
+            }
+
+            .active{
+                // decoration
+                font-weight: variables.$font-weight-bold;
+                border-bottom: 1px solid var(--color-primary);
+
+                &:hover{
+                    //decoration
+                    background-color: var(--color-transparent);
+                }
+            }
+        }
+    }
+
+    .body{
+        // display
+        @include mixins.grid(2, variables.$spacing-6);
+    }
+}

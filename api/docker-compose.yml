@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql
+    container_name: mysql-db
+    restart: always
+    env_file:
+      - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    env_file:
+      - .env
+    environment:
+      PMA_HOST: ${DB_HOST}
+      PMA_PORT: ${DB_PORT}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+
+  redis:
+    image: redis
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+  # backend:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: my-backend
+  #   restart: always
+  #   env_file:
+  #     - .env
+  #   environment:
+  #     NODE_ENV: ${NODE_ENV}
+  #     PORT: ${PORT}
+  #     DB_HOST: ${DB_HOST}
+  #     DB_USER: ${DB_USER}
+  #     DB_PASSWORD: ${DB_PASSWORD}
+  #     DB_NAME: ${DB_NAME}
+  #     DB_PORT: ${DB_PORT}
+  #     API_PREFIX: ${API_PREFIX}
+  #     JWT_SECRET: ${JWT_SECRET}
+  #     JWT_SECRET_REFRESH: ${JWT_SECRET_REFRESH}
+  #     JWT_EXPIRES_IN: ${JWT_EXPIRES_IN}
+  #     JWT_EXPIRES_IN_REFRESH: ${JWT_EXPIRES_IN_REFRESH}
+  #     ERROR_STATUS_CODE: ${ERROR_STATUS_CODE}
+  #     ERROR_MESSAGE: ${ERROR_MESSAGE}
+  #     DB_TABLE_USERS: ${DB_TABLE_USERS}
+  #     DB_TABLE_ROLES: ${DB_TABLE_ROLES}
+  #     DB_TABLE_REFRESH_TOKENS: ${DB_TABLE_REFRESH_TOKENS}
+  #     DB_TABLE_ENTERPRISES: ${DB_TABLE_ENTERPRISES}
+  #     DB_TABLE_PROJECTS: ${DB_TABLE_PROJECTS}
+  #     DB_TABLE_PROJECTS_USERS: ${DB_TABLE_PROJECTS_USERS}
+  #     DB_TABLE_PROJECTS_LIKES: ${DB_TABLE_PROJECTS_LIKES}
+  #     DB_TABLE_PROJECTS_SAVES: ${DB_TABLE_PROJECTS_SAVES}
+  #   ports:
+  #     - "${PORT}:${PORT}"
+  #   depends_on:
+  #     - db
+
+volumes:
+  db_data:

@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS users (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    name VARCHAR(100) NOT NULL,
+    email TEXT NOT NULL UNIQUE,
+    password TEXT,
+    avatar_url TEXT,
+    description TEXT,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    role_id INT NOT NULL,
+    FOREIGN KEY (role_id) REFERENCES roles (id) ON DELETE CASCADE
+)

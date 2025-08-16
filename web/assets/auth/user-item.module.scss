@@ -1,0 +1,32 @@
+@use '@/assets/variables.scss' as variables;
+@use '@/assets/mixins.scss' as mixins;
+
+
+.item{
+    //size
+    width: 100%;
+
+    // display
+    @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
+
+    //margin
+    padding: variables.$spacing-1;
+
+    //decoration
+    cursor: pointer;
+    transition: all .1s ease-in;
+    border-radius: variables.$border-radius;
+
+    &:hover{
+        background-color: var(--color-muted);
+        span{
+            color: var(--color-primary);
+        }
+    }
+
+    span{
+        // decoration
+        font-size: variables.$font-size-sm;
+        color: var(--color-muted-foreground);
+    }
+}

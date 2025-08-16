@@ -1,0 +1,22 @@
+@use '@/assets/variables.scss' as variables;
+@use '@/assets/mixins.scss' as mixins;
+
+.follow{
+    // margin
+    padding: variables.$spacing-2 variables.$spacing-2;
+
+    // decoration
+    background-color: var(--color-primary);
+    color: var(--color-primary-foreground);
+    border-radius: variables.$border-radius-md;
+    border: none;
+    cursor: pointer;
+    font-weight: variables.$font-weight-medium;
+    transition: background-color .1s ease;
+
+    &:hover{
+        // decoration
+        background-color: var(--color-terciary-hover);
+        transition: background-color .1s ease;
+    }
+}

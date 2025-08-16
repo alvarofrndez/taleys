@@ -1,0 +1,27 @@
+@use '@/assets/variables.scss' as variables;
+@use '@/assets/mixins.scss' as mixins;
+
+.projectSearch{
+    // size
+    width: 30%;
+
+    // display
+    @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
+
+    // margin
+    padding: variables.$spacing-2 variables.$spacing-2;
+
+    // decoration
+    border-radius: variables.$border-radius-full;
+    border: 1px solid var(--color-border);
+
+    input{
+        // size
+        width: calc(100% - variables.$spacing-4);
+
+        // decoration
+        border: none;
+        outline: none;
+        background-color: transparent;
+    }
+}

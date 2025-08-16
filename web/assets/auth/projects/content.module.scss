@@ -1,0 +1,10 @@
+@use '@/assets/variables.scss' as variables;
+@use '@/assets/mixins.scss' as mixins;
+
+.content{
+    // size
+    width: 100%;
+
+    // display
+    @include mixins.flex(column, flex-start, center, nowrap, variables.$spacing-6);
+}
