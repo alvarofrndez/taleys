@@ -8,6 +8,9 @@ import { IUser } from '@/modules/users/User.interface'
 import { IProjectComment } from '@/modules/projectComments/projectComment.interface'
 import { IProjectLike } from './projectLike.interface'
 import { IUniverse } from '@/modules/universes/universe.interface'
+import { ISaga } from '@/modules/sagas/saga.interface'
+import { IBook } from '@/modules/books/book.interface'
+import { ICharacter } from '@/modules/characters/character.interface'
 
 export interface IProject {
     id?: number
@@ -31,4 +34,7 @@ export interface IProject {
     saves?: IProjectLike[]
     saves_count?: number
     universes?: IUniverse[]
+    sagas?: ISaga[]
+    books?: IBook[]
+    characters?: ICharacter[]
 }

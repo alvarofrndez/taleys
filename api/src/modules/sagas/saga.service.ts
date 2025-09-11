@@ -2,7 +2,11 @@ import { env } from '@/config/config_env'
 import { sagaModel } from './Saga'
 import { ISaga } from './saga.interface'
 import CustomError from '@/modules/customerror/CustomError'
-import { universeService } from '../universes/universe.service'
+import { universeService } from '@/modules/universes/universe.service'
+import { bookService } from '@/modules/books/book.service'
+import { generateUniqueSlug } from '@/utils/slugify/generateUniqueSlug'
+import { characterService } from '@/modules/characters/character.service'
+import { CharacterBelongingLevel } from '@/modules/characters/character.interface'
 
 export const sagaService = {
     getById: async (saga_id: number) => {
@@ -72,22 +76,7 @@ export const sagaService = {
     },
 
     getByUniverseAndName: async (universe_id: number, name: string) => {
-        /**
-         * Obtiene una saga de un universo a través de su name.
-         * 
-         * Pasos:
-         * 1. Intenta obtener la saga por su name.
-         * 2. Si no se encuentra, lanza un error `DataNotFound`.
-         * 3. Si se encuentra, lo devuelve.
-         * 
-         * @param {number} universe_id - id del universo al que pertenece la saga.
-         * 
-         * @param {string} name - name de la saga que se desea obtener.
-         * 
-         * @returns {ISaga} El objeto `saga` correspondiente al name proporcionado.
-         * 
-         * @throws `DataNotFound` Si no se encuentra ninguna saga con el name dado.
-        */
+        // deprecated en favor de slug
         const saga: ISaga = await sagaModel.getByUniverseAndName(universe_id, name)
 
         if(!saga) throw new CustomError('La saga no existe', 404, env.DATA_NOT_FOUND_CODE)
@@ -96,22 +85,7 @@ export const sagaService = {
     },
 
     getByProjectAndName: async (project_id: number, name: string) => {
-        /**
-         * Obtiene una saga de un projecto a través de su name.
-         * 
-         * Pasos:
-         * 1. Intenta obtener la saga por su name.
-         * 2. Si no se encuentra, lanza un error `DataNotFound`.
-         * 3. Si se encuentra, lo devuelve.
-         * 
-         * @param {number} project_id - id del proyecto al que pertenece la saga.
-         * 
-         * @param {string} name - name de la saga que se desea obtener.
-         * 
-         * @returns {ISaga} El objeto `saga` correspondiente al name proporcionado.
-         * 
-         * @throws `DataNotFound` Si no se encuentra ninguna saga con el name dado.
-        */
+        // deprecated en favor de slug
         const saga: ISaga = await sagaModel.getByProjectAndName(project_id, name)
 
         if(!saga) throw new CustomError('La saga no existe', 404, env.DATA_NOT_FOUND_CODE)
@@ -119,30 +93,26 @@ export const sagaService = {
         return await sagaService.getAllData(saga)
     },
 
-    getByProjectAndUniverseNameAndName: async (project_id: number, universe_name: string,  name: string) => {
-        /**
-         * Obtiene una saga de un projecto a través de su name y del name del universo.
-         * 
-         * Pasos:
-         * 1. Intenta obtener el universo por su name y el id del proyecto.
-         * 2. Si no se encuentra, lanza un error `DataNotFound`.
-         * 3. Si se encuentra, intenta obtener la saga por el id del universo y su name.
-         * 4. Si no se encuentra, lanza un error `DataNotFound`.
-         * 2. Si se encuentra, lo devuelve.
-         * 
-         * @param {number} project_id - id del proyecto al que pertenece la saga.
-         * 
-         * @param {string} universe_name - name del universo al que pertenece la saga.
-         * 
-         * @param {string} name - name de la saga que se desea obtener.
-         * 
-         * @returns {ISaga} El objeto `saga` correspondiente al name proporcionado.
-         * 
-         * @throws `DataNotFound` Si no se encuentra ningún universo o saga con los names dados.
-        */
-        const universe = await universeService.getByName(project_id, universe_name)
+    getByUniverseAndSlug: async (universe_id: number, slug: string) => {
+        const saga: ISaga = await sagaModel.getByUniverseAndSlug(universe_id, slug)
 
-        const saga: ISaga = await sagaModel.getByUniverseAndName(universe.id, name)
+        if(!saga) throw new CustomError('La saga no existe', 404, env.DATA_NOT_FOUND_CODE)
+
+        return await sagaService.getAllData(saga)
+    },
+
+    getByProjectAndSlug: async (project_id: number, slug: string) => {
+        const saga: ISaga = await sagaModel.getByProjectAndSlug(project_id, slug)
+
+        if(!saga) throw new CustomError('La saga no existe', 404, env.DATA_NOT_FOUND_CODE)
+
+        return await sagaService.getAllData(saga)
+    },
+
+    getByProjectAndUniverseSlugAndSlug: async (project_id: number, universe_slug: string,  slug: string) => {
+        const universe = await universeService.getBySlug(project_id, universe_slug)
+
+        const saga: ISaga = await sagaModel.getByUniverseAndSlug(universe.id, slug)
 
         if(!saga) throw new CustomError('La saga no existe', 404, env.DATA_NOT_FOUND_CODE)
 
@@ -225,17 +195,18 @@ export const sagaService = {
          * Crea un nuevo saga a partir de los datos recibidos y el proyecto al que pertenece.
          * 
          * Pasos:
-         * 1. Verifica si ya existia una saga con ese nombre en el proyecto.
-         * 2. Valida la estructura de los datos de la saga.
-         * 3. Crea la saga en la base de datos.
-         * 4. Si la creación fue exitosa, crea las relaciones asociadas (imágenes, miembros, categorías, etc).
-         * 5. Si ocurre algún error al crear relaciones, elimina la saga para evitar datos huérfanos.
-         * 6. Retorna la saga creado.
+         * 1. Verifica si ya existia una saga con ese nombre en el proyecto o universo.
+         * 2. Genera un slug único basado en el nombre.
+         * 3. Valida la estructura de los datos de la saga.
+         * 4. Crea la saga en la base de datos.
+         * 5. Si la creación fue exitosa, crea las relaciones asociadas (imágenes, miembros, categorías, etc).
+         * 6. Si ocurre algún error al crear relaciones, elimina la saga para evitar datos huérfanos.
+         * 7. Retorna la saga creada.
          * 
          * @param {number} project_id - ID del proyecto al que pertenece la saga.
          * @param {any} data - Datos crudos recibidos desde el frontend.
          * 
-         * @returns {ISaga} - La saga creado correctamente.
+         * @returns {ISaga} - La saga creada correctamente.
          * 
          * @throws {CustomError} - Si hay errores de validación o duplicidad.
          */
@@ -243,6 +214,19 @@ export const sagaService = {
             if(await sagaService.checkUniverseHasSagaWithSameName(data.universe_id, data.name)) throw new CustomError(`Ya existe una saga con ese nombre en este universo`, 400, env.DUPLICATE_DATA_CODE)
         }else{
             if(await sagaService.checkProjectHasSagaWithSameName(project_id, data.name)) throw new CustomError(`Ya existe una saga con ese nombre en este proyecto`, 400, env.DUPLICATE_DATA_CODE)
+        }
+
+        // Generar slug único
+        if(data.universe_id){
+            data.slug = await generateUniqueSlug(data.name, async (slug: string) => {
+                const existingSaga = await sagaModel.getByUniverseAndSlug(data.universe_id, slug)
+                return !!existingSaga
+            })
+        }else{
+            data.slug = await generateUniqueSlug(data.name, async (slug: string) => {
+                const existingSaga = await sagaModel.getByProjectAndSlug(project_id, slug)
+                return !!existingSaga
+            })
         }
 
         const error_message = sagaService.checkCreateData(data)
@@ -255,32 +239,53 @@ export const sagaService = {
 
     update: async (id:number, data: any) => {
         /**
-         * Actualiza un nuevo saga a partir de los datos recibidos.
+         * Actualiza una saga existente a partir de los datos recibidos.
          * 
          * Pasos:
-         * 1. Valida la estructura de los datos de la saga.
-         * 2. Actualiza la saga en la base de datos.
-         * 3. Retorna la saga creado.
+         * 1. Verifica que el nombre de la saga sea único en el proyecto o universo (excluyendo la saga actual).
+         * 2. Genera un slug único basado en el nombre si ha cambiado.
+         * 3. Valida la estructura de los datos de la saga.
+         * 4. Actualiza la saga en la base de datos.
+         * 5. Retorna la saga actualizada.
          * 
          * @param {number} id - ID de la saga a editar.
          * @param {any} data - Datos crudos recibidos desde el frontend.
          * 
-         * @returns {ISaga} - La saga actualizdo correctamente.
+         * @returns {ISaga} - La saga actualizada correctamente.
          * 
          * @throws {CustomError} - Si hay errores de validación o duplicidad.
          */
-        const error_message = sagaService.checkUpdateData(data)
-        if(typeof error_message == 'string') throw new CustomError(error_message, 400, env.INVALID_DATA_CODE)
-
-        let saga_exists = undefined 
-
+        // Verificar que el nombre de la saga sea único en el proyecto o universo (excluyendo la saga actual)
         if(data.universe_id){
-            saga_exists = await sagaService.getByUniverseAndName(data.universe_id, data.name)
+            const existingSagaByName = await sagaModel.getByUniverseAndName(data.universe_id, data.name)
+            if (existingSagaByName && existingSagaByName.id !== id) {
+                throw new CustomError('Ya existe una saga con ese nombre en este universo', 400, env.DUPLICATE_DATA_CODE)
+            }
         }else{
-            saga_exists = await sagaService.getByProjectAndName(data.project_id, data.name)
+            const existingSagaByName = await sagaModel.getByProjectAndName(data.project_id, data.name)
+            if (existingSagaByName && existingSagaByName.id !== id) {
+                throw new CustomError('Ya existe una saga con ese nombre en este proyecto', 400, env.DUPLICATE_DATA_CODE)
+            }
         }
 
-        if(saga_exists && saga_exists.id != data.id) throw new CustomError('Ya existe una saga con este nombre', 400, env.DUPLICATE_DATA_CODE)
+        // Generar slug único si el nombre ha cambiado
+        const currentSaga = await sagaModel.getById(id)
+        if (currentSaga && currentSaga.name !== data.name) {
+            if(data.universe_id){
+                data.slug = await generateUniqueSlug(data.name, async (slug: string) => {
+                    const existingSaga = await sagaModel.getByUniverseAndSlug(data.universe_id, slug)
+                    return existingSaga && existingSaga.id !== id
+                })
+            }else{
+                data.slug = await generateUniqueSlug(data.name, async (slug: string) => {
+                    const existingSaga = await sagaModel.getByProjectAndSlug(data.project_id, slug)
+                    return existingSaga && existingSaga.id !== id
+                })
+            }
+        }
+
+        const error_message = sagaService.checkUpdateData(data)
+        if(typeof error_message == 'string') throw new CustomError(error_message, 400, env.INVALID_DATA_CODE)
 
         const saga = await sagaModel.update(id, data)
 
@@ -384,6 +389,8 @@ export const sagaService = {
         if(!saga) throw new CustomError('La saga no existe', 404, env.DATA_NOT_FOUND_CODE)
 
         await sagaService.deleteAllSagaChilds(saga_id)
+        await bookService.deleteAllBySaga(saga_id)
+        await characterService.clearAllByBelonging(CharacterBelongingLevel.saga, saga_id)
 
         return await sagaModel.delete(saga_id)
     },

@@ -4,8 +4,8 @@ import db from '../connection'
 import executeCreateIndexs from './createIndexs'
 
 const files_not_to_execute = [
-  'runMigrations.ts',
-  // 'createIndexs.ts'
+  // 'runMigrations.ts',
+  'createIndexs.ts'
 ]
 
 const getDirname = (importMetaUrl: string) => {

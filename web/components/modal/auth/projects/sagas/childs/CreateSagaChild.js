@@ -40,9 +40,9 @@ const CreateSagaChild = ({ project, saga }) => {
             dispatch(closeModal())
 
             if (form.universe_id) {
-                router.push(`/${project.created_by.username}/projects/${project.name}/universes/${saga.universe.name}/sagas/${response.data.name}`)
+                router.push(`/${project.created_by.username}/projects/${project.slug}/universes/${saga.universe.slug}/sagas/${response.data.slug}`)
             } else {
-                router.push(`/${project.created_by.username}/projects/${project.name}/sagas/${response.data.name}`)
+                router.push(`/${project.created_by.username}/projects/${project.slug}/sagas/${response.data.slug}`)
             }
         }
 

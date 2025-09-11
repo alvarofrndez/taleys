@@ -1,0 +1,11 @@
+.icon {
+    display: inline-block;
+    vertical-align: middle;
+    fill: currentColor;
+    stroke: currentColor;
+    transition: color 0.2s;
+
+    // &:hover {
+    //     color: var(--icon-hover);
+    // }
+}

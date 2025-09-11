@@ -69,9 +69,9 @@ export default function SagaView({ saga, universe_name = null }) {
         setLoadingDelete(false)
 
         if(universe_name){
-            router.push(`/${project.created_by.username}/projects/${project.name}/universes/${universe_name}`)
+            router.push(`/${project.created_by.username}/projects/${project.slug}/universes/${universe_name}`)
         }else{
-            router.push(`/${project.created_by.username}/projects/${project.name}`)
+            router.push(`/${project.created_by.username}/projects/${project.slug}`)
         }
     }
 

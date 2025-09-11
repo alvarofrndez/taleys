@@ -11,8 +11,9 @@ import Image from 'next/image'
 import pushToast from '@/utils/pushToast'
 import { apiCall } from '@/services/apiCall'
 import { openModal } from '@/stores/modalSlice'
+import BookFastActions from '@/components/auth/projects/books/BookFastActions'
 
-export default function BookView({ book, universe_name = null, saga_name = null }) {
+export default function BookView({ book, universe_slug = null, saga_slug = null }) {
     const user = useSelector((state) => state.auth.user)
     const router = useRouter()
     const pathname = usePathname()
@@ -79,9 +80,9 @@ export default function BookView({ book, universe_name = null, saga_name = null 
 
         setLoadingDelete(false)
 
-        let basePath = `/${user.username}/projects/${project.name}`
-        if (universe_name) basePath += `/universes/${universe_name}`
-        if (saga_name) basePath += `/sagas/${saga_name}`
+        let basePath = `/${user.username}/projects/${project.slug}`
+        if (local_book.universe?.slug || universe_slug) basePath += `/universes/${(local_book.universe && local_book.universe.slug) || universe_slug}`
+        if (local_book.saga?.slug || saga_slug) basePath += `/sagas/${(local_book.saga && local_book.saga.slug) || saga_slug}`
 
         router.push(basePath)
     }
@@ -155,6 +156,17 @@ export default function BookView({ book, universe_name = null, saga_name = null 
                     )}
                 </div>
             </header>
+            <main className={styles.main}>
+				<div className={styles.fastActions}>
+					<header>
+						<div className={styles.title}>
+							<h3>Acciones rápidas</h3>
+						</div>
+						<span className={styles.subtitle}>Añade contenido al libro</span>
+					</header>
+					<BookFastActions project={project} book={book} />
+				</div>
+			</main>
         </div>
     )
 }

@@ -13,6 +13,20 @@ import pushToast from '@/utils/pushToast'
 import ProjectSummary from '@/components/auth/projects/ProjectSummary'
 import ProjectContent from '@/components/auth/projects/ProjectContent'
 
+const menu_items = [
+    { 
+        key: 'summary', 
+        label: 'Resumen', 
+        icon: '/images/icons/info.svg' 
+    },
+    { 
+        key: 'content', 
+        label: 'Contenido', 
+        icon: '/images/icons/book.svg' 
+    },
+]
+
+
 export default function ProjectFullMode({ project }) {
     const dispatch = useDispatch()
     const user = useSelector((state) => state.auth.user)
@@ -86,14 +100,23 @@ export default function ProjectFullMode({ project }) {
             </header>
 
             <div className={styles.main}>
-                <div className={styles.nav}>
-                    <button className={`${styles.navItem} ${active_tab === 'summary' ? styles.active : ''}`} onClick={() => setActiveTab('summary')}>
-                        Resumen
-                    </button>
-                    <button className={`${styles.navItem} ${active_tab === 'content' ? styles.active : ''}`} onClick={() => setActiveTab('content')}>
-                        Contenido
-                    </button>
-                </div>
+                <nav className={styles.tabMenu}>
+                    {menu_items.map((item) => (
+                        <button
+                            key={item.key}
+                            className={`${styles.tabButton} ${active_tab === item.key ? styles.active : ''}`}
+                            onClick={() => setActiveTab(item.key)}
+                        >
+                            <Image
+                                src={item.icon}
+                                alt={item.label}
+                                width={18}
+                                height={18}
+                            />
+                            <span>{item.label}</span>
+                        </button>
+                    ))}
+                </nav>
 
                 <div className={styles.component}>
                     {active_tab === 'summary' && <ProjectSummary project={project} />}

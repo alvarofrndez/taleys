@@ -65,7 +65,7 @@ const CreateProject = () => {
         if (response.success) {
             pushToast(response.message, 'success')
             dispatch(closeModal())
-            router.push(`/projects/${response.data.name}?id=${response.data.id}`)
+            router.push(`/${user.username}/projects/${response.data.slug}`)
         }
 
         setLoading(false)

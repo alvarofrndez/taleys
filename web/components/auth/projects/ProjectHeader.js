@@ -27,6 +27,7 @@ export function ProjectHeader() {
 
         if(response.success){
             setProject(response.data)
+            console.log(response.data)
         }
 
         setInfoOfUser(response, response.data)

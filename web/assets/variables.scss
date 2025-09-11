@@ -12,7 +12,7 @@ $color-secondary-light: #fafafa;
 $color-secondary-foreground-light: #1a1a1a;
 $color-secondary-hover-light: #333333;
 $color-terciary-light: #e7e7e7;
-$color-terciary-foreground-light: #969696;
+$color-terciary-foreground-light: #585858;
 $color-terciary-hover-light: #333333;
 $color-muted-light: #f4f4f5;
 $color-muted-foreground-light: #71717a;
@@ -26,10 +26,18 @@ $color-card-foreground-light: #111111;
 $color-flashy-light: #7c3bed1a;
 $color-flashy-foreground-light: #7c3bed;
 $color-flashy-hover-light: #c2c2e9;
-$color-danger-light: #ea1135;
+$color-danger-light: #eb2344;
 $color-danger-hover-light: #bc0826;
 $color-success-light: #249224;
 $color-success-hover-light: #006400;
+$color-warning-light: #fef3c7;
+$color-warning-border-light: #f59e0b;
+$color-warning-foreground-light: #92400e;
+$color-warning-dot-light: #f59e0b;
+$color-active-light: #dbeafe;
+$color-active-foreground-light: #1e40af;
+$color-active-border-light: #93c5fd;
+
 
 // Paleta de colores (modo oscuro)
 $color-background-dark: #09090b;
@@ -51,10 +59,17 @@ $color-card-foreground-dark: #fafafa;
 $color-flashy-dark: #7c3bed1a;
 $color-flashy-foreground-dark: #7c3bed;
 $color-flashy-hover-dark: #a6a6cb;
-$color-danger-dark: #ea1135;
+$color-danger-dark: #eb2344;
 $color-danger-hover-dark: #bc0826;
 $color-success-dark: #008000;
 $color-success-hover-dark: #006400;
+$color-warning-dark: #78350f;
+$color-warning-border-dark: #d97706;
+$color-warning-foreground-dark: #fde68a;
+$color-warning-dot-dark: #fbbf24;
+$color-active-dark: #1e3a8a;
+$color-active-foreground-dark: #bfdbfe;
+$color-active-border-dark: #3b82f6; 
 
 // Breakpoints
 $breakpoint-sm: 640px;

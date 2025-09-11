@@ -75,9 +75,9 @@ const CreateUniverseBook = ({ project, universe }) => {
             dispatch(closeModal())
 
             if (form.saga_id) {
-                router.push(`/${project.created_by.username}/projects/${project.name}/universes/${universe.name}/sagas/${response.data.saga.name}/books/${response.data.title}`)
+                router.push(`/${project.created_by.username}/projects/${project.slug}/universes/${universe.slug}/sagas/${response.data.saga.slug}/books/${response.data.slug}`)
             } else {
-                router.push(`/${project.created_by.username}/projects/${project.name}/universes/${universe.name}/books/${response.data.title}`)
+                router.push(`/${project.created_by.username}/projects/${project.slug}/universes/${universe.slug}/books/${response.data.slug}`)
             }
         }
 

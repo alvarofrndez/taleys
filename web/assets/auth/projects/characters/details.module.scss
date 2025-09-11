@@ -1,0 +1,636 @@
+@use '@/assets/variables.scss' as variables;
+@use '@/assets/mixins.scss' as mixins;
+
+// details.module.scss - Estilos para el componente CharacterDetails
+.mainContent {
+    // size
+    width: 100%;
+
+    // display
+    @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-6);
+
+    // animation
+    animation: slideIn 0.4s ease-out;
+    @include mixins.slideIn();
+
+    .header{
+        // size
+        width: 100%;
+                
+        // position
+        position: relative;
+
+        // display
+        @include mixins.flex(row, flex-end, center);
+
+        .changesHeader{
+            // display
+            @include mixins.flex(row, flex-end, center);
+
+            .changesActions{
+                // display
+                @include mixins.flex(row, flex-end, center, nowrap, variables.$spacing-3);
+
+                .actionButton{
+                    // margin
+                    padding: variables.$spacing-2;
+
+                    // decoration
+                    color: var(--color-primary-foreground);
+                    font-size: variables.$font-size-sm;
+                    font-weight: variables.$font-weight-medium;
+                    text-align: center;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                    
+                }
+
+                .saveButton{
+                    // decoration
+                    color: var(--color-primary-foreground);
+                    border-radius: variables.$border-radius-md;
+                    background: var(--color-primary);
+                    border: 1px solid var(--color-primary);
+
+                    &:hover {
+                        background: var(--color-primary);
+                        opacity: 0.9;
+                    }
+                }
+
+                .revertButton{
+                    // decoration
+                    color: var(--color-terciary-foreground);
+                    border-radius: variables.$border-radius-md;
+                    background: var(--color-terciary);
+                    border: 1px solid var(--color-terciary);
+
+                    &:hover {
+                        background: var(--color-accent);
+                    }
+                }
+            }
+        }
+    }
+
+    .detailsContainer {
+        // size
+        width: 100%;
+
+        // display
+        @include mixins.grid(1, variables.$spacing-8);
+
+        @include mixins.lg {
+            // display
+            grid-template-columns: repeat(2, 1fr);
+
+            .section:nth-child(5), .section:nth-child(6) {
+                // display
+                grid-column: span 2;
+            }
+        }
+
+        .section {
+            // decoration
+            @include mixins.card;
+            backdrop-filter: blur(12px);
+            box-shadow: variables.$shadow-md;
+
+            .sectionHeader {
+                // margin
+                padding: variables.$spacing-6 variables.$spacing-6 0;
+
+                .titleContainer {
+                    // display
+                    @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
+
+                    h3 {
+                        // decoration
+                        margin: 0;
+                        font-size: variables.$font-size-lg;
+                        font-weight: variables.$font-weight-semibold;
+                        color: var(--color-foreground);
+                    }
+
+                    img {
+                        // decoration
+                        opacity: 0.7;
+                    }
+                }
+            }
+
+            .sectionContent {
+                // margin
+                padding: variables.$spacing-6;
+                padding-top: variables.$spacing-4;
+
+                .imageSection{
+                    // size
+                    max-width: 200px;
+
+                    // position
+                    position: relative;
+
+                    // display
+                    @include mixins.flex(row, center, center);
+                    justify-self: center;
+
+                    // decoration
+                    border-radius: variables.$border-radius-full;
+                    border: 1px solid var(--color-border);
+                    object-fit: cover;
+                    object-position: center;
+
+                    img{
+                        border-radius: variables.$border-radius-full;
+                    }
+
+                    .editCharacterImage{
+                        // position
+                        z-index: variables.$z-index-tooltip;
+                        position: absolute;
+                        right: 7%;
+                        bottom: 7%;
+
+                        // margin
+                        padding: variables.$spacing-1;
+
+                        // decoration
+                        border-radius: variables.$border-radius-full;
+                        background-color: var(--color-background);
+                        border: 1px solid var(--color-border);
+                        overflow: hidden;
+                        object-fit: cover;
+                        object-position: center;
+
+                        img{
+                            z-index: variables.$z-index-tooltip;
+                        }
+                    }
+                }
+
+                .field {
+                    // display
+                    @include mixins.flex(row, space-between, center);
+
+                    // margin
+                    padding: variables.$spacing-3 0;
+
+                    // decoration
+                    border-bottom: 1px solid var(--color-border);
+
+                    &:last-child {
+                        // decoration
+                        border-bottom: none;
+                    }
+
+                    .label {
+                        // decoration
+                        font-size: variables.$font-size-sm;
+                        font-weight: variables.$font-weight-medium;
+                        color: var(--color-muted-foreground);
+                    }
+
+                    .value {
+                        // decoration
+                        color: var(--color-terciary-foreground);
+                        text-align: right;
+                    }
+                    
+                    .valueWrapper {
+                        // display
+                        @include mixins.flex(row, flex-end, center, nowrap, variables.$spacing-2);
+                        
+                        // size
+                        flex: 1;
+
+                        
+                        .fieldStatus {
+                            // display
+                            @include mixins.flex(row, center, center);
+                            
+                            .modifiedIndicator {
+                                // decoration
+                                border: 2px solid var(--color-warning-border);
+                                border-radius: variables.$border-radius-full;
+                            }
+                        }
+                    }
+                    
+                    .editableValue {
+                        // position
+                        position: relative;
+                        
+                        // display
+                        @include mixins.flex(row, flex-end, center, nowrap, variables.$spacing-2);
+                        
+                        // margin
+                        padding: variables.$spacing-2 variables.$spacing-3;
+                        
+                        // size
+                        min-width: 120px;
+                        
+                        // decoration
+                        border-radius: variables.$border-radius-sm;
+                        cursor: pointer;
+                        border: 1px solid transparent;
+                        
+                        // animation
+                        transition: all 0.2s ease;
+                        
+                        &:hover {
+                            // decoration
+                            background: var(--color-muted);
+                            border-color: var(--color-border);
+                        }
+                        
+                        &:focus {
+                            // decoration
+                            outline: none;
+                            border-color: #3b82f6;
+                            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+                        }
+                        
+                        .editIcon {
+                            // size
+                            flex-shrink: 0;
+                            
+                            // decoration
+                            opacity: 0;
+                            
+                            // animation
+                            transition: opacity 0.2s ease;
+                        }
+                        
+                        &:hover .editIcon {
+                            // decoration
+                            opacity: 0.6;
+                        }
+                        
+                        &.emptyValue {
+                            // decoration
+                            color: var(--color-muted-foreground);
+                            font-style: italic;
+                            opacity: 0.8;
+                        }
+                    }
+
+                    .editInput {
+                        // size
+                        width: 100%;
+                        max-width: 200px;
+                        
+                        // margin
+                        padding: variables.$spacing-2 variables.$spacing-3;
+                        
+                        // decoration
+                        border: 2px solid #3b82f6;
+                        border-radius: variables.$border-radius-sm;
+                        background: var(--color-background);
+                        color: var(--color-foreground);
+                        font-family: inherit;
+                        font-size: variables.$font-size-sm;
+                        text-align: left;
+                        outline: none;
+                        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+                        
+                        // animation
+                        animation: focusIn 0.2s ease-out forwards;
+                        
+                        &::placeholder {
+                            // decoration
+                            color: var(--color-muted-foreground);
+                            opacity: 0.6;
+                        }
+
+
+                        .spinner {
+                            // size
+                            width: 12px;
+                            height: 12px;
+                            flex-shrink: 0;
+                            
+                            // decoration
+                            border: 1px solid var(--color-border);
+                            border-top: 1px solid #3b82f6;
+                            border-radius: 50%;
+                            
+                            // animation
+                            animation: spin 1s linear infinite;
+                        }
+                    }
+                }
+
+                .largeField {
+                    // margin
+                    margin-bottom: variables.$spacing-6;
+
+                    &:last-child {
+                        // margin
+                        margin-bottom: 0;
+                    }
+
+                    .fieldHeader {
+                        // display
+                        @include mixins.flex(row, space-between, center);
+                        
+                        // margin
+                        margin-bottom: variables.$spacing-3;
+                        
+                        h4 {
+                            // display
+                            @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
+                            
+                            // margin
+                            margin: 0;
+                            
+                            // decoration
+                            font-size: variables.$font-size-sm;
+                            font-weight: variables.$font-weight-semibold;
+                            color: var(--color-foreground);
+                        }
+                    }
+
+                    .textContainer {
+                        // margin
+                        padding: variables.$spacing-4;
+                        
+                        // decoration
+                        background: var(--color-muted);
+                        border-radius: variables.$border-radius-lg;
+
+                        p {
+                            // margin
+                            margin: 0;
+                            
+                            // decoration
+                            color: var(--color-muted-foreground);
+                            line-height: 1.6;
+                            font-size: variables.$font-size-sm;
+                        }
+
+                        &.editable {
+                            // position
+                            position: relative;
+                            
+                            // decoration
+                            border: 1px solid transparent;
+                            border-radius: variables.$border-radius-lg;
+                            cursor: pointer;
+                            
+                            // animation
+                            transition: all 0.2s ease;
+                            
+                            &:hover {
+                                // decoration
+                                border-color: var(--color-border);
+                                background: var(--color-card);
+                            }
+                        }
+
+                        .textDisplay {
+                            // position
+                            position: relative;
+                            
+                            &.clickable {
+                                // decoration
+                                cursor: pointer;
+                                
+                                .editHint {
+                                    // position
+                                    position: absolute;
+                                    top: variables.$spacing-2;
+                                    right: variables.$spacing-2;
+                                    
+                                    // decoration
+                                    opacity: 0;
+                                    padding: variables.$spacing-1;
+                                    background: rgba(255, 255, 255, 0.9);
+                                    border-radius: variables.$border-radius-sm;
+                                    
+                                    // animation
+                                    transition: opacity 0.2s ease;
+                                }
+                                
+                                &:hover .editHint {
+                                    // decoration
+                                    opacity: 1;
+                                }
+                            }
+                            
+                            p.emptyText {
+                                // decoration
+                                color: var(--color-muted-foreground);
+                                font-style: italic;
+                                opacity: 0.7;
+                            }
+                        }
+
+                        .editTextarea {
+                            // size
+                            width: 100%;
+                            min-height: 100px;
+                            
+                            // margin
+                            padding: variables.$spacing-3;
+                            
+                            // decoration
+                            border: 2px solid #3b82f6;
+                            border-radius: variables.$border-radius-lg;
+                            background: var(--color-background);
+                            color: var(--color-foreground);
+                            font-family: inherit;
+                            font-size: variables.$font-size-sm;
+                            line-height: 1.6;
+                            resize: vertical;
+                            outline: none;
+                            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+                            
+                            // animation
+                            animation: focusIn 0.2s ease-out forwards;
+                            
+                            &::placeholder {
+                                // decoration
+                                color: var(--color-muted-foreground);
+                                opacity: 0.6;
+                            }
+                        }
+                    }
+                }
+            }
+
+            &:nth-child(5) {
+                .sectionContent {
+                    @include mixins.lg {
+                        // display
+                        @include mixins.grid(3, variables.$spacing-6);
+
+                        .largeField {
+                            // margin
+                            margin-bottom: 0;
+                        }
+                    }
+                }
+            }
+
+            &:nth-child(6) {
+                .sectionContent {
+                    @include mixins.lg {
+                        // display
+                        @include mixins.grid(2, variables.$spacing-6);
+
+                        .largeField {
+                            // margin
+                            margin-bottom: variables.$spacing-4;
+
+                            &:last-child {
+                                // margin
+                                margin-bottom: 0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Animaciones
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes focusIn {
+    from {
+        transform: scale(0.98);
+        opacity: 0.8;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+// Responsive específico para las nuevas funcionalidades
+@media (max-width: variables.$breakpoint-md) {
+    .editingHints {
+        // display
+        @include mixins.flex(column, flex-start, center, nowrap, variables.$spacing-3);
+        
+        .hintItem {
+            // display
+            @include mixins.flex(row, center, center);
+        }
+    }
+    
+    .fieldStatus .statusText {
+        // display
+        display: none; // Solo mostrar íconos en móvil
+    }
+    
+    .editInput {
+        // size
+        max-width: none;
+        
+        // decoration
+        text-align: left;
+    }
+    
+    .field {
+        .editableValue {
+            // size
+            min-width: auto;
+            
+            // display
+            @include mixins.flex(column, flex-end, flex-end, nowrap, variables.$spacing-1);
+            
+            .editIcon {
+                // position
+                position: absolute;
+                top: 2px;
+                right: 2px;
+            }
+        }
+        
+        .valueWrapper {
+            // display
+            @include mixins.flex(column, flex-end, flex-end, nowrap, variables.$spacing-1);
+        }
+    }
+}
+
+@media (max-width: variables.$breakpoint-sm) {
+    .unsavedIndicator {
+        // margin
+        padding: variables.$spacing-2 variables.$spacing-3;
+        
+        .unsavedDot {
+            // size
+            width: 6px;
+            height: 6px;
+        }
+        
+        span {
+            // decoration
+            font-size: variables.$font-size-xs;
+        }
+    }
+}
+
+// Responsive adjustments
+@media (max-width: variables.$breakpoint-md) {
+    .headerContent {
+        // display
+        @include mixins.flex(column, flex-start, stretch, nowrap, variables.$spacing-4);
+    }
+
+    .characterInfo {
+        // display
+        @include mixins.flex(column, center, center);
+        
+        // decoration
+        text-align: center;
+    }
+
+    .headerActions {
+        // display
+        @include mixins.flex(row, center, center, wrap, variables.$spacing-2);
+    }
+
+    .titleRow {
+        // display
+        @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-2);
+    }
+
+    .subtitle {
+        // display
+        @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-1);
+
+        .separator {
+            // display
+            display: none;
+        }
+    }
+}
+

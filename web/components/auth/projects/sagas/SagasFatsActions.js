@@ -13,7 +13,7 @@ export default function SagaFastActions({ project, saga }) {
             icon: '/images/icons/book.svg',
             color: '#e67300ff',
             title: 'Nueva Saga',
-            subtitle: 'Inicia una nueva saga',
+            subtitle: `Crea una saga hija de '${saga.name}'`,
             type: 'saga',
             component: 'CreateSagaChild'
         },

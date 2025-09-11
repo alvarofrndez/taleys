@@ -66,9 +66,9 @@ const CreateSaga = ({ project }) => {
             dispatch(closeModal())
 
             if(response.data.universe_id){
-                router.push(`/${project.created_by.username}/projects/${project.name}/universes/${response.data.universe.name}/sagas/${response.data.name}`)
+                router.push(`/${project.created_by.username}/projects/${project.slug}/universes/${response.data.universe.slug}/sagas/${response.data.slug}`)
             }else{
-                router.push(`/${project.created_by.username}/projects/${project.name}/sagas/${response.data.name}`)
+                router.push(`/${project.created_by.username}/projects/${project.slug}/sagas/${response.data.slug}`)
             }
         }
 

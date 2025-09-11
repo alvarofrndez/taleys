@@ -3,7 +3,7 @@ import { bookService } from '@/modules/books/book.service'
 import CustomError from '@/modules/customerror/CustomError'
 import { env } from '@/config/config_env'
 
-export const bookSagaUniverseController = {
+export const bookSagaController = {
     getById: async (req: any, res: Response, next: NextFunction) => {
         /**
          * Controlador para obtener un libro por su ID.
@@ -84,10 +84,9 @@ export const bookSagaUniverseController = {
          * con los datos que le llegan en el body de la pateción asignandoselo al
          * usuario correspondiente.
         */
-        const { project_id, universe_id, saga_id } = req.params
+        const { project_id, saga_id } = req.params
         const data = req.body
 
-        data.universe_id = universe_id
         data.saga_id = saga_id
 
         const book = await bookService.create(project_id, data)

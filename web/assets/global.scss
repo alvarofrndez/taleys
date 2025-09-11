@@ -31,6 +31,13 @@
     --color-danger-hover: #{variables.$color-danger-hover-light};
     --color-success: #{variables.$color-success-light};
     --color-success-hover: #{variables.$color-success-hover-light};
+    --color-warning: #{variables.$color-warning-light};
+    --color-warning-border: #{variables.$color-warning-border-light};
+    --color-warning-foreground: #{variables.$color-warning-foreground-light};
+    --color-warning-dot: #{variables.$color-warning-dot-light};
+    --color-active: #{variables.$color-active-light};
+    --color-active-foreground: #{variables.$color-active-foreground-light};
+    --color-active-border: #{variables.$color-active-border-light};
 }
 
 .dark {
@@ -59,6 +66,13 @@
     --color-danger-hover: #{variables.$color-danger-hover-dark};
     --color-success: #{variables.$color-success-dark};
     --color-success-hover: #{variables.$color-success-hover-dark};
+    --color-warning: #{variables.$color-warning-dark};
+    --color-warning-border: #{variables.$color-warning-border-dark};
+    --color-warning-foreground: #{variables.$color-warning-foreground-dark};
+    --color-warning-dot: #{variables.$color-warning-dot-dark};
+    --color-active: #{variables.$color-active-dark};
+    --color-active-foreground: #{variables.$color-active-foreground-dark};
+    --color-active-border: #{variables.$color-active-border-dark};
 }
 
 * {
@@ -111,6 +125,11 @@ button,
 a {
     // decoration
     cursor: pointer;
+}
+
+button:disabled{
+    cursor: not-allowed;
+    filter: opacity(.7);
 }
 
 ul{

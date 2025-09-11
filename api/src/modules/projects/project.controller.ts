@@ -77,6 +77,24 @@ export const projectController = {
         })
     },
 
+    getBySlug: async (req: any, res: Response, next: NextFunction) => {
+        const { project_slug } = req.params
+
+        const project = await projectService.getBySlug(project_slug)
+
+        const can_res = projectController.checkVisibility(project, req)
+
+        if(can_res){
+            res.status(200).json({
+                success: true,
+                data: project,
+                message: 'Proyecto obtenido'
+            })
+        }else{
+            throw new CustomError('El proyecto no existe', 404, env.DATA_NOT_FOUND_CODE)
+        }
+    },
+
     getByUserAndName: async (req: any, res: Response, next: NextFunction) => {
         /**
          * Controlador para obtener un proyecto del usuario a través de su ID de su name.
@@ -95,6 +113,18 @@ export const projectController = {
         })
     },
 
+    getByUserAndSlug: async (req: any, res: Response, next: NextFunction) => {
+        const { project_slug, user_id } = req.params
+
+        let project = await projectService.getByUserAndSlug(project_slug, user_id)
+        
+        res.status(200).json({
+            success: true,
+            data: project,
+            message: 'Proyecto obtenido'
+        })
+    },
+
     getByUserUsernameAndName: async (req: any, res: Response, next: NextFunction) => {
         /**
          * Controlador para obtener un proyecto del usuario a través del username del usuario y de su name.
@@ -105,6 +135,18 @@ export const projectController = {
         const { project_name, username } = req.params
 
         let project = await projectService.getByUserUsernameAndName(project_name, username)
+        
+        res.status(200).json({
+            success: true,
+            data: project,
+            message: 'Proyecto obtenido'
+        })
+    },
+
+    getByUserUsernameAndSlug: async (req: any, res: Response, next: NextFunction) => {
+        const { project_slug, username } = req.params
+
+        let project = await projectService.getByUserUsernameAndSlug(project_slug, username)
         
         res.status(200).json({
             success: true,

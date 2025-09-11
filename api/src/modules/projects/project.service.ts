@@ -16,6 +16,11 @@ import { IProjectMember } from '@/modules/projectMembers/projectMember.interface
 import { IUser } from '@/modules/users/User.interface'
 import { universeService } from '@/modules/universes/universe.service'
 import { sagaService } from '@/modules/sagas/saga.service'
+import { getSlugFromText } from '@/utils/slugify/getSlugFromText'
+import { generateUniqueSlug } from '@/utils/slugify/generateUniqueSlug'
+import { bookService } from '@/modules/books/book.service'
+import { characterService } from '@/modules/characters/character.service'
+import { CharacterBelongingLevel } from '@/modules/characters/character.interface'
 
 export const projectService = {
     getById: async (project_id: number, req?: any) => {
@@ -93,19 +98,19 @@ export const projectService = {
     getByName: async (name: string) => {
         /**
          * Obtiene un proyecto a través de su name.
-         * 
-         * Pasos:
-         * 1. Intenta obtener el proyecto por su name.
-         * 2. Si no se encuentra, lanza un error `DataNotFound`.
-         * 3. Si se encuentra, lo devuelve.
-         * 
-         * @param {string} name - name del proyecto que se desea obtener.
-         * 
-         * @returns {IProject} El objeto `project` correspondiente al name proporcionado.
-         * 
-         * @throws `DataNotFound` Si no se encuentra ningún proyecto con el name dado.
-        */
+         */
         const project: IProject = await projectModel.getByName(name)
+
+        if(!project) throw new CustomError('El proyecto no existe', 404, env.DATA_NOT_FOUND_CODE)
+
+        return await projectService.getAllData(project)
+    },
+
+    getBySlug: async (slug: string) => {
+        /**
+         * Obtiene un proyecto a través de su slug.
+         */
+        const project: IProject = await projectModel.getBySlug(slug)
 
         if(!project) throw new CustomError('El proyecto no existe', 404, env.DATA_NOT_FOUND_CODE)
 
@@ -115,16 +120,7 @@ export const projectService = {
     getByUserAndName: async (project_name: string, user_id: number) => {
         /**
          * Obtiene un proyecto de un usuario a través de su ID y del name del proyecto.
-         * 
-         * Pasos:
-         * 1. Intenta obtener el proyecto por el ID del usuario y el name del proyecto.
-         * 2. Si no lo encuentra, lanza un error `DataNotFound`.
-         * 3. Si se encuentra, lo devuelve.
-         * 
-         * @param {number} user_id - ID del usuario.
-         * 
-         * @returns {IProject} El objeto `project`.
-        */
+         */
         const project: IProject = await projectMemberService.checkUserHasProjectWithSameName(user_id, project_name)
 
         if(!project) throw new CustomError('No perteneces al proyecto', 401, env.UNAUTHORIZED_CODE)
@@ -132,26 +128,48 @@ export const projectService = {
         return projectService.getByIdEditData(project.id)
     },
 
+    getByUserAndSlug: async (project_slug: string, user_id: number) => {
+        /**
+         * Obtiene un proyecto de un usuario a través de su ID y del slug del proyecto.
+         */
+        const project: IProject = await projectModel.getBySlug(project_slug)
+
+        if(!project) throw new CustomError('El proyecto no existe', 404, env.DATA_NOT_FOUND_CODE)
+
+        const members = await projectMemberService.getAllByProject(project.id)
+        const belongs = members.some(m => m.user_id == user_id)
+        if(!belongs) throw new CustomError('No perteneces al proyecto', 401, env.UNAUTHORIZED_CODE)
+
+        return projectService.getByIdEditData(project.id)
+    },
+
     getByUserUsernameAndName: async (project_name: string, username: string) => {
         /**
          * Obtiene un proyecto de un usuario a través del username del usuario y del name del proyecto.
-         * 
-         * Pasos:
-         * 1. Obtiene el usuario
-         * 2. Intenta obtener el proyecto por el ID del usuario y el name del proyecto.
-         * 3. Si no lo encuentra, lanza un error `DataNotFound`.
-         * 4. Si se encuentra, lo devuelve.
-         * 
-         * @param {string} project_name - nombre del proyecto.
-         * @param {string} username - username del usuario.
-         * 
-         * @returns {IProject} El objeto `project`.
-        */
+         */
         const user: IUser = await userService.getByUsername(username)
 
         if(!user) throw new CustomError('El usuario al que le pertenece el proyecto no existe', 404, env.DATA_NOT_FOUND_CODE)
 
         const project: IProject = await projectMemberService.checkUserHasProjectWithSameName(user.id, project_name)
+
+        return projectService.getAllData(project)
+    },
+
+    getByUserUsernameAndSlug: async (project_slug: string, username: string) => {
+        /**
+         * Obtiene un proyecto de un usuario a través del username del usuario y del slug del proyecto.
+         */
+        const user: IUser = await userService.getByUsername(username)
+
+        if(!user) throw new CustomError('El usuario al que le pertenece el proyecto no existe', 404, env.DATA_NOT_FOUND_CODE)
+
+        const project: IProject = await projectModel.getBySlug(project_slug)
+        if(!project) throw new CustomError('El proyecto no existe', 404, env.DATA_NOT_FOUND_CODE)
+
+        const members = await projectMemberService.getAllByProject(project.id)
+        const belongs = members.some(m => m.user_id == user.id)
+        if(!belongs) throw new CustomError('No perteneces al proyecto', 401, env.UNAUTHORIZED_CODE)
 
         return projectService.getAllData(project)
     },
@@ -203,15 +221,20 @@ export const projectService = {
     },
 
     getAllData: async (project: IProject) => {
+        if(!project) throw new CustomError('El proyecto no existe', 404, env.DATA_NOT_FOUND_CODE)
+
         const project_with_all_data = {
             ...project
         }
 
-        project_with_all_data.created_by = await userService.getById(typeof project.created_by === 'number' ||  typeof project.created_by === 'string' ? project.created_by : project.created_by.id ? project.created_by.id : null)
+        project_with_all_data.created_by = await userService.getById(typeof project.created_by === 'number' ||  typeof project.created_by === 'string' ? project.created_by : project?.created_by?.id ? project?.created_by?.id : null)
         project_with_all_data.likes = await projectLikeService.getByProject(project.id)
         project_with_all_data.saves = await projectSaveService.getByProject(project.id)
         project_with_all_data.members = await projectMemberService.getAllByProject(project.id)
         project_with_all_data.universes = await universeService.getAllByProject(project.id)
+        project_with_all_data.sagas = await sagaService.getAllByProject(project.id)
+        project_with_all_data.books = await bookService.getAllByProject(project.id)
+        project_with_all_data.characters = await characterService.getAllByProject(project.id)
         return project_with_all_data
     },
 
@@ -226,6 +249,9 @@ export const projectService = {
         project_with_all_data.saves_count = await projectSaveService.getProyectCount(project.id)
         project_with_all_data.members = await projectMemberService.getAllByProjectLite(project.id)
         project_with_all_data.universes = await universeService.getAllByProject(project.id)
+        project_with_all_data.sagas = await sagaService.getAllByProject(project.id)
+        project_with_all_data.books = await bookService.getAllByProject(project.id)
+        project_with_all_data.characters = await characterService.getAllByProject(project.id)
         return project_with_all_data
     },
 
@@ -249,9 +275,24 @@ export const projectService = {
          * 
          * @throws {CustomError} - Si hay errores de validación o duplicidad.
          */
+        // Verificar que el nombre del proyecto sea único
+        const existingProjectByName = await projectModel.getByName(data.name)
+        if (existingProjectByName) {
+            throw new CustomError('Ya existe un proyecto con este nombre', 400, env.DUPLICATE_DATA_CODE)
+        }
+
+        // Verificar que algún miembro no tenga ya un proyecto con el mismo nombre
         for(let member of data.members){
             if(await projectMemberService.checkUserHasProjectWithSameName(member.id, data.name)) throw new CustomError(`El usuario ${member.username} ya pertenece a un proyecto con este nombre`, 400, env.DUPLICATE_DATA_CODE)
         }
+
+        data = projectService.sanitazeData(data) 
+
+        // Generar slug único
+        data.slug = await generateUniqueSlug(data.name, async (slug: string) => {
+            const existingProject = await projectModel.getBySlug(slug)
+            return !!existingProject
+        })
 
         const error_message = projectService.checkCreateData(data)
         if(typeof error_message == 'string') throw new CustomError(error_message, 400, env.INVALID_DATA_CODE)
@@ -277,24 +318,42 @@ export const projectService = {
 
     update: async (id:number, user_id: number, data: any) => {
         /**
-         * Actualiza un nuevo proyecto a partir de los datos recibidos y el usuario que lo crea.
+         * Actualiza un proyecto existente a partir de los datos recibidos.
          * 
          * Pasos:
          * 1. Convierte los datos recibidos desde el `FormData` a un objeto tipado `IProject`.
-         * 2. Verifica si algún miembro ya pertenece a un proyecto con el mismo nombre.
-         * 3. Valida la estructura de los datos del proyecto.
-         * 4. Crea el proyecto en la base de datos.
-         * 5. Si la creación fue exitosa, crea las relaciones asociadas (imágenes, miembros, categorías, etc).
-         * 6. Si ocurre algún error al crear relaciones, elimina el proyecto para evitar datos huérfanos.
-         * 7. Retorna el proyecto creado.
+         * 2. Verifica que el nombre del proyecto sea único (excluyendo el proyecto actual).
+         * 3. Genera un slug único basado en el nombre si ha cambiado.
+         * 4. Valida la estructura de los datos del proyecto.
+         * 5. Actualiza el proyecto en la base de datos.
+         * 6. Si la actualización fue exitosa, sincroniza las relaciones asociadas.
+         * 7. Retorna el proyecto actualizado.
          * 
-         * @param {number} user_id - ID del usuario que está creando el proyecto.
+         * @param {number} id - ID del proyecto a actualizar.
+         * @param {number} user_id - ID del usuario que está actualizando el proyecto.
          * @param {any} data - Datos crudos recibidos desde el frontend (ej. FormData).
          * 
-         * @returns {Project} - El proyecto creado correctamente.
+         * @returns {Project} - El proyecto actualizado correctamente.
          * 
          * @throws {CustomError} - Si hay errores de validación o duplicidad.
          */
+        data = projectService.sanitazeData(data)
+
+        // Verificar que el nombre del proyecto sea único (excluyendo el proyecto actual)
+        const existingProjectByName = await projectModel.getByName(data.name)
+        if (existingProjectByName && existingProjectByName.id !== id) {
+            throw new CustomError('Ya existe un proyecto con este nombre', 400, env.DUPLICATE_DATA_CODE)
+        }
+
+        // Generar slug único si el nombre ha cambiado
+        const currentProject = await projectModel.getById(id)
+        if (currentProject && currentProject.name !== data.name) {
+            data.slug = await generateUniqueSlug(data.name, async (slug: string) => {
+                const existingProject = await projectModel.getBySlug(slug)
+                return existingProject && existingProject.id !== id
+            })
+        }
+
         const error_message = projectService.checkUpdateData(data)
         if(typeof error_message == 'string') throw new CustomError(error_message, 400, env.INVALID_DATA_CODE)
 
@@ -390,6 +449,23 @@ export const projectService = {
         return converted_data
     },
 
+    sanitazeData: (data: any) => {
+        /*
+        * Convierte los valores de data en valores validos para guardar en la base de datos
+        */
+        const clean = { ...data }
+
+        if (clean.name) {
+            clean.slug = getSlugFromText(clean.name)
+        }
+
+        if (clean.description) {
+            clean.description = clean.description.trim()
+        }
+
+        return clean
+    },
+
     checkCreateData: (data: any) => {
         /**
          * Valida los campos requeridos para la creación de un proyecto.
@@ -471,7 +547,8 @@ export const projectService = {
          * 1. Verifica si el proyecto existe.
          * 2. Elimina los universos asociados al proyecto.
          * 3. Elimina los saga asociados al proyecto.
-         * 4. Elimina el proyecto.
+         * 3. Elimina los libros asociados al proyecto.
+         * 5. Elimina el proyecto.
          * 
          * @param {number} project_id - ID del proyecto a eliminar.
          * 
@@ -483,8 +560,10 @@ export const projectService = {
         if(!project) throw new CustomError('El proyecto no existe', 404, env.DATA_NOT_FOUND_CODE)
 
         await projectMemberService.deleteAllByProject(project_id)
-        await universeService.deleteAllByProject(project_id)
+        await bookService.deleteAllByProject(project_id)
         await sagaService.deleteAllByProject(project_id)
+        await universeService.deleteAllByProject(project_id)
+        await characterService.clearAllByBelonging(CharacterBelongingLevel.project, project_id)
 
         return await projectModel.delete(project_id)
     }

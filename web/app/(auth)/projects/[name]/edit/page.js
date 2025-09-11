@@ -55,7 +55,7 @@ export default function ProjectEditPage() {
 
     useEffect(() => {
         const fetchProject = async () => {
-            const response = await apiCall('GET', `/projects/name/${name}/users/${user?.id}`)
+            const response = await apiCall('GET', `/projects/slug/${name}/users/${user?.id}`)
             if (response.success) {
                 setFormData(response.data)
             } else {

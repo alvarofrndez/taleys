@@ -6,7 +6,7 @@
     width: 100%;
 
     //display
-    @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-16);
+    @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-8);
 
     .header{
         // size
@@ -83,42 +83,53 @@
         width: 100%;
 
         //display
-        @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-8);
+        @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-16);
 
-        .nav{
+        .tabMenu {
             // size
             width: 100%;
 
-            //display
+            // display
             @include mixins.flex(row);
 
-            // margin
-            padding: variables.$spacing-1;
+            // decoration
+            border-bottom: 1px solid var(--color-border);
 
-            //decoration
-            border-radius: variables.$border-radius-md;
-            background-color: var(--color-terciary);
+            .tabButton {
+                // position
+                position: relative;
 
-            button{
-                width: calc(100% / 2);
+                // display
+                @include mixins.flex(row, center, center, nowrap, variables.$spacing-2);
+
                 // margin
-                padding: variables.$spacing-2;
-
-                //decoration
-                border-radius: variables.$border-radius-md;
-                font-weight: variables.$font-weight-semibold;
-                background-color: transparent;
-                color: var(--color-muted-foreground);
-                font-size: variables.$font-size-sm;
+                padding: variables.$spacing-2 variables.$spacing-4;
+                
+                // decoration
                 border: none;
-            }
+                background: none;
+                cursor: pointer;
+                font-size: variables.$font-size-sm;
+                font-weight: variables.$font-weight-semibold;
+                transition: all 0.2s ease;
+                white-space: nowrap;
+                border-bottom: 2px solid transparent;
 
-            .active{
-                //decoration
-                border-radius: variables.$border-radius-md;
-                background-color: var(--color-background);
-                color: var(--color-primary);
-                box-shadow: variables.$shadow-sm;
+                &:hover {
+                // decoration
+                    border-bottom-color: var(--color-accent);
+                }
+
+                &.active {
+                    // decoration
+                    border-bottom-color: var(--color-accent);
+                    font-weight: variables.$font-weight-bold;
+                }
+
+                &:disabled {
+                    opacity: 0.5;
+                    cursor: not-allowed;
+                }
             }
         }
 

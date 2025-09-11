@@ -1,0 +1,234 @@
+@use '@/assets/variables.scss' as variables;
+@use '@/assets/mixins.scss' as mixins;
+
+// appearances.module.scss - Estilos para el componente CharacterAppearances
+.loadingContainer{
+    // size
+    width: 100%;
+    min-height: 50vh;
+
+    // display
+    @include mixins.flex(column, center, center, nowrap, variables.$spacing-2);
+}
+
+.mainContent {
+    // size
+    width: 100%;
+
+    .contentContainer {
+        // size
+        width: 100%;
+
+        // margin
+        margin: 0 auto;
+
+        // display
+        @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-8);
+
+        // Appearances List
+        .appearancesList {
+            // display
+            @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-6);
+
+            .appearanceCard {
+                // decoration
+                @include mixins.card;
+                backdrop-filter: blur(12px);
+                box-shadow: variables.$shadow-md;
+
+                .appearanceHeader {
+                    // display
+                    @include mixins.flex(row, space-between, center);
+
+                    // margin
+                    padding: variables.$spacing-6;
+
+                    .typeBadge {
+                        // margin
+                        padding: variables.$spacing-1 variables.$spacing-3;
+
+                        // decoration
+                        font-size: variables.$font-size-sm;
+                        font-weight: variables.$font-weight-medium;
+                        border-radius: variables.$border-radius-full;
+                        border: 1px solid var(--color-primary-border);
+                        background: var(--color-primary-light);
+                        color: var(--color-primary-dark);
+                    }
+                }
+
+                .appearanceContent {
+                    // display
+                    @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-8);
+                    
+                    // margin
+                    padding: variables.$spacing-6;
+
+                    .infoGrid {
+                        // display
+                        display: grid;
+                        grid-template-columns: 1fr;
+                        gap: variables.$spacing-6;
+
+                        @include mixins.md {
+                            // display
+                            grid-template-columns: repeat(2, 1fr);
+                        }
+
+                        .infoSection {
+                            // display
+                            @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-4);
+
+                            h4 {
+                                // margin
+                                margin: 0;
+                                
+                                // decoration
+                                font-size: variables.$font-size-sm;
+                                font-weight: variables.$font-weight-semibold;
+                                color: var(--color-foreground);
+
+                                // display
+                                @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
+                            }
+
+                            .fieldList {
+                                // display
+                                @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-2);
+
+                                .field {
+                                    // display
+                                    @include mixins.flex(row, space-between, flex-start, nowrap, variables.$spacing-4);
+
+                                    // decoration
+                                    font-size: variables.$font-size-sm;
+
+                                    .label {
+                                        // decoration
+                                        font-weight: variables.$font-weight-medium;
+                                        color: var(--color-muted-foreground);
+                                        flex-shrink: 0;
+                                    }
+
+                                    .value {
+                                        // decoration
+                                        color: var(--color-terciary-foreground);
+                                        text-align: right;
+                                        word-break: break-word;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    .notesSection {
+                        // size
+                        width: 100%;
+
+                        // margin
+                        padding-top: variables.$spacing-3;
+                        
+                        // decoration
+                        border-top: 1px solid var(--color-border);
+
+                        h4 {
+                            // decoration
+                            font-size: variables.$font-size-sm;
+                            font-weight: variables.$font-weight-semibold;
+                            margin: 0 0 variables.$spacing-3 0;
+                            color: var(--color-foreground);
+                        }
+
+                        .notesContainer {
+                            // margin
+                            padding: variables.$spacing-4;
+                            
+                            // decoration
+                            background: var(--color-muted);
+                            border-radius: variables.$border-radius-md;
+
+                            p {
+                                // margin
+                                margin: 0;
+                                
+                                // decoration
+                                color: var(--color-muted-foreground);
+                                line-height: 1.6;
+                                font-size: variables.$font-size-sm;
+                                font-style: italic;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Empty State
+        .emptyState {
+            // decoration
+            @include mixins.card;
+            backdrop-filter: blur(12px);
+            padding: variables.$spacing-12;
+            text-align: center;
+            color: var(--color-muted-foreground);
+
+            h3 {
+                // margin
+                margin: variables.$spacing-4 0 variables.$spacing-2 0;
+                
+                // decoration
+                font-size: variables.$font-size-lg;
+                font-weight: variables.$font-weight-semibold;
+                color: var(--color-foreground);
+            }
+
+            p {
+                // margin
+                margin: 0;
+                
+                // decoration
+                font-size: variables.$font-size-sm;
+            }
+
+            img {
+                // decoration
+                opacity: 0.4;
+            }
+        }
+    }
+}
+
+// Responsive adjustments
+@media (max-width: variables.$breakpoint-md) {
+    .mainContent {
+        padding: variables.$spacing-4;
+
+        .contentContainer {
+            gap: variables.$spacing-4;
+
+            .appearanceContent {
+                .infoGrid {
+                    grid-template-columns: 1fr;
+                }
+            }
+        }
+    }
+}
+
+// Animation utilities
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.summaryCard,
+.appearanceCard,
+.ctaCard {
+    animation: fadeIn 0.3s ease-out;
+}

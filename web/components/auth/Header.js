@@ -23,9 +23,20 @@ const HeaderComponent = () => {
             let universeName = null
             let sagaName = null
             let bookName = null
+            let characterName = null
 
+            // Detect characters
+            if (parts[3] === 'characters' && parts[4]) {
+                characterName = decodeURIComponent(parts[4])
+                setComponent({
+                    type: 'projectView',
+                    username,
+                    project_name,
+                    characterName
+                })
+            }
             // Detect universes/sagas/books
-            if (parts[3] === 'universes' && parts[4]) {
+            else if (parts[3] === 'universes' && parts[4]) {
                 universeName = decodeURIComponent(parts[4])
                 if (parts[5] === 'sagas' && parts[6]) {
                     sagaName = decodeURIComponent(parts[6])
@@ -35,23 +46,41 @@ const HeaderComponent = () => {
                 } else if (parts[5] === 'books' && parts[6]) {
                     bookName = decodeURIComponent(parts[6])
                 }
+                setComponent({
+                    type: 'projectView',
+                    username,
+                    project_name,
+                    universeName,
+                    sagaName,
+                    bookName
+                })
             } else if (parts[3] === 'sagas' && parts[4]) {
                 sagaName = decodeURIComponent(parts[4])
                 if (parts[5] === 'books' && parts[6]) {
                     bookName = decodeURIComponent(parts[6])
                 }
+                setComponent({
+                    type: 'projectView',
+                    username,
+                    project_name,
+                    sagaName,
+                    bookName
+                })
             } else if (parts[3] === 'books' && parts[4]) {
                 bookName = decodeURIComponent(parts[4])
+                setComponent({
+                    type: 'projectView',
+                    username,
+                    project_name,
+                    bookName
+                })
+            } else {
+                setComponent({
+                    type: 'projectView',
+                    username,
+                    project_name
+                })
             }
-
-            setComponent({
-                type: 'projectView',
-                username,
-                project_name,
-                universeName,
-                sagaName,
-                bookName
-            })
         }
         else if (parts[0] === 'projects' && parts[1] === 'create') {
             setComponent({ type: 'projects/create' })
@@ -88,41 +117,48 @@ const HeaderComponent = () => {
         </div>
     )
 
-    const Breadcrumbs = ({ username, project_name, universeName, sagaName, bookName }) => {
+    const Breadcrumbs = ({ username, project_name, universeName, sagaName, bookName, characterName, project_slug, universeSlug, sagaSlug, bookSlug, characterSlug }) => {
         const items = [
             { label: username, href: `/users/${encodeURIComponent(username)}` },
-            { label: project_name, href: `/${encodeURIComponent(username)}/projects/${encodeURIComponent(project_name)}` }
+            { label: project_name, href: `/${encodeURIComponent(username)}/projects/${encodeURIComponent(project_slug || project_name)}` }
         ]
 
-        if (universeName) {
+        if (characterName) {
             items.push({
-                label: universeName,
-                href: `/${encodeURIComponent(username)}/projects/${encodeURIComponent(project_name)}/universes/${encodeURIComponent(universeName)}`
+                label: characterName,
+                href: `/${encodeURIComponent(username)}/projects/${encodeURIComponent(project_slug || project_name)}/characters/${encodeURIComponent(characterSlug || characterName)}`
             })
-        }
-
-        if (sagaName) {
-            let sagaHref
+        } else {
             if (universeName) {
-                sagaHref = `/${encodeURIComponent(username)}/projects/${encodeURIComponent(project_name)}/universes/${encodeURIComponent(universeName)}/sagas/${encodeURIComponent(sagaName)}`
-            } else {
-                sagaHref = `/${encodeURIComponent(username)}/projects/${encodeURIComponent(project_name)}/sagas/${encodeURIComponent(sagaName)}`
+                items.push({
+                    label: universeName,
+                    href: `/${encodeURIComponent(username)}/projects/${encodeURIComponent(project_slug || project_name)}/universes/${encodeURIComponent(universeSlug || universeName)}`
+                })
             }
-            items.push({ label: sagaName, href: sagaHref })
-        }
 
-        if (bookName) {
-            let bookHref
-            if (sagaName && universeName) {
-                bookHref = `/${encodeURIComponent(username)}/projects/${encodeURIComponent(project_name)}/universes/${encodeURIComponent(universeName)}/sagas/${encodeURIComponent(sagaName)}/books/${encodeURIComponent(bookName)}`
-            } else if (sagaName) {
-                bookHref = `/${encodeURIComponent(username)}/projects/${encodeURIComponent(project_name)}/sagas/${encodeURIComponent(sagaName)}/books/${encodeURIComponent(bookName)}`
-            } else if (universeName) {
-                bookHref = `/${encodeURIComponent(username)}/projects/${encodeURIComponent(project_name)}/universes/${encodeURIComponent(universeName)}/books/${encodeURIComponent(bookName)}`
-            } else {
-                bookHref = `/${encodeURIComponent(username)}/projects/${encodeURIComponent(project_name)}/books/${encodeURIComponent(bookName)}`
+            if (sagaName) {
+                let sagaHref
+                if (universeName) {
+                    sagaHref = `/${encodeURIComponent(username)}/projects/${encodeURIComponent(project_slug || project_name)}/universes/${encodeURIComponent(universeSlug || universeName)}/sagas/${encodeURIComponent(sagaSlug || sagaName)}`
+                } else {
+                    sagaHref = `/${encodeURIComponent(username)}/projects/${encodeURIComponent(project_slug || project_name)}/sagas/${encodeURIComponent(sagaSlug || sagaName)}`
+                }
+                items.push({ label: sagaName, href: sagaHref })
             }
-            items.push({ label: bookName, href: bookHref })
+
+            if (bookName) {
+                let bookHref
+                if (sagaName && universeName) {
+                    bookHref = `/${encodeURIComponent(username)}/projects/${encodeURIComponent(project_slug || project_name)}/universes/${encodeURIComponent(universeSlug || universeName)}/sagas/${encodeURIComponent(sagaSlug || sagaName)}/books/${encodeURIComponent(bookSlug || bookName)}`
+                } else if (sagaName) {
+                    bookHref = `/${encodeURIComponent(username)}/projects/${encodeURIComponent(project_slug || project_name)}/sagas/${encodeURIComponent(sagaSlug || sagaName)}/books/${encodeURIComponent(bookSlug || bookName)}`
+                } else if (universeName) {
+                    bookHref = `/${encodeURIComponent(username)}/projects/${encodeURIComponent(project_slug || project_name)}/universes/${encodeURIComponent(universeSlug || universeName)}/books/${encodeURIComponent(bookSlug || bookName)}`
+                } else {
+                    bookHref = `/${encodeURIComponent(username)}/projects/${encodeURIComponent(project_slug || project_name)}/books/${encodeURIComponent(bookSlug || bookName)}`
+                }
+                items.push({ label: bookName, href: bookHref })
+            }
         }
 
         return (
@@ -198,6 +234,12 @@ const HeaderComponent = () => {
                         universeName={component.universeName}
                         sagaName={component.sagaName}
                         bookName={component.bookName}
+                        characterName={component.characterName}
+                        project_slug={component.project_slug}
+                        universeSlug={component.universeSlug}
+                        sagaSlug={component.sagaSlug}
+                        bookSlug={component.bookSlug}
+                        characterSlug={component.characterSlug}
                     />
                 </div>
                 {user ? (

@@ -110,6 +110,35 @@
                     font-weight: variables.$font-weight-normal;
                     color: var(--color-muted-foreground);
                 }
+
+                .toggleVisibility{
+                    // display
+                    @include mixins.flex(row, flex-start, flex-start, nowrap, variables.$spacing-2);
+
+                    button{
+                        // margin
+                        padding: variables.$spacing-1;
+
+                        // decoration
+                        font-size: variables.$font-size-sm;
+                        font-weight: variables.$font-weight-normal;
+                        background-color: var(--color-muted);
+                        border-radius: variables.$border-radius-md;
+                        border: 1px solid var(--color-border);
+                        cursor: pointer;
+
+                        &:hover{
+                            // decoration
+                            background-color: var(--color-accent);
+                        }
+                    }
+
+                    .active{
+                        // decoration
+                        border: 1px solid var(--color-primary);
+                        background-color: var(--color-accent);
+                    }
+                }
             }
         }
     }

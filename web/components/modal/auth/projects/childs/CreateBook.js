@@ -114,13 +114,13 @@ const CreateBook = ({ project }) => {
             dispatch(closeModal())
 
             if (form.universe_id && form.saga_id) {
-                router.push(`/${project.created_by.username}/projects/${project.name}/universes/${response.data.universe.name}/sagas/${response.data.saga.name}/books/${response.data.title}`)
+                router.push(`/${project.created_by.username}/projects/${project.slug}/universes/${response.data.universe.slug}/sagas/${response.data.saga.slug}/books/${response.data.slug}`)
             } else if (form.saga_id) {
-                router.push(`/${project.created_by.username}/projects/${project.name}/sagas/${response.data.saga.name}/books/${response.data.title}`)
+                router.push(`/${project.created_by.username}/projects/${project.slug}/sagas/${response.data.saga.slug}/books/${response.data.slug}`)
             } else if (form.saga_id) {
-                router.push(`/${project.created_by.username}/projects/${project.name}/universes/${response.data.universe.name}/books/${response.data.title}`)
+                router.push(`/${project.created_by.username}/projects/${project.slug}/universes/${response.data.universe.slug}/books/${response.data.slug}`)
             } else {
-                router.push(`/${project.created_by.username}/projects/${project.name}/books/${response.data.title}`)
+                router.push(`/${project.created_by.username}/projects/${project.slug}/books/${response.data.slug}`)
             }
         }
 

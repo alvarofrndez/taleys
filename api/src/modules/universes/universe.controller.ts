@@ -40,16 +40,13 @@ export const universeController = {
         })
     },
 
-    getByName: async (req: any, res: Response, next: NextFunction) => {
+    getBySlug: async (req: any, res: Response, next: NextFunction) => {
         /**
-         * Controlador para obtener un universo a través de su name.
-         * 
-         * Este endpoint maneja una solicitud HTTP GET para recuperar un universo
-         * utilizando el `universe_name` y el `project_id` proporcionado en los parámetros de la URL.
-        */
-        const { project_id, universe_name } = req.params
+         * Controlador para obtener un universo a través de su slug.
+         */
+        const { project_id, universe_slug } = req.params
 
-        let universe = await universeService.getByName(project_id, universe_name)
+        let universe = await universeService.getBySlug(project_id, universe_slug)
 
         res.status(200).json({
             success: true,

@@ -37,13 +37,13 @@ const CreateSagaBook = ({ project, saga }) => {
             pushToast(response.message, 'success')
             dispatch(closeModal())
 
-            const universe_name = saga.universe_id ? response.data.universe.name : null
-            const saga_name = response.data.saga.name
+            const universe_slug = saga.universe_id ? response.data.universe.slug : null
+            const saga_slug = response.data.saga.slug
 
-            if (universe_name) {
-                router.push(`/${project.created_by.username}/projects/${project.name}/universes/${universe_name}/sagas/${saga_name}/books/${response.data.title}`)
+            if (universe_slug) {
+                router.push(`/${project.created_by.username}/projects/${project.slug}/universes/${universe_slug}/sagas/${saga_slug}/books/${response.data.slug}`)
             } else {
-                router.push(`/${project.created_by.username}/projects/${project.name}/sagas/${saga_name}/books/${response.data.title}`)
+                router.push(`/${project.created_by.username}/projects/${project.slug}/sagas/${saga_slug}/books/${response.data.slug}`)
             }
         }
 

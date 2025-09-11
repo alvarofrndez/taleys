@@ -10,11 +10,16 @@ import CreateProject from '@/components/modal/auth/projects/createProject'
 import CreateUniverse from '@/components/modal/auth/projects/childs/createUniverse'
 import CreateSaga from '@/components/modal/auth/projects/childs/createSaga'
 import CreateBook from '@/components/modal/auth/projects/childs/CreateBook'
+import CreateCharacter from '@/components/modal/auth/projects/childs/CreateCharacter'
 import CreateUniverseChild from '@/components/modal/auth/projects/universes/childs/CreateUniverseChild'
 import CreateUniverseSaga from '@/components/modal/auth/projects/universes/childs/CreateUniverseSaga'
 import CreateUniverseBook from '@/components/modal/auth/projects/universes/childs/CreateUniverseBook'
+import CreateUniverseCharacter from '@/components/modal/auth/projects/universes/childs/CreateUniverseCharacter'
 import CreateSagaChild from '@/components/modal/auth/projects/sagas/childs/CreateSagaChild'
 import CreateSagaBook from '@/components/modal/auth/projects/sagas/childs/CreateSagaBook'
+import CreateSagaCharacter from '@/components/modal/auth/projects/sagas/childs/CreateSagaCharacter'
+import CreateBookCharacter from '@/components/modal/auth/projects/books/childs/CreateBookCharacter'
+import CreateCharacterRelationship from '@/components/modal/auth/projects/characters/CreateCharacterRelationship'
 
 const component_map = {
   'TwoFactorAuthenticationComponent': TwoFactorAuthenticationComponent,
@@ -24,11 +29,16 @@ const component_map = {
   'CreateUniverse': CreateUniverse,
   'CreateSaga': CreateSaga,
   'CreateBook': CreateBook,
+  'CreateCharacter': CreateCharacter,
   'CreateUniverseChild': CreateUniverseChild,
   'CreateUniverseSaga': CreateUniverseSaga,
   'CreateUniverseBook': CreateUniverseBook,
+  'CreateUniverseCharacter': CreateUniverseCharacter,
   'CreateSagaChild': CreateSagaChild,
   'CreateSagaBook': CreateSagaBook,
+  'CreateSagaCharacter': CreateSagaCharacter,
+  'CreateBookCharacter': CreateBookCharacter,
+  'CreateCharacterRelationship': CreateCharacterRelationship,
 }
 
 const ModalContainer = () => {

@@ -60,4 +60,8 @@ export default interface IEnv {
     DB_TABLE_SAGAS: string
     DB_TABLE_BOOKS: string
     DB_TABLE_CHAPTERS: string
+    DB_TABLE_CHARACTERS: string
+    DB_TABLE_CHARACTER_APPEARANCES: string
+    DB_TABLE_CHARACTER_RELATIONSHIPS: string
+    DB_TABLE_CHARACTER_TIMELINE: string
 }

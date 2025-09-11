@@ -36,7 +36,7 @@ const CreateUniverseChild = ({ project, universe }) => {
         if (response.success) {
             pushToast(response.message, 'success')
             dispatch(closeModal())
-            router.push(`/${project.created_by.username}/projects/${project.name}/universes/${response.data.name}`)
+            router.push(`/${project.created_by.username}/projects/${project.slug}/universes/${response.data.slug}`)
         }
 
         setLoading(false)

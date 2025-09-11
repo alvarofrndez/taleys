@@ -75,7 +75,7 @@ export default function ProjectCard({ project_param }) {
     }
 
     const goToProject = (project) => {
-        router.push(`/${project.created_by.username}/projects/${project.name}`)
+        router.push(`/${project.created_by.username}/projects/${project.slug}`)
     }
 
     return <>

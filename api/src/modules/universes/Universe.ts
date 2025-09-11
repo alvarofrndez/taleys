@@ -59,6 +59,26 @@ export const universeModel = {
         return result.rows[0]
     },
 
+    getBySlug: async (project_id: number, slug: string) => {
+        /**
+         * Obtiene un universo de un proyecto a través de su slug.
+         */
+        const result = await db.query(
+            `
+                SELECT 
+                *, 
+                TO_CHAR(created_at, 'DD TMMonth, YYYY') AS created_at,
+                TO_CHAR(updated_at, 'DD TMMonth, YYYY') AS updated_at,
+                TO_CHAR(updated_at, 'YYYY-MM-DD"T"HH24:MI:SSZ') AS updated_at_formatted
+                FROM ${env.DB_TABLE_UNIVERSES}
+                WHERE project_id = $1 AND slug = $2
+            `,
+            [project_id, slug]
+        )
+
+        return result.rows[0]
+    },
+
     getAllByName: async (name: string) => {
         /**
          * Obtiene todos los universos a través de su name.
@@ -164,12 +184,12 @@ export const universeModel = {
         const result = await db.query(
             `
             INSERT INTO ${env.DB_TABLE_UNIVERSES} 
-                (project_id, name, description, parent_universe_id)
+                (project_id, name, slug, description, parent_universe_id)
             VALUES 
-                ($1, $2, $3, $4)
+                ($1, $2, $3, $4, $5)
             RETURNING *
             `,
-            [project_id, data.name, data.description, data.parent_universe_id ?? null]
+            [project_id, data.name, data.slug, data.description, data.parent_universe_id ?? null]
         )
 
         return result.rows[0]
@@ -198,10 +218,10 @@ export const universeModel = {
             `
             UPDATE ${env.DB_TABLE_UNIVERSES} 
             SET
-                name = $1, description = $2, parent_universe_id = $3, updated_at = now()
-            WHERE id = $4
+                name = $1, slug = $2, description = $3, parent_universe_id = $4, updated_at = now()
+            WHERE id = $5
             `,
-            [data.name, data.description, data.parent_universe_id, id]
+            [data.name, data.slug, data.description, data.parent_universe_id, id]
         )
 
         return result.rowCount

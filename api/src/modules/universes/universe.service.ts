@@ -3,6 +3,10 @@ import { universeModel } from './Universe'
 import { IUniverse } from './universe.interface'
 import CustomError from '@/modules/customerror/CustomError'
 import { sagaService } from '@/modules/sagas/saga.service'
+import { bookService } from '@/modules/books/book.service'
+import { generateUniqueSlug } from '@/utils/slugify/generateUniqueSlug'
+import { characterService } from '@/modules/characters/character.service'
+import { CharacterBelongingLevel } from '@/modules/characters/character.interface'
 
 export const universeService = {
     getById: async (universe_id: number) => {
@@ -95,6 +99,14 @@ export const universeService = {
         return await universeService.getAllData(universe)
     },
 
+    getBySlug: async (project_id: number, slug: string) => {
+        const universe: IUniverse = await universeModel.getBySlug(project_id, slug)
+
+        if(!universe) throw new CustomError('El universo no existe', 404, env.DATA_NOT_FOUND_CODE)
+
+        return await universeService.getAllData(universe)
+    },
+
     getAllByProject: async (project_id: number) => {
         /**
          * Obtiene todos los universos a través de un proyecto.
@@ -145,11 +157,12 @@ export const universeService = {
          * 
          * Pasos:
          * 1. Verifica si ya existia un universo con ese nombre en el proyecto.
-         * 2. Valida la estructura de los datos del universo.
-         * 3. Crea el universo en la base de datos.
-         * 4. Si la creación fue exitosa, crea las relaciones asociadas (imágenes, miembros, categorías, etc).
-         * 5. Si ocurre algún error al crear relaciones, elimina el universo para evitar datos huérfanos.
-         * 6. Retorna el universo creado.
+         * 2. Genera un slug único basado en el nombre.
+         * 3. Valida la estructura de los datos del universo.
+         * 4. Crea el universo en la base de datos.
+         * 5. Si la creación fue exitosa, crea las relaciones asociadas (imágenes, miembros, categorías, etc).
+         * 6. Si ocurre algún error al crear relaciones, elimina el universo para evitar datos huérfanos.
+         * 7. Retorna el universo creado.
          * 
          * @param {number} project_id - ID del proyecto al que pertenece el universo.
          * @param {any} data - Datos crudos recibidos desde el frontend.
@@ -159,6 +172,12 @@ export const universeService = {
          * @throws {CustomError} - Si hay errores de validación o duplicidad.
          */
         if(await universeService.checkProjectHasUniverseWithSameName(project_id, data.name)) throw new CustomError(`Ya existe un universo con ese nombre en este proyecto`, 400, env.DUPLICATE_DATA_CODE)
+
+        // Generar slug único
+        data.slug = await generateUniqueSlug(data.name, async (slug: string) => {
+            const existingUniverse = await universeModel.getBySlug(project_id, slug)
+            return !!existingUniverse
+        })
 
         const error_message = universeService.checkCreateData(data)
         if(typeof error_message == 'string') throw new CustomError(error_message, 400, env.INVALID_DATA_CODE)
@@ -170,26 +189,39 @@ export const universeService = {
 
     update: async (id:number, data: any) => {
         /**
-         * Actualiza un nuevo universo a partir de los datos recibidos.
+         * Actualiza un universo existente a partir de los datos recibidos.
          * 
          * Pasos:
-         * 1. Valida la estructura de los datos del universo.
-         * 2. Actualiza el universo en la base de datos.
-         * 3. Retorna el universo creado.
+         * 1. Verifica que el nombre del universo sea único en el proyecto (excluyendo el universo actual).
+         * 2. Genera un slug único basado en el nombre si ha cambiado.
+         * 3. Valida la estructura de los datos del universo.
+         * 4. Actualiza el universo en la base de datos.
+         * 5. Retorna el universo actualizado.
          * 
          * @param {number} id - ID del universo a editar.
          * @param {any} data - Datos crudos recibidos desde el frontend.
          * 
-         * @returns {IUniverse} - El universo actualizdo correctamente.
+         * @returns {IUniverse} - El universo actualizado correctamente.
          * 
          * @throws {CustomError} - Si hay errores de validación o duplicidad.
          */
+        // Verificar que el nombre del universo sea único en el proyecto (excluyendo el universo actual)
+        const existingUniverseByName = await universeModel.getByName(data.project_id, data.name)
+        if (existingUniverseByName && existingUniverseByName.id !== id) {
+            throw new CustomError('Ya existe un universo con ese nombre en este proyecto', 400, env.DUPLICATE_DATA_CODE)
+        }
+
+        // Generar slug único si el nombre ha cambiado
+        const currentUniverse = await universeModel.getById(id)
+        if (currentUniverse && currentUniverse.name !== data.name) {
+            data.slug = await generateUniqueSlug(data.name, async (slug: string) => {
+                const existingUniverse = await universeModel.getBySlug(data.project_id, slug)
+                return existingUniverse && existingUniverse.id !== id
+            })
+        }
+
         const error_message = universeService.checkUpdateData(data)
         if(typeof error_message == 'string') throw new CustomError(error_message, 400, env.INVALID_DATA_CODE)
-
-        const universe_exists = await universeService.getByName(data.project_id, data.name)
-
-        if(universe_exists.id != data.id) throw new CustomError('Ya existe un universo con este nombre', 400, env.DUPLICATE_DATA_CODE)
 
         const universe = await universeModel.update(id, data)
 
@@ -277,6 +309,8 @@ export const universeService = {
 
         await universeService.deleteAllUniverseChilds(universe_id)
         await sagaService.deleteAllByUniverse(universe_id)
+        await bookService.deleteAllByUniverse(universe_id)
+        await characterService.clearAllByBelonging(CharacterBelongingLevel.universe, universe_id)
 
         return await universeModel.delete(universe_id)
     },

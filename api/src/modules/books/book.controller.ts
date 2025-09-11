@@ -58,16 +58,13 @@ export const bookController = {
         })
     },
 
-    getByProjectAndUniverseNameAndTitle: async (req: any, res: Response, next: NextFunction) => {
+    getBySlug: async (req: any, res: Response, next: NextFunction) => {
         /**
-         * Controlador para obtener un libro a través de su title y el name del universo.
-         * 
-         * Este endpoint maneja una solicitud HTTP GET para recuperar un libro
-         * utilizando el `book_title` y el `universe_name` proporcionado en los parámetros de la URL.
-        */
-        const { project_id, universe_name, book_title } = req.params
+         * Controlador para obtener un libro a través de su slug.
+         */
+        const { project_id, book_slug } = req.params
 
-        let book = await bookService.getByProjectAndUniverseNameAndTitle(project_id, universe_name, book_title)
+        let book = await bookService.getByProjectAndSlug(project_id, book_slug)
 
         res.status(200).json({
             success: true,
@@ -76,16 +73,28 @@ export const bookController = {
         })
     },
 
-    getByProjectAndUniverseNameAndSagaNameAndTitle: async (req: any, res: Response, next: NextFunction) => {
+    getByProjectAndUniverseSlugAndSlug: async (req: any, res: Response, next: NextFunction) => {
         /**
-         * Controlador para obtener un libro a través de su title, el name del universo y el name de la saga.
-         * 
-         * Este endpoint maneja una solicitud HTTP GET para recuperar un libro
-         * utilizando el `book_title`, el `universe_name` y el `saga_name` proporcionado en los parámetros de la URL.
-        */
-        const { project_id, universe_name, saga_name, book_title } = req.params
+         * Controlador para obtener un libro a través de su title y el slug del universo.
+         */
+        const { project_id, universe_slug, book_slug } = req.params
 
-        let book = await bookService.getByProjectAndUniverseNameAndSagaNameAndTitle(project_id, universe_name, saga_name, book_title)
+        let book = await bookService.getByProjectAndUniverseSlugAndSlug(project_id, universe_slug, book_slug)
+
+        res.status(200).json({
+            success: true,
+            data: book,
+            message: 'Libro obtenido'
+        })
+    },
+
+    getByProjectAndUniverseSlugAndSagaSlugAndSlug: async (req: any, res: Response, next: NextFunction) => {
+        /**
+         * Controlador para obtener un libro a través del slug del universo, el slug de la saga y su slug.
+         */
+        const { project_id, universe_slug, saga_slug, book_slug } = req.params
+
+        let book = await bookService.getByProjectAndUniverseSlugAndSagaSlugAndSlug(project_id, universe_slug, saga_slug, book_slug)
 
         res.status(200).json({
             success: true,

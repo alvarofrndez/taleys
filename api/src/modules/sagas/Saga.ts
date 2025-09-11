@@ -59,6 +59,23 @@ export const sagaModel = {
         return result.rows[0]
     },
 
+    getByProjectAndSlug: async (project_id: number, slug: string) => {
+        const result = await db.query(
+            `
+                SELECT 
+                *, 
+                TO_CHAR(created_at, 'DD TMMonth, YYYY') AS created_at,
+                TO_CHAR(updated_at, 'DD TMMonth, YYYY') AS updated_at,
+                TO_CHAR(updated_at, 'YYYY-MM-DD"T"HH24:MI:SSZ') AS updated_at_formatted
+                FROM ${env.DB_TABLE_SAGAS}
+                WHERE project_id = $1 AND slug = $2
+            `,
+            [project_id, slug]
+        )
+
+        return result.rows[0]
+    },
+
     getByUniverseAndName: async (universe_id: number, name: string) => {
         /**
          * Obtiene una saga de un universe a través de su name.
@@ -83,6 +100,23 @@ export const sagaModel = {
                 WHERE universe_id = $1 AND name = $2
             `,
             [universe_id, name]
+        )
+
+        return result.rows[0]
+    },
+
+    getByUniverseAndSlug: async (universe_id: number, slug: string) => {
+        const result = await db.query(
+            `
+                SELECT 
+                *, 
+                TO_CHAR(created_at, 'DD TMMonth, YYYY') AS created_at,
+                TO_CHAR(updated_at, 'DD TMMonth, YYYY') AS updated_at,
+                TO_CHAR(updated_at, 'YYYY-MM-DD"T"HH24:MI:SSZ') AS updated_at_formatted
+                FROM ${env.DB_TABLE_SAGAS}
+                WHERE universe_id = $1 AND slug = $2
+            `,
+            [universe_id, slug]
         )
 
         return result.rows[0]
@@ -195,12 +229,12 @@ export const sagaModel = {
         const result = await db.query(
             `
             INSERT INTO ${env.DB_TABLE_SAGAS} 
-                (project_id, universe_id, name, description, parent_saga_id)
+                (project_id, universe_id, name, slug, description, parent_saga_id)
             VALUES 
-                ($1, $2, $3, $4, $5)
+                ($1, $2, $3, $4, $5, $6)
             RETURNING *
             `,
-            [project_id, data.universe_id ?? null, data.name, data.description, data.parent_saga_id ?? null]
+            [project_id, data.universe_id ?? null, data.name, data.slug, data.description, data.parent_saga_id ?? null]
         )
 
         return result.rows[0]
@@ -230,10 +264,10 @@ export const sagaModel = {
             `
             UPDATE ${env.DB_TABLE_SAGAS} 
             SET
-                universe_id =$1, name = $2, description = $3, parent_saga_id = $4, updated_at = now()
-            WHERE id = $5
+                universe_id =$1, name = $2, slug = $3, description = $4, parent_saga_id = $5, updated_at = now()
+            WHERE id = $6
             `,
-            [data.universe_id, data.name, data.description, data.parent_saga_id, id]
+            [data.universe_id, data.name, data.slug, data.description, data.parent_saga_id, id]
         )
 
         return result.rowCount

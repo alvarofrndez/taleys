@@ -56,6 +56,23 @@ export const projectModel = {
         return result.rows[0]
     },
 
+    getBySlug: async (slug: string) => {
+        const result = await db.query(
+            `
+                SELECT 
+                *, 
+                TO_CHAR(created_at, 'DD TMMonth, YYYY') AS created_at,
+                TO_CHAR(updated_at, 'DD TMMonth, YYYY') AS updated_at,
+                TO_CHAR(updated_at, 'YYYY-MM-DD"T"HH24:MI:SSZ') AS updated_at_formatted
+                FROM ${env.DB_TABLE_PROJECTS}
+                WHERE slug = $1
+            `,
+            [slug]
+        )
+
+        return result.rows[0]
+    },
+
     getAllByUser: async (user_id: number) => {
         /**
          * Obtiene todos los proyectos de un usuario a través de su ID.
@@ -136,12 +153,12 @@ export const projectModel = {
         const result = await db.query(
             `
             INSERT INTO ${env.DB_TABLE_PROJECTS} 
-                (created_by, name, description, visibility)
+                (created_by, name, slug, description, visibility)
             VALUES 
-                ($1, $2, $3, $4)
+                ($1, $2, $3, $4, $5)
             RETURNING *
             `,
-            [user_id, data.name, data.description, data.visibility]
+            [user_id, data.name, data.slug, data.description, data.visibility]
         )
 
         return result.rows[0]
@@ -176,10 +193,10 @@ export const projectModel = {
             `
             UPDATE ${env.DB_TABLE_PROJECTS} 
             SET
-                created_by = $1, name = $2, description = $3, visibility = $4
-            WHERE id = $5
+                created_by = $1, name = $2, slug= $3, description = $4, visibility = $5
+            WHERE id = $6
             `,
-            [user_id, data.name, data.description, data.visibility, id]
+            [user_id, data.name, data.slug, data.description, data.visibility, id]
         )
 
         return result.rowCount

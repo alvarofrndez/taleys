@@ -68,6 +68,10 @@ const {
     DB_TABLE_SAGAS = '',
     DB_TABLE_BOOKS = '',
     DB_TABLE_CHAPTERS = '',
+    DB_TABLE_CHARACTERS = '',
+    DB_TABLE_CHARACTER_APPEARANCES = '',
+    DB_TABLE_CHARACTER_RELATIONSHIPS = '',
+    DB_TABLE_CHARACTER_TIMELINE = '',
 } = process.env
 
 // Determinar la URL de la base de datos según el entorno
@@ -140,4 +144,8 @@ export const env: IEnv = {
     DB_TABLE_SAGAS,
     DB_TABLE_BOOKS,
     DB_TABLE_CHAPTERS,
+    DB_TABLE_CHARACTERS,
+    DB_TABLE_CHARACTER_APPEARANCES,
+    DB_TABLE_CHARACTER_RELATIONSHIPS,
+    DB_TABLE_CHARACTER_TIMELINE,
 }

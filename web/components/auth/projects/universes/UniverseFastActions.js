@@ -13,7 +13,7 @@ export default function UniverseFastActions({ project, universe }) {
             icon: '/images/icons/internet.svg',
             color: '#3482d6ff',
             title: 'Nuevo Universo hijo',
-            subtitle: 'Crea un mundo narrativo',
+            subtitle: `Crea un universo hijo de '${universe.name}'`,
             type: 'universe',
             component: 'CreateUniverseChild'
         },

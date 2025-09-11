@@ -4,6 +4,9 @@ import { IBook } from './book.interface'
 import CustomError from '@/modules/customerror/CustomError'
 import { universeService } from '@/modules/universes/universe.service'
 import { sagaService } from '@/modules/sagas/saga.service'
+import { generateUniqueSlug } from '@/utils/slugify/generateUniqueSlug'
+import { characterService } from '@/modules/characters/character.service'
+import { CharacterBelongingLevel } from '@/modules/characters/character.interface'
 
 export const bookService = {
     getById: async (book_id: number) => {
@@ -144,27 +147,15 @@ export const bookService = {
         return await bookService.getAllData(book)
     },
 
+    getByProjectAndSlug: async (project_id: number, book_slug: string) => {
+        const book: IBook = await bookModel.getByProjectAndSlug(project_id, book_slug)
+
+        if(!book) throw new CustomError('El libro no existe', 404, env.DATA_NOT_FOUND_CODE)
+
+        return await bookService.getAllData(book)
+    },
+
     getByProjectAndUniverseNameAndTitle: async (project_id: number, universe_name: string,  title: string) => {
-        /**
-         * Obtiene un libro de un projecto a través de su name y del title del universo.
-         * 
-         * Pasos:
-         * 1. Intenta obtener el universo por su name y el id del proyecto.
-         * 2. Si no se encuentra, lanza un error `DataNotFound`.
-         * 3. Si se encuentra, intenta obtener el libro por el id del universo y su title.
-         * 4. Si no se encuentra, lanza un error `DataNotFound`.
-         * 2. Si se encuentra, lo devuelve.
-         * 
-         * @param {number} project_id - id del proyecto al que pertenece el libro.
-         * 
-         * @param {string} universe_name - name del universo al que pertenece el libro.
-         * 
-         * @param {string} title - título de el libro que se desea obtener.
-         * 
-         * @returns {IBook} El objeto `book` correspondiente al title proporcionado.
-         * 
-         * @throws `DataNotFound` Si no se encuentra ningún universo con su name o book con su title dado.
-        */
         const universe = await universeService.getByName(project_id, universe_name)
 
         const book: IBook = await bookModel.getByUniverseAndTitle(universe.id, title)
@@ -174,35 +165,22 @@ export const bookService = {
         return await bookService.getAllData(book)
     },
 
-    getByProjectAndUniverseNameAndSagaNameAndTitle: async (project_id: number, universe_name: string, saga_name: string,  title: string) => {
-        /**
-         * Obtiene un libro de un projecto a través de su title, del name del universo y del nama de la saga.
-         * 
-         * Pasos:
-         * 1. Intenta obtener el universo por su `name` y el id del proyecto.
-         * 2. Si no se encuentra, lanza un error `DataNotFound`.
-         * 3. Si se encuentra, intenta obtener la saga pro el id del universo y su `name`.
-         * 4. Si no se encuentra, lanza un error `DataNotFound`.
-         * 5. Si se encuentra, intenta obtener el libro por el id de la saga y su `title`.
-         * 6. Si se encuentra, lo devuelve.
-         * 
-         * @param {number} project_id - id del proyecto al que pertenece el libro.
-         * 
-         * @param {string} universe_name - name del universo al que pertenece el libro.
-         * 
-         * @param {string} daga_name - name de la saga al que pertenece el libro.
-         * 
-         * @param {string} title - título de el libro que se desea obtener.
-         * 
-         * @returns {IBook} El objeto `book` correspondiente al name proporcionado.
-         * 
-         * @throws `DataNotFound` Si no se encuentra ningún universo o saga con los names dados o book con el title dato.
-        */
-        const universe = await universeService.getByName(project_id, universe_name)
+    getByProjectAndUniverseSlugAndSlug: async (project_id: number, universe_slug: string,  slug: string) => {
+        const universe = await universeService.getBySlug(project_id, universe_slug)
 
-        const saga = await sagaService.getByUniverseAndName(universe.id, saga_name)
+        const book: IBook = await bookModel.getByUniverseAndSlug(universe.id, slug)
 
-        const book: IBook = await bookModel.getBySagaAndTitle(saga.id, title)
+        if(!book) throw new CustomError('El libro no existe', 404, env.DATA_NOT_FOUND_CODE)
+
+        return await bookService.getAllData(book)
+    },
+
+    getByProjectAndUniverseSlugAndSagaSlugAndSlug: async (project_id: number, universe_slug: string, saga_slug: string,  book_slug: string) => {
+        const universe = await universeService.getBySlug(project_id, universe_slug)
+
+        const saga = await sagaService.getByUniverseAndSlug(universe.id, saga_slug)
+
+        const book: IBook = await bookModel.getBySagaAndSlug(saga.id, book_slug)
 
         if(!book) throw new CustomError('El libro no existe', 404, env.DATA_NOT_FOUND_CODE)
 
@@ -308,12 +286,13 @@ export const bookService = {
          * Crea un nuevo libro a partir de los datos recibidos y el proyecto al que pertenece.
          * 
          * Pasos:
-         * 1. Verifica si ya existia un libro con ese título en el proyecto.
-         * 2. Valida la estructura de los datos de el libro.
-         * 3. Crea el libro en la base de datos.
-         * 4. Si la creación fue exitosa, crea las relaciones asociadas (imágenes, miembros, categorías, etc).
-         * 5. Si ocurre algún error al crear relaciones, elimina el libro para evitar datos huérfanos.
-         * 6. Retorna el libro creado.
+         * 1. Verifica si ya existia un libro con ese título en el proyecto, universo o saga.
+         * 2. Genera un slug único basado en el título.
+         * 3. Valida la estructura de los datos del libro.
+         * 4. Crea el libro en la base de datos.
+         * 5. Si la creación fue exitosa, crea las relaciones asociadas (imágenes, miembros, categorías, etc).
+         * 6. Si ocurre algún error al crear relaciones, elimina el libro para evitar datos huérfanos.
+         * 7. Retorna el libro creado.
          * 
          * @param {number} project_id - ID del proyecto al que pertenece el libro.
          * @param {any} data - Datos crudos recibidos desde el frontend.
@@ -331,6 +310,24 @@ export const bookService = {
             if(await bookService.checkProjectHasBookWithSameTitle(project_id, data.title)) throw new CustomError(`Ya existe un libro con ese título en este proyecto`, 400, env.DUPLICATE_DATA_CODE)
         }
 
+        // Generar slug único
+        if(data.saga_id){
+            data.slug = await generateUniqueSlug(data.title, async (slug: string) => {
+                const existingBook = await bookModel.getBySagaAndSlug(data.saga_id, slug)
+                return !!existingBook
+            })
+        }else if(data.universe_id){
+            data.slug = await generateUniqueSlug(data.title, async (slug: string) => {
+                const existingBook = await bookModel.getByUniverseAndSlug(data.universe_id, slug)
+                return !!existingBook
+            })
+        }else{
+            data.slug = await generateUniqueSlug(data.title, async (slug: string) => {
+                const existingBook = await bookModel.getByProjectAndSlug(project_id, slug)
+                return !!existingBook
+            })
+        }
+
         const error_message = bookService.checkCreateData(data)
         if(typeof error_message == 'string') throw new CustomError(error_message, 400, env.INVALID_DATA_CODE)
 
@@ -341,39 +338,63 @@ export const bookService = {
 
     update: async (id:number, data: any) => {
         /**
-         * Actualiza un nuevo libro a partir de los datos recibidos.
+         * Actualiza un libro existente a partir de los datos recibidos.
          * 
          * Pasos:
-         * 1. Valida la estructura de los datos de el libro.
-         * 2. Actualiza el libro en la base de datos.
-         * 3. Retorna el libro creado.
+         * 1. Verifica que el título del libro sea único en el proyecto, universo o saga (excluyendo el libro actual).
+         * 2. Genera un slug único basado en el título si ha cambiado.
+         * 3. Valida la estructura de los datos del libro.
+         * 4. Actualiza el libro en la base de datos.
+         * 5. Retorna el libro actualizado.
          * 
-         * @param {number} id - ID de el libro a editar.
+         * @param {number} id - ID del libro a editar.
          * @param {any} data - Datos crudos recibidos desde el frontend.
          * 
-         * @returns {IBook} - El libro actualizdo correctamente.
+         * @returns {IBook} - El libro actualizado correctamente.
          * 
          * @throws {CustomError} - Si hay errores de validación o duplicidad.
          */
+        // Verificar que el título del libro sea único en el proyecto, universo o saga (excluyendo el libro actual)
+        if(data.saga_id){
+            const existingBookByTitle = await bookModel.getBySagaAndTitle(data.saga_id, data.title)
+            if (existingBookByTitle && existingBookByTitle.id !== id) {
+                throw new CustomError('Ya existe un libro con ese título en esta saga', 400, env.DUPLICATE_DATA_CODE)
+            }
+        }else if(data.universe_id){
+            const existingBookByTitle = await bookModel.getByUniverseAndTitle(data.universe_id, data.title)
+            if (existingBookByTitle && existingBookByTitle.id !== id) {
+                throw new CustomError('Ya existe un libro con ese título en este universo', 400, env.DUPLICATE_DATA_CODE)
+            }
+        }else{
+            const existingBookByTitle = await bookModel.getByProjectAndTitle(data.project_id, data.title)
+            if (existingBookByTitle && existingBookByTitle.id !== id) {
+                throw new CustomError('Ya existe un libro con ese título en este proyecto', 400, env.DUPLICATE_DATA_CODE)
+            }
+        }
+
+        // Generar slug único si el título ha cambiado
+        const currentBook = await bookModel.getById(id)
+        if (currentBook && currentBook.title !== data.title) {
+            if(data.saga_id){
+                data.slug = await generateUniqueSlug(data.title, async (slug: string) => {
+                    const existingBook = await bookModel.getBySagaAndSlug(data.saga_id, slug)
+                    return existingBook && existingBook.id !== id
+                })
+            }else if(data.universe_id){
+                data.slug = await generateUniqueSlug(data.title, async (slug: string) => {
+                    const existingBook = await bookModel.getByUniverseAndSlug(data.universe_id, slug)
+                    return existingBook && existingBook.id !== id
+                })
+            }else{
+                data.slug = await generateUniqueSlug(data.title, async (slug: string) => {
+                    const existingBook = await bookModel.getByProjectAndSlug(data.project_id, slug)
+                    return existingBook && existingBook.id !== id
+                })
+            }
+        }
+
         const error_message = bookService.checkUpdateData(data)
         if(typeof error_message == 'string') throw new CustomError(error_message, 400, env.INVALID_DATA_CODE)
-
-        let book_exists = undefined
-        
-        console.log(data)
-
-        if(data.saga_id){
-            book_exists = await bookModel.getBySagaAndTitle(data.saga_id, data.title)
-        }
-        else if(data.universe_id){
-            book_exists = await bookModel.getByUniverseAndTitle(data.universe_id, data.title)
-        }else{
-            book_exists = await bookModel.getByProjectAndTitle(data.project_id, data.title)
-        }
-
-        console.log(book_exists)
-
-        if(book_exists && book_exists.id != data.id) throw new CustomError('Ya existe un libro con este nombre', 400, env.DUPLICATE_DATA_CODE)
 
         const book = await bookModel.update(id, data)
 
@@ -483,6 +504,8 @@ export const bookService = {
         const book = await bookService.getById(book_id)
         if(!book) throw new CustomError('El libro no existe', 404, env.DATA_NOT_FOUND_CODE)
 
+        await characterService.clearAllByBelonging(CharacterBelongingLevel.book, book_id)
+        
         return await bookModel.delete(book_id)
     },
 

@@ -59,6 +59,23 @@ export const bookModel = {
         return result.rows[0]
     },
 
+    getByProjectAndSlug: async (project_id: number, slug: string) => {
+        const result = await db.query(
+            `
+                SELECT 
+                *, 
+                TO_CHAR(created_at, 'DD TMMonth, YYYY') AS created_at,
+                TO_CHAR(updated_at, 'DD TMMonth, YYYY') AS updated_at,
+                TO_CHAR(updated_at, 'YYYY-MM-DD"T"HH24:MI:SSZ') AS updated_at_formatted
+                FROM ${env.DB_TABLE_BOOKS}
+                WHERE project_id = $1 AND slug = $2
+            `,
+            [project_id, slug]
+        )
+
+        return result.rows[0]
+    },
+
     getByUniverseAndTitle: async (universe_id: number, title: string) => {
         /**
          * Obtiene un libro de un universe a través de su title.
@@ -88,6 +105,23 @@ export const bookModel = {
         return result.rows[0]
     },
 
+    getByUniverseAndSlug: async (universe_id: number, slug: string) => {
+        const result = await db.query(
+            `
+                SELECT 
+                *, 
+                TO_CHAR(created_at, 'DD TMMonth, YYYY') AS created_at,
+                TO_CHAR(updated_at, 'DD TMMonth, YYYY') AS updated_at,
+                TO_CHAR(updated_at, 'YYYY-MM-DD"T"HH24:MI:SSZ') AS updated_at_formatted
+                FROM ${env.DB_TABLE_BOOKS}
+                WHERE universe_id = $1 AND slug = $2
+            `,
+            [universe_id, slug]
+        )
+
+        return result.rows[0]
+    },
+
     getBySagaAndTitle: async (saga_id: number, title: string) => {
         /**
          * Obtiene un libro de una saga a través de su title.
@@ -112,6 +146,23 @@ export const bookModel = {
                 WHERE saga_id = $1 AND title = $2
             `,
             [saga_id, title]
+        )
+
+        return result.rows[0]
+    },
+
+    getBySagaAndSlug: async (saga_id: number, slug: string) => {
+        const result = await db.query(
+            `
+                SELECT 
+                *, 
+                TO_CHAR(created_at, 'DD TMMonth, YYYY') AS created_at,
+                TO_CHAR(updated_at, 'DD TMMonth, YYYY') AS updated_at,
+                TO_CHAR(updated_at, 'YYYY-MM-DD"T"HH24:MI:SSZ') AS updated_at_formatted
+                FROM ${env.DB_TABLE_BOOKS}
+                WHERE saga_id = $1 AND slug = $2
+            `,
+            [saga_id, slug]
         )
 
         return result.rows[0]
@@ -223,12 +274,12 @@ export const bookModel = {
         const result = await db.query(
             `
             INSERT INTO ${env.DB_TABLE_BOOKS} 
-                (project_id, universe_id, saga_id, title, synopsis)
+                (project_id, universe_id, saga_id, title, slug, synopsis)
             VALUES 
-                ($1, $2, $3, $4, $5)
+                ($1, $2, $3, $4, $5, $6)
             RETURNING *
             `,
-            [project_id, data.universe_id ?? null, data.saga_id ?? null, data.title, data.synopsis]
+            [project_id, data.universe_id ?? null, data.saga_id ?? null, data.title, data.slug, data.synopsis]
         )
 
         return result.rows[0]
@@ -258,10 +309,10 @@ export const bookModel = {
             `
             UPDATE ${env.DB_TABLE_BOOKS} 
             SET
-                universe_id =$1, saga_id = $2, title = $3, synopsis = $4, updated_at = now()
-            WHERE id = $5
+                universe_id =$1, saga_id = $2, title = $3, slug = $4, synopsis = $5, updated_at = now()
+            WHERE id = $6
             `,
-            [data.universe_id, data.saga_id, data.title, data.synopsis, id]
+            [data.universe_id, data.saga_id, data.title, data.slug, data.synopsis, id]
         )
 
         return result.rowCount

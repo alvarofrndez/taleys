@@ -40,16 +40,13 @@ export const sagaController = {
         })
     },
 
-    getByName: async (req: any, res: Response, next: NextFunction) => {
+    getBySlug: async (req: any, res: Response, next: NextFunction) => {
         /**
-         * Controlador para obtener una saga a través de su name.
-         * 
-         * Este endpoint maneja una solicitud HTTP GET para recuperar una saga
-         * utilizando el `saga_name` y el `project_id` proporcionado en los parámetros de la URL.
-        */
-        const { project_id, saga_name } = req.params
+         * Controlador para obtener una saga a través de su slug.
+         */
+        const { project_id, saga_slug } = req.params
 
-        let saga = await sagaService.getByProjectAndName(project_id, saga_name)
+        let saga = await sagaService.getByProjectAndSlug(project_id, saga_slug)
 
         res.status(200).json({
             success: true,
@@ -58,16 +55,13 @@ export const sagaController = {
         })
     },
 
-    getByProjectAndUniverseNameAndName: async (req: any, res: Response, next: NextFunction) => {
+    getByProjectAndUniverseSlugAndSlug: async (req: any, res: Response, next: NextFunction) => {
         /**
-         * Controlador para obtener una saga a través de su name y el name del universo.
-         * 
-         * Este endpoint maneja una solicitud HTTP GET para recuperar una saga
-         * utilizando el `saga_name` y el `universe_name` proporcionado en los parámetros de la URL.
-        */
-        const { project_id, universe_name, saga_name } = req.params
+         * Controlador para obtener una saga a través del slug del universo y su slug.
+         */
+        const { project_id, universe_slug, saga_slug } = req.params
 
-        let saga = await sagaService.getByProjectAndUniverseNameAndName(project_id, universe_name, saga_name)
+        let saga = await sagaService.getByProjectAndUniverseSlugAndSlug(project_id, universe_slug, saga_slug)
 
         res.status(200).json({
             success: true,
