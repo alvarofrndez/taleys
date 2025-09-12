@@ -12,17 +12,18 @@ import LoaderComponent from '@/components/Loader'
 import pushToast from '@/utils/pushToast'
 import ProjectSummary from '@/components/auth/projects/ProjectSummary'
 import ProjectContent from '@/components/auth/projects/ProjectContent'
+import Icon from '@/components/iconComponent'
 
 const menu_items = [
     { 
         key: 'summary', 
         label: 'Resumen', 
-        icon: '/images/icons/info.svg' 
+        icon: 'info' 
     },
     { 
         key: 'content', 
         label: 'Contenido', 
-        icon: '/images/icons/book.svg' 
+        icon: 'book' 
     },
 ]
 
@@ -74,13 +75,23 @@ export default function ProjectFullMode({ project }) {
                                     className={styles.topActionsVisibility}
                                     onClick={handleChangeVisibility}
                                 >
-                                    <Image src={`/images/icons/${project.visibility === 'public' ? 'show' : 'hide'}.svg`} alt='compartir' width={15} height={15}/>
+                                    <Icon
+                                        name={project.visibility === 'public' ? 'show' : 'hide'}
+                                        width={15}
+                                        height={15}
+                                        alt='visibilidad'
+                                    />
                                     <span>{project.visibility === 'public' ? 'Público' : 'Privado'}</span>
                                 </button>
                             )
                         )}
                         <button className={styles.topActionsShare} onClick={share}>
-                            <Image src={'/images/icons/share.svg'} alt='compartir' width={15} height={15}/>
+                            <Icon
+                                name='share'
+                                width={15}
+                                height={15}
+                                alt='compartir'
+                            />
                             <span>Compartir</span>
                         </button>
                     </div>
@@ -107,11 +118,11 @@ export default function ProjectFullMode({ project }) {
                             className={`${styles.tabButton} ${active_tab === item.key ? styles.active : ''}`}
                             onClick={() => setActiveTab(item.key)}
                         >
-                            <Image
-                                src={item.icon}
+                            <Icon
+                                name={item.icon}
                                 alt={item.label}
-                                width={18}
-                                height={18}
+                                width={15}
+                                height={15}
                             />
                             <span>{item.label}</span>
                         </button>

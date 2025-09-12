@@ -153,7 +153,7 @@ export const projectService = {
 
         const project: IProject = await projectMemberService.checkUserHasProjectWithSameName(user.id, project_name)
 
-        return projectService.getAllData(project)
+        return await projectService.getAllData(project)
     },
 
     getByUserUsernameAndSlug: async (project_slug: string, username: string) => {
@@ -171,7 +171,7 @@ export const projectService = {
         const belongs = members.some(m => m.user_id == user.id)
         if(!belongs) throw new CustomError('No perteneces al proyecto', 401, env.UNAUTHORIZED_CODE)
 
-        return projectService.getAllData(project)
+        return await projectService.getAllData(project)
     },
 
     getAllByUser: async (user_id: number) => {
@@ -227,7 +227,7 @@ export const projectService = {
             ...project
         }
 
-        project_with_all_data.created_by = await userService.getById(typeof project.created_by === 'number' ||  typeof project.created_by === 'string' ? project.created_by : project?.created_by?.id ? project?.created_by?.id : null)
+        project_with_all_data.created_by = await userService.getByIdDTO(typeof project.created_by === 'number' ||  typeof project.created_by === 'string' ? project.created_by : project?.created_by?.id ? project?.created_by?.id : null)
         project_with_all_data.likes = await projectLikeService.getByProject(project.id)
         project_with_all_data.saves = await projectSaveService.getByProject(project.id)
         project_with_all_data.members = await projectMemberService.getAllByProject(project.id)
@@ -235,6 +235,7 @@ export const projectService = {
         project_with_all_data.sagas = await sagaService.getAllByProject(project.id)
         project_with_all_data.books = await bookService.getAllByProject(project.id)
         project_with_all_data.characters = await characterService.getAllByProject(project.id)
+
         return project_with_all_data
     },
 
@@ -244,7 +245,7 @@ export const projectService = {
             ...project
         }
 
-        project_with_all_data.created_by = await userService.getById(typeof project.created_by === 'number' ||  typeof project.created_by === 'string' ? project.created_by : project.created_by.id ? project.created_by.id : null)
+        project_with_all_data.created_by = await userService.getByIdDTO(typeof project.created_by === 'number' ||  typeof project.created_by === 'string' ? project.created_by : project.created_by.id ? project.created_by.id : null)
         project_with_all_data.likes_count = await projectLikeService.getProyectCount(project.id)
         project_with_all_data.saves_count = await projectSaveService.getProyectCount(project.id)
         project_with_all_data.members = await projectMemberService.getAllByProjectLite(project.id)
@@ -253,6 +254,26 @@ export const projectService = {
         project_with_all_data.books = await bookService.getAllByProject(project.id)
         project_with_all_data.characters = await characterService.getAllByProject(project.id)
         return project_with_all_data
+    },
+
+    
+    checkVisibility: (project: IProject, req: any) => {
+        /**
+         * Comprueba la visibilidad de un proyecto.
+         * 
+         * Comprueba si el proyecto es visible y en caso de que no lo sea,`
+         * comprueba si el usuario que ha hecho la petición pertenece al proyecto.
+        */
+        if(project.visibility == 'private'){
+            for(let member of project.members){
+                if(member.user_id == req.user_me?.id){
+                    return true
+                }
+            }
+            return false
+        }else{
+            return true
+        }
     },
 
     create: async (user_id: number, data: any) => {

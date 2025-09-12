@@ -7,11 +7,10 @@ import GlobalLoader from '@/components/GlobalLoader'
 import LoaderComponent from '@/components/Loader'
 import { apiCall } from '@/services/apiCall'
 import { useRouter, useParams } from 'next/navigation'
-import pushToast from '@/utils/pushToast'
-import Image from 'next/image'
 import UserProjectsList from '@/components/auth/users/projectsList'
 import FollowButton from '@/components/auth/users/follow'
 import UserAvatar from '@/components/auth/UserAvatar'
+import Icon from '@/components/iconComponent'
 
 export default function UserViewPage() {
     const router = useRouter()
@@ -82,7 +81,12 @@ export default function UserViewPage() {
                                 {
                                     user_page?.verify ?
                                         <span className={styles.verify}>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width={15} height={15} viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3 mr-1"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                            <Icon
+                                                name={'verify'}
+                                                width={15}
+                                                height={15}
+                                                alt='verificado'
+                                            />
                                             <span>Verificado</span>
                                         </span>
                                     :
@@ -153,8 +157,8 @@ export default function UserViewPage() {
                     <div className={styles.aboutItem}>
                         <h3 className={styles.aboutTitle}>Información</h3>
                         <div className={styles.aboutInfoItem}>
-                            <Image 
-                                src='/images/icons/location.svg'
+                            <Icon
+                                name={'location'}
                                 width={20}
                                 height={20}
                                 alt='ubicación'
@@ -162,8 +166,8 @@ export default function UserViewPage() {
                             <span>{user_page.location ?? <span className={styles.aboutInfoItemUndefined}>sin definir</span>}</span>
                         </div>
                         <div className={styles.aboutInfoItem}>
-                            <Image 
-                                src='/images/icons/github.svg'
+                            <Icon
+                                name={'github'}
                                 width={20}
                                 height={20}
                                 alt='github logo'
@@ -172,11 +176,12 @@ export default function UserViewPage() {
                                 user_page.github ?
                                     <a href={user_page.github} target='_blank'>
                                         <span>{user_page.github}</span>
-                                        <Image 
-                                            src='/images/icons/navigateFlashy.svg'
+                                        <Icon
+                                            name={'navigate'}
                                             width={12}
                                             height={12}
-                                            alt='navigate'
+                                            alt='navegar'
+                                            color={'var(--color-flashy)'}
                                         />
                                     </a>
                                 :
@@ -184,8 +189,8 @@ export default function UserViewPage() {
                             }
                         </div>
                         <div className={styles.aboutInfoItem}>
-                            <Image 
-                                src='/images/icons/instagram.svg'
+                            <Icon
+                                name={'instagram'}
                                 width={20}
                                 height={20}
                                 alt='instagram logo'
@@ -194,11 +199,12 @@ export default function UserViewPage() {
                                 user_page.instagram ?
                                     <a href={user_page.instagram} target='_blank'>
                                         <span>{user_page.instagram}</span>
-                                        <Image 
-                                            src='/images/icons/navigateFlashy.svg'
+                                        <Icon
+                                            name={'navigate'}
                                             width={12}
                                             height={12}
-                                            alt='navigate'
+                                            alt='navegar'
+                                            color={'var(--color-flashy)'}
                                         />
                                     </a>
                                 :
@@ -206,8 +212,8 @@ export default function UserViewPage() {
                             }
                         </div>
                         <div className={styles.aboutInfoItem}>
-                            <Image 
-                                src='/images/icons/x.svg'
+                            <Icon
+                                name={'x'}
                                 width={20}
                                 height={20}
                                 alt='x logo'
@@ -216,11 +222,12 @@ export default function UserViewPage() {
                                 user_page.x ?
                                     <a href={user_page.x} target='_blank'>
                                         <span>{user_page.x}</span>
-                                        <Image 
-                                            src='/images/icons/navigateFlashy.svg'
+                                        <Icon
+                                            name={'navigate'}
                                             width={12}
                                             height={12}
-                                            alt='navigate'
+                                            alt='navegar'
+                                            color={'var(--color-flashy)'}
                                         />
                                     </a>
                                 :
@@ -228,8 +235,8 @@ export default function UserViewPage() {
                             }
                         </div>
                         <div className={styles.aboutInfoItem}>
-                            <Image 
-                                src='/images/icons/linkedin.svg'
+                            <Icon
+                                name={'linkedin'}
                                 width={20}
                                 height={20}
                                 alt='linkedin logo'
@@ -238,11 +245,12 @@ export default function UserViewPage() {
                                 user_page.linkedin ?
                                     <a href={user_page.linkedin} target='_blank'>
                                         <span>{user_page.linkedin}</span>
-                                        <Image 
-                                            src='/images/icons/navigateFlashy.svg'
+                                        <Icon
+                                            name={'navigate'}
                                             width={12}
                                             height={12}
-                                            alt='navigate'
+                                            alt='navegar'
+                                            color={'var(--color-flashy)'}
                                         />
                                     </a>
                                 :
@@ -250,21 +258,22 @@ export default function UserViewPage() {
                             }
                         </div>
                         <div className={styles.aboutInfoItem}>
-                            <Image 
-                                src='/images/icons/internet.svg'
+                            <Icon
+                                name={'internet'}
                                 width={20}
                                 height={20}
-                                alt='internet'
+                                alt='internet logo'
                             />
                             {
                                 user_page.web ?
                                     <a href={user_page.web} target='_blank'>
                                         <span>{user_page.web}</span>
-                                        <Image 
-                                            src='/images/icons/navigateFlashy.svg'
+                                        <Icon
+                                            name={'navigate'}
                                             width={12}
                                             height={12}
-                                            alt='navigate'
+                                            alt='navegar'
+                                            color={'var(--color-flashy)'}
                                         />
                                     </a>
                                 :
@@ -272,11 +281,11 @@ export default function UserViewPage() {
                             }
                         </div>
                         <div className={styles.aboutInfoItem}>
-                            <Image 
-                                src='/images/icons/calendar.svg'
+                            <Icon
+                                name={'calendar'}
                                 width={20}
                                 height={20}
-                                alt='calendario'
+                                alt='calendar logo'
                             />
                             <span>Se unió el {user_page.created_at}</span>
                         </div>

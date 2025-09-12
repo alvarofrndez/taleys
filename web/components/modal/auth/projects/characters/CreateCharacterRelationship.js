@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 import pushToast from '@/utils/pushToast'
 import { apiCall } from '@/services/apiCall'
 import Loader from '@/components/Loader'
+import Icon from '@/components/iconComponent'
 
 const CreateCharacterRelationship = ({ project, character }) => {
     const dispatch = useDispatch()
@@ -119,7 +120,12 @@ const CreateCharacterRelationship = ({ project, character }) => {
         <section className={styles.container}>
             <header className={styles.header}>
                 <div className={styles.title}>
-                    <Image src={'/images/icons/users.svg'} alt='relación icon' width={15} height={15} />
+                    <Icon
+                        name='users'
+                        alt='relación'
+                        width={15}
+                        height={15}
+                    />
                     <h3>Nueva relación entre Personajes</h3>
                 </div>
                 <p>Crea una nueva relación entre &quot;{character.name}&quot; y el personaje que tu elijas.</p>

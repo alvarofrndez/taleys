@@ -7,7 +7,6 @@ import { useRouter, useParams } from 'next/navigation'
 import { useProject } from '@/context/ProjectContext'
 import Loader from '@/components/Loader'
 import { time } from '@/services/time'
-import Image from 'next/image'
 import pushToast from '@/utils/pushToast'
 import { apiCall } from '@/services/apiCall'
 import { openModal } from '@/stores/modalSlice'
@@ -15,22 +14,23 @@ import { openModal } from '@/stores/modalSlice'
 import CharacterDetails from '@/components/auth/projects/characters/CharacterDetails'
 import CharacterAppearances from '@/components/auth/projects/characters/CharacterAppearances'
 import CharacterRelationships from '@/components/auth/projects/characters/CharacterRelationships'
+import Icon from '@/components/iconComponent'
 
 const menu_items = [
     { 
         key: 'details', 
         label: 'Detalles', 
-        icon: '/images/icons/info.svg' 
+        icon: 'info' 
     },
     { 
         key: 'appearances', 
         label: 'Apariciones', 
-        icon: '/images/icons/book.svg' 
+        icon: 'book' 
     },
     { 
         key: 'relationships', 
         label: 'Relaciones', 
-        icon: '/images/icons/users.svg' 
+        icon: 'users' 
     }
 ]
 
@@ -170,11 +170,11 @@ export default function CharacterView({ character }) {
                         className={`${styles.tabButton} ${activeTab === item.key ? styles.active : ''}`}
                         onClick={() => setActiveTab(item.key)}
                     >
-                        <Image
-                            src={item.icon}
+                        <Icon
+                            name={item.icon}
+                            width={20}
+                            height={20}
                             alt={item.label}
-                            width={18}
-                            height={18}
                         />
                         <span>{item.label}</span>
                     </button>

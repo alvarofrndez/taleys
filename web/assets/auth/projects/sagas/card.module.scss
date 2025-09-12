@@ -4,13 +4,12 @@
 .card {
     // size
     width: 100%;
-    min-height: 220px;
 
     // display
-    @include mixins.flex(column, space-between, stretch, nowrap);
+    @include mixins.flex(column, space-between, stretch, nowrap, variables.$spacing-1);
 
     // margin
-    padding: variables.$spacing-4;
+    padding: variables.$spacing-6;
 
     // decoration
     background-color: var(--color-card);
@@ -23,7 +22,6 @@
         // decoration
         border-color: var(--color-accent);
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        transform: translateY(-2px);
         transition: all 0.2s ease;
     }
 
@@ -34,24 +32,23 @@
         // display
         @include mixins.flex(row, space-between, center, nowrap);
 
-        // margin
-        margin-bottom: variables.$spacing-3;
-
-        .cardIcon {
-            // typography
-            font-size: variables.$font-size-2xl;
-        }
-
         .cardBadge {
+            // display
+            @include mixins.flex(row, center, center);
+            
             // margin
-            padding: variables.$spacing-1 variables.$spacing-2;
+            padding: calc(variables.$spacing-1 / 2) variables.$spacing-3;
 
             // decoration
-            background-color: var(--color-primary);
-            color: var(--color-primary-foreground);
-            border-radius: variables.$border-radius-md;
-            font-size: variables.$font-size-xs;
-            font-weight: variables.$font-weight-medium;
+            background-color: var(--color-saga);
+            border-radius: variables.$border-radius-lg;
+
+            .cardBadgeType{
+                // decoration
+                color: var(--color-saga-foreground);
+                font-size: variables.$font-size-xs;
+                font-weight: variables.$font-weight-medium;
+            }
         }
     }
 
@@ -61,7 +58,7 @@
         flex: 1;
 
         // display
-        @include mixins.flex(column, flex-start, stretch, nowrap, variables.$spacing-2);
+        @include mixins.flex(column, flex-start, stretch, nowrap, variables.$spacing-6);
 
         .cardTitle {
             // typography
@@ -76,7 +73,6 @@
             // typography
             font-size: variables.$font-size-sm;
             color: var(--color-muted-foreground);
-            margin: 0;
             line-height: 1.5;
             overflow: hidden;
             display: -webkit-box;
@@ -86,21 +82,23 @@
 
         .cardMeta {
             // display
-            @include mixins.flex(row, flex-start, center, nowrap);
+            @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-1);
 
-            // margin
-            margin-top: variables.$spacing-2;
+            .metaItem {
+                // display
+                @include mixins.flex(row, center, center, nowrap, variables.$spacing-1);
 
-            .universeLabel {
                 // margin
                 padding: variables.$spacing-1 variables.$spacing-2;
-
-                // decoration
                 background-color: var(--color-muted);
-                color: var(--color-muted-foreground);
                 border-radius: variables.$border-radius-sm;
-                font-size: variables.$font-size-xs;
-                font-weight: variables.$font-weight-medium;
+
+                .universeLabel {
+                    // decoration
+                    color: var(--color-muted-foreground);
+                    font-size: variables.$font-size-xs;
+                    font-weight: variables.$font-weight-medium;
+                }
             }
         }
     }
@@ -124,33 +122,6 @@
             font-size: variables.$font-size-xs;
             color: var(--color-muted-foreground);
             font-weight: variables.$font-weight-medium;
-        }
-
-        .cardActions {
-            // display
-            @include mixins.flex(row, flex-end, center, nowrap, variables.$spacing-2);
-
-            .actionButton {
-                // margin
-                padding: variables.$spacing-1 variables.$spacing-3;
-
-                // decoration
-                background-color: transparent;
-                color: var(--color-primary);
-                border: 1px solid var(--color-primary);
-                border-radius: variables.$border-radius-md;
-                cursor: pointer;
-                font-size: variables.$font-size-xs;
-                font-weight: variables.$font-weight-medium;
-                transition: all 0.2s ease;
-
-                &:hover {
-                    // decoration
-                    background-color: var(--color-primary);
-                    color: var(--color-primary-foreground);
-                    transition: all 0.2s ease;
-                }
-            }
         }
     }
 }

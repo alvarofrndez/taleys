@@ -47,23 +47,23 @@ export const characterService = {
     },
 
     getAllByProject: async (project_id: number) => {
-        const characters:ICharacter[] = await characterModel.getAllByProject(project_id)
+        const characters = await characterModel.getAllByProject(project_id)
 
-        for(let character of characters){
-            character = await characterService.getAllData(character)
-        }
-        
-        return characters
+        const characters_with_data = await Promise.all(
+            characters.map(c => characterService.getAllData(c))
+        )
+
+        return characters_with_data
     },
 
     listByBelonging: async (belonging_level: string, belonging_id: number) => {
         const characters:ICharacter[] = await characterModel.listByBelonging(belonging_level, belonging_id)
 
-        for(let character of characters){
-            character = await characterService.getAllData(character)
-        }
-        
-        return characters
+        const characters_with_data = await Promise.all(
+            characters.map(c => characterService.getAllData(c))
+        )
+
+        return characters_with_data
     },
 
     create: async (project_id: number, data: ICharacter) => {

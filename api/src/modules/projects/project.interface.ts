@@ -4,7 +4,7 @@ import { IProjectCategory } from '@/modules/projectCategories/projectCategory.in
 import { IProjectVideo } from '@/modules/projectVideos/projectVideo.interface'
 import { IProjectSite } from '@/modules/projectSites/projectSite.interface'
 import { IProjectTag } from '@/modules/projectTags/projectTag.interface'
-import { IUser } from '@/modules/users/User.interface'
+import { IUser, IUserDTO } from '@/modules/users/User.interface'
 import { IProjectComment } from '@/modules/projectComments/projectComment.interface'
 import { IProjectLike } from './projectLike.interface'
 import { IUniverse } from '@/modules/universes/universe.interface'
@@ -14,7 +14,7 @@ import { ICharacter } from '@/modules/characters/character.interface'
 
 export interface IProject {
     id?: number
-    created_by?: number | IUser
+    created_by?: number | IUserDTO
     name?: string
     description?: string
     visibility?: string

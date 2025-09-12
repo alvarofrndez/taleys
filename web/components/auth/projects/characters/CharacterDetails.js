@@ -5,6 +5,7 @@ import { apiCall } from '@/services/apiCall'
 import { useProject } from '@/context/ProjectContext'
 import Loader from '@/components/Loader'
 import pushToast from '@/utils/pushToast'
+import Icon from '@/components/iconComponent'
 
 export default function CharacterDetails({ character, onSave, can_edit }) {
     const { project } = useProject()
@@ -20,7 +21,7 @@ export default function CharacterDetails({ character, onSave, can_edit }) {
     const detail_sections = [
         {
             title: 'Imagen del Personaje',
-            icon: '/images/icons/image.svg',
+            icon: 'image',
             customRender: () => {
                 return (
                     <div className={styles.imageSection}>
@@ -32,11 +33,11 @@ export default function CharacterDetails({ character, onSave, can_edit }) {
                             className={styles.characterImage}
                         />
                         <button className={styles.editCharacterImage}>
-                            <Image
-                                src={'/images/icons/edit.svg'}
-                                alt={'Cambiar imagen'}
+                            <Icon
+                                name='edit'
                                 width={20}
                                 height={20}
+                                alt='Cambiar imagen'
                             />
                         </button>
                     </div>
@@ -48,15 +49,15 @@ export default function CharacterDetails({ character, onSave, can_edit }) {
             icon: (() => {
                 switch (edited_character.belonging_level) {
                     case 'book':
-                        return '/images/icons/book.svg'
+                        return 'book'
                     case 'saga':
-                        return '/images/icons/saga.svg'
+                        return 'saga'
                     case 'universe':
-                        return '/images/icons/universe.svg'
+                        return 'universe'
                     case 'project':
-                        return '/images/icons/project.svg'
+                        return 'project'
                     default:
-                        return '/images/icons/layers.svg'
+                        return 'layers'
                 }
             })(),
             customRender: () => {
@@ -128,7 +129,7 @@ export default function CharacterDetails({ character, onSave, can_edit }) {
         },
         {
             title: 'Información Personal',
-            icon: '/images/icons/user.svg',
+            icon: 'user',
             fields: [
                 { label: 'Nombre', key: 'name', type: 'input' },
                 { label: 'Alias', key: 'alias', type: 'input' },
@@ -141,14 +142,14 @@ export default function CharacterDetails({ character, onSave, can_edit }) {
         },
         {
             title: 'Características Físicas',
-            icon: '/images/icons/show.svg',
+            icon: 'show',
             fields: [
                 { label: 'Descripción física', key: 'physical_description', type: 'textarea', is_large: true }
             ]
         },
         {
             title: 'Personalidad y Psicología',
-            icon: '/images/icons/heart.svg',
+            icon: 'heart',
             fields: [
                 { label: 'Motivaciones', key: 'motivations', type: 'textarea', is_large: true },
                 { label: 'Objetivos', key: 'objectives', type: 'textarea', is_large: true },
@@ -157,7 +158,7 @@ export default function CharacterDetails({ character, onSave, can_edit }) {
         },
         {
             title: 'Habilidades y Capacidades',
-            icon: '/images/icons/lightning.svg',
+            icon: 'lightning',
             fields: [
                 { label: 'Fortalezas', key: 'strengths', type: 'textarea', is_large: true },
                 { label: 'Debilidades', key: 'weaknesses', type: 'textarea', is_large: true },
@@ -310,11 +311,11 @@ export default function CharacterDetails({ character, onSave, can_edit }) {
                                 </p>
                                 {can_edit && !is_empty && (
                                     <div className={styles.editHint}>
-                                        <Image
-                                            src='/images/icons/edit.svg'
-                                            alt='Editar'
+                                        <Icon
+                                            name='edit'
                                             width={14}
                                             height={14}
+                                            alt='Editar'
                                         />
                                     </div>
                                 )}
@@ -354,11 +355,11 @@ export default function CharacterDetails({ character, onSave, can_edit }) {
                                 value
                             )}
                             {can_edit && (
-                                <Image
-                                    src='/images/icons/edit.svg'
-                                    alt='Editar'
+                                <Icon
+                                    name='edit'
                                     width={12}
                                     height={12}
+                                    alt='Editar'
                                     className={styles.editIcon}
                                 />
                             )}
@@ -412,11 +413,11 @@ export default function CharacterDetails({ character, onSave, can_edit }) {
                     <div key={section.title} className={styles.section}>
                         <header className={styles.sectionHeader}>
                             <div className={styles.titleContainer}>
-                                <Image
-                                    src={section.icon}
-                                    alt={section.title}
+                                <Icon
+                                    name={section.icon}
                                     width={17}
                                     height={17}
+                                    alt={section.title}
                                 />
                                 <h3>{section.title}</h3>
                             </div>

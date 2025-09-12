@@ -9,6 +9,7 @@ import pushToast from '@/utils/pushToast'
 import { apiCall } from '@/services/apiCall'
 import Loader from '@/components/Loader'
 import { useRouter } from 'next/navigation'
+import Icon from '@/components/iconComponent'
 
 const CreateSagaCharacter = ({ project, saga }) => {
     const dispatch = useDispatch()
@@ -89,11 +90,21 @@ const CreateSagaCharacter = ({ project, saga }) => {
         <section className={styles.container}>
             <header className={styles.header}>
                 <div className={styles.title}>
-                    <Image src={'/images/icons/character.svg'} width={20} height={20} alt='icon'/>
+                    <Icon
+                        name='character'
+                        alt='personaje'
+                        width={20}
+                        height={20}
+                    />
                     <h2>Nuevo Personaje en Saga</h2>
                 </div>
                 <button onClick={() => dispatch(closeModal())} className={styles.closeButton} aria-label='close'>
-                    <Image src={'/images/icons/close.svg'} width={20} height={20} alt='close'/>
+                    <Icon
+                        name='close'
+                        alt='cerrar'
+                        width={20}
+                        height={20}
+                    />
                 </button>
             </header>
 

@@ -5,6 +5,7 @@ export interface IUser {
     username: string
     name: string
     email: string
+    description: string
     password: string
     avatar_url?: string
     role_id: number
@@ -24,4 +25,11 @@ export interface IUserRegister {
     provider_id: string | null
     type?: string
     role_id?: number
+}
+
+export interface IUserDTO {
+    id: number
+    username: string
+    name: string
+    avatar_url?: string
 }

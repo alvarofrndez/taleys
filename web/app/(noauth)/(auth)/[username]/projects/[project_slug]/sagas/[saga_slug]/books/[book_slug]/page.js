@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation'
 import { useProject } from '@/context/ProjectContext'
 import { apiCall } from '@/services/apiCall'
 import GlobalLoader from '@/components/GlobalLoader'
-import BookView from '@/components/auth/projects/books/BookView'
+import BookFullMode from '@/components/auth/projects/books/BookFullMode'
 
 export default function SagaBookPage() {
     const params = useParams()
@@ -27,5 +27,5 @@ export default function SagaBookPage() {
     }, [saga_slug, book_slug])
 
     if (loading || !book) return <GlobalLoader />
-    return <BookView book={book} saga_slug={saga_slug} />
+    return <BookFullMode project={project} book={book} />
 }

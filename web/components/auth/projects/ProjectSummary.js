@@ -11,6 +11,7 @@ import { useState } from 'react'
 import LoaderComponent from '@/components/Loader'
 import pushToast from '@/utils/pushToast'
 import ProjectFastActions from '@/components/auth/projects/ProjectFastActions'
+import Icon from '@/components/iconComponent'
 
 export default function ProjectSummary({ project }) {
     return (
@@ -18,7 +19,12 @@ export default function ProjectSummary({ project }) {
             <div className={styles.fastActions}>
                 <header>
                     <div className={styles.title}>
-                        <Image src={'/images/icons/lightning.svg'} width={20} height={20} alt='rayo'/>
+                        <Icon
+                            name='lightning'
+                            alt='rayo'
+                            width={20}
+                            height={20}
+                        />
                         <h2>Acciones Rápidas</h2>
                     </div>
                     <span className={styles.subtitle}>Crea nuevo contenido para tu proyecto</span>

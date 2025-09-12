@@ -1,4 +1,5 @@
 import styles from '@/assets/auth/projects/sagas/card.module.scss'
+import Icon from '@/components/iconComponent'
 
 import { useRouter } from 'next/navigation'
 import { useSelector } from 'react-redux'
@@ -16,23 +17,44 @@ export default function SagaCard({ project, saga }) {
     return (
         <article className={styles.card} onClick={goToSaga}>
             <div className={styles.cardHeader}>
-                <div className={styles.cardIcon}>
-                    📚
+                <div className={styles.cardHeaderIdentifier}>
+                    <h3 className={styles.cardTitle}>{saga.name}</h3>
                 </div>
                 <div className={styles.cardBadge}>
-                    Saga
+                    <span className={styles.cardBadgeType}>saga</span>
                 </div>
             </div>
             
             <div className={styles.cardContent}>
-                <h4 className={styles.cardTitle}>{saga.name}</h4>
                 <p className={styles.cardDescription}>
                     {saga.description || 'Sin descripción'}
                 </p>
                 <div className={styles.cardMeta}>
-                    <span className={styles.universeLabel}>
-                        🌌 {saga.universe?.name || 'Sin universo'}
-                    </span>
+                    { saga.universe &&
+                        <div className={styles.metaItem}>
+                            <Icon 
+                                name='internet'
+                                width={12}
+                                height={12}
+                                alt='Universo'
+                                color='var(--color-muted-foreground)'
+                            />
+                            <span className={styles.universeLabel}>{saga.universe.name}</span>
+                        </div>
+                    }
+                    { saga.parent_saga &&
+                        <div className={styles.metaItem}>
+                            <Icon 
+                                name='books'
+                                width={12}
+                                height={12}
+                                alt='Saga'
+                                color='var(--color-muted-foreground)'
+                            />
+                            <span className={styles.sagaLabel}>{saga.parent_saga.name}</span>
+                        </div>
+                    }
+                    
                 </div>
             </div>
             
@@ -40,11 +62,6 @@ export default function SagaCard({ project, saga }) {
                 <span className={styles.cardDate}>
                     {saga.created_at}
                 </span>
-                <div className={styles.cardActions}>
-                    <button className={styles.actionButton}>
-                        Ver detalles
-                    </button>
-                </div>
             </div>
         </article>
     )

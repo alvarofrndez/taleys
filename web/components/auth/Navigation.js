@@ -7,6 +7,7 @@ import { useState } from 'react'
 import styles from '@/assets/auth/navigation.module.scss'
 import Image from 'next/image'
 import ProjectCreateButton from '@/components/auth/projects/ProjectCreateButton'
+import Icon from '../iconComponent'
 
 const nav_items = [
   { name: 'Sagas', href: '/sagas', icon: 'close.svg', icon_alt: 'sagas' },
@@ -34,7 +35,13 @@ const Navigation = () => {
         <nav className={styles.nav}>
           {nav_items.map((item) => (
             <Link key={item.name} href={item.href} className={`${styles.nav_item} ${isActive(item.href) ? styles.active : ''}`}>
-              <Image className={styles.closeButton} src={`/images/icons/${item.icon}`} alt='close' width={15} height={15} />
+              <Icon
+                  name={item.icon}
+                  alt='close'
+                  width={15}
+                  height={15}
+                  className={styles.closeButton}
+              />
               <span>{item.name}</span>
             </Link>
           ))}

@@ -26,6 +26,7 @@ export default function InlineSVG({ src, color = 'currentColor', className = '',
                 alignItems: 'center',
                 width: parseSize(style.width) || 24,
                 height: parseSize(style.height) || 24,
+                stroke: color,
                 ...style,
             }}
             dangerouslySetInnerHTML={{ __html: svgContent }}

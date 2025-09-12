@@ -13,17 +13,16 @@ import Icon from '@/components/iconComponent'
 
 export default function ProjectContent({ project }) {
     const [search_term, setSearchTerm] = useState('')
-    const [active_filters, setActiveFilters] = useState([]) // ahora es un array
+    const [active_filters, setActiveFilters] = useState([])
     const [view_mode, setViewMode] = useState('grid')
 
     const router = useRouter()
     const user = useSelector((state) => state.auth.user)
 
-    // Íconos propios
     const icons = {
         all: 'all',
         universe: 'internet',
-        saga: 'book',
+        saga: 'saga',
         book: 'book',
         character: 'character',
         event: 'calendar',
@@ -136,7 +135,7 @@ export default function ProjectContent({ project }) {
                             : `Filtrando: ${active_filters.map(f => filter_options.find(opt => opt.value === f)?.label).join(', ')}`}
                     </h2>
                     <div className={styles.elements}>
-                        <span className={styles.badge}>{filtered_items.length} elementos</span>
+                        <span className={styles.badge}>{filtered_items.length} elemento{filtered_items.length == 1 ? '' : 's'}</span>
                         <button onClick={() => setViewMode(view_mode === 'grid' ? 'list' : 'grid')} className={styles.iconLayout}>
                             <Icon 
                                 name={view_mode === 'grid' ? icons.list : icons.grid}
@@ -157,6 +156,7 @@ export default function ProjectContent({ project }) {
                             height={32}
                             alt='Vacío'
                             className={styles.icon}
+                            color='var(--color-muted-foreground)'
                         />
                         <p>No se encontraron elementos</p>
                     </div>

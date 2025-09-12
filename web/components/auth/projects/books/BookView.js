@@ -12,6 +12,7 @@ import pushToast from '@/utils/pushToast'
 import { apiCall } from '@/services/apiCall'
 import { openModal } from '@/stores/modalSlice'
 import BookFastActions from '@/components/auth/projects/books/BookFastActions'
+import Icon from '@/components/iconComponent'
 
 export default function BookView({ book, universe_slug = null, saga_slug = null }) {
     const user = useSelector((state) => state.auth.user)
@@ -107,7 +108,12 @@ export default function BookView({ book, universe_slug = null, saga_slug = null 
                                 {
                                     !is_editing ? (
                                         <button className={styles.editButton} onClick={() => setIsEditing(true)}>
-                                            <Image src='/images/icons/edit.svg' alt='Editar libro' width={15} height={15}/>
+                                            <Icon
+                                                name='edit'
+                                                width={15}
+                                                height={15}
+                                                alt='Editar libro'
+                                            />
                                         </button>
                                     ) : (
                                         <>
@@ -115,7 +121,12 @@ export default function BookView({ book, universe_slug = null, saga_slug = null 
                                                 {loading_update ? <Loader size={20}/> : <span>Guardar</span>}
                                             </button>
                                             <button className={styles.editButton} onClick={() => setIsEditing(false)}>
-                                                <Image src='/images/icons/edit.svg' alt='Cancelar edición' width={15} height={15}/>
+                                                <Icon
+                                                    name='edit'
+                                                    width={15}
+                                                    height={15}
+                                                    alt='Cancelar edición'
+                                                />
                                             </button>
                                         </>
                                     )

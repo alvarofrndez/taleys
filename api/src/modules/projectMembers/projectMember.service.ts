@@ -40,7 +40,7 @@ export const projectMemberService = {
         for(let member of members){
             final_members.push({
                 ...member,
-                user: await userService.getById(member.user_id)
+                user: await userService.getByIdDTO(member.user_id)
             })
         }
 
@@ -65,7 +65,7 @@ export const projectMemberService = {
 
         for(let member of members){
             final_members.push({
-                ...await userService.getById(member.user_id),
+                ...await userService.getByIdDTO(member.user_id),
                 member_project_id: member.id
             })
         }

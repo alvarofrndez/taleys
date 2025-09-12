@@ -3,7 +3,16 @@
 import { useState, useEffect, useMemo } from 'react'
 import styles from '@/assets/global/icon.module.scss'
 
-export default function Icon({ name, width = 16, height = 16, color, className = '', hoverColor }) {
+export default function Icon({
+  name,
+  width = 16,
+  height = 16,
+  color,
+  className = '',
+  hoverColor,
+  fill, // 👈 ahora opcional, solo se aplica si lo pasas
+  onClick = null
+}) {
   const [svgContent, setSvgContent] = useState(null)
 
   useEffect(() => {
@@ -15,9 +24,20 @@ export default function Icon({ name, width = 16, height = 16, color, className =
 
   const coloredSvg = useMemo(() => {
     if (!svgContent) return null
-    return svgContent
+
+    let result = svgContent
+      // strokes → siempre currentColor
       .replace(/stroke="[^"]*"/g, 'stroke="currentColor"')
-  }, [svgContent])
+
+    if (fill) {
+      // 👇 Solo reemplazamos fill si ya existe en el svg
+      if (/fill="[^"]*"/.test(result)) {
+        result = result.replace(/fill="[^"]*"/g, `fill="${fill}"`)
+      }
+    }
+
+    return result
+  }, [svgContent, fill])
 
   if (!coloredSvg) return null
 
@@ -25,14 +45,22 @@ export default function Icon({ name, width = 16, height = 16, color, className =
     <span
       className={`${styles.iconWrapper} ${className}`}
       style={{
-        display: 'inline-block',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
         width,
         height,
         color: color,
+        stroke: color
       }}
       dangerouslySetInnerHTML={{ __html: coloredSvg }}
-      onMouseEnter={hoverColor ? e => (e.currentTarget.style.color = hoverColor) : undefined}
-      onMouseLeave={hoverColor ? e => (e.currentTarget.style.color = color || 'currentColor') : undefined}
+      onMouseEnter={
+        hoverColor ? (e) => (e.currentTarget.style.color = hoverColor) : undefined
+      }
+      onMouseLeave={
+        hoverColor ? (e) => (e.currentTarget.style.color = color || 'currentColor') : undefined
+      }
+      onClick={onClick || undefined}
     />
   )
 }

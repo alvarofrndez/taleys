@@ -1,6 +1,6 @@
 import CustomError from '@/modules/customerror/CustomError'
 import { userModel } from './User'
-import { IUser } from './User.interface'
+import { IUser, IUserDTO } from './User.interface'
 import { userFollowService } from './userFollow.service'
 import { env } from '@/config/config_env'
 import { projectService } from '../projects/project.service'
@@ -26,6 +26,12 @@ export const userService = {
 
     getByIdLite: async (id: number) => {
         const user = await userModel.getById(id)
+        if (!user) throw new CustomError('El usuario no existe', 404, env.DATA_NOT_FOUND_CODE)
+        return user
+    },
+
+    getByIdDTO: async (id: number) => {
+        const user: IUserDTO = await userModel.getByIdDTO(id)
         if (!user) throw new CustomError('El usuario no existe', 404, env.DATA_NOT_FOUND_CODE)
         return user
     },

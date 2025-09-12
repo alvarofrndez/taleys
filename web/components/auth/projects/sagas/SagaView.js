@@ -7,12 +7,12 @@ import { useRouter } from 'next/navigation'
 import { useProject } from '@/context/ProjectContext'
 import Loader from '@/components/Loader'
 import { time } from '@/services/time'
-import Image from 'next/image'
 import pushToast from '@/utils/pushToast'
 import { apiCall } from '@/services/apiCall'
 import SagaFastActions from '@/components/auth/projects/sagas/SagasFatsActions'
 import { openModal } from '@/stores/modalSlice'
 import { useDispatch } from 'react-redux'
+import Icon from '@/components/iconComponent'
 
 export default function SagaView({ saga, universe_name = null }) {
     const user = useSelector((state) => state.auth.user)
@@ -95,7 +95,12 @@ export default function SagaView({ saga, universe_name = null }) {
                                 {
                                     !is_editing ? (
                                         <button className={styles.editButton} onClick={() => setIsEditing(true)}>
-                                            <Image src='/images/icons/edit.svg' alt='Editar saga' width={15} height={15}/>
+                                            <Icon
+                                                name='edit'
+                                                width={15}
+                                                height={15}
+                                                alt='Editar saga'
+                                            />
                                         </button>
                                     ) : (
                                         <>
@@ -103,7 +108,12 @@ export default function SagaView({ saga, universe_name = null }) {
                                                 {loading_update ? <Loader size={20}/> : <span>Guardar</span>}
                                             </button>
                                             <button className={styles.editButton} onClick={() => setIsEditing(false)}>
-                                                {loading_update ? <Loader /> : <Image src='/images/icons/edit.svg' alt='Editar saga' width={15} height={15}/>}
+                                                {loading_update ? <Loader /> : <Icon
+                                                                                    name='edit'
+                                                                                    width={15}
+                                                                                    height={15}
+                                                                                    alt='Editar saga'
+                                                                                />}
                                             </button>
                                         </>
                                     )
@@ -154,7 +164,12 @@ export default function SagaView({ saga, universe_name = null }) {
                 <div className={styles.fastActions}>
                     <header>
                         <div className={styles.title}>
-                            <Image src={'/images/icons/lightning.svg'} width={20} height={20} alt='rayo'/>
+                            <Icon
+                                name='lightning'
+                                width={20}
+                                height={20}
+                                alt='Rayo'
+                            />
                             <h2>Acciones Rápidas</h2>
                         </div>
                         <span className={styles.subtitle}>Crea nuevo contenido para tu saga</span>

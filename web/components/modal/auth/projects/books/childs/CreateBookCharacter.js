@@ -9,6 +9,7 @@ import pushToast from '@/utils/pushToast'
 import { apiCall } from '@/services/apiCall'
 import Loader from '@/components/Loader'
 import { useRouter } from 'next/navigation'
+import Icon from '@/components/iconComponent'
 
 const CreateBookCharacter = ({ project, book }) => {
     const dispatch = useDispatch()
@@ -47,7 +48,12 @@ const CreateBookCharacter = ({ project, book }) => {
         <section className={styles.container}>
             <header className={styles.header}>
                 <div className={styles.title}>
-                    <Image src={'/images/icons/character.svg'} alt='character icon' width={15} height={15} />
+                    <Icon
+                        name='character'
+                        alt='personaje'
+                        width={15}
+                        height={15}
+                    />
                     <h3>Nuevo Personaje en Libro</h3>
                 </div>
                 <p>Crea un nuevo personaje dentro del libro &quot;{book.name}&quot;.</p>

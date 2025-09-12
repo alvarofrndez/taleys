@@ -8,6 +8,7 @@ import pushToast from '@/utils/pushToast'
 import { useDispatch, useSelector } from 'react-redux'
 import { closeModal, confirmModal } from '@/stores/modalSlice'
 import Loader from '@/components/Loader'
+import Icon from '@/components/iconComponent'
 
 const TwoFactorAuthenticationComponent = () => {
   const dispatch = useDispatch()
@@ -86,7 +87,12 @@ const TwoFactorAuthenticationComponent = () => {
       <section className={styles.container}>
         <header className={styles.header}>
           <div className={styles.title}>
-            <Image src={'/images/icons/security.svg'} alt='security' width={20} height={20}/>
+            <Icon
+              name='security'
+              alt='seguridad'
+              width={20}
+              height={20}
+            />
             <h3>Configurar autenticación de dos factores</h3>
           </div>
           <p>Añade una capa adicional de seguridad a tu cuenta.</p>
@@ -116,7 +122,14 @@ const TwoFactorAuthenticationComponent = () => {
                 <p className={styles.title}>3. O ingresa esta clave secreta manualmente</p>
                 <div className={styles.manual_key}>
                   <span className={styles.manual_key_text}>{manual_key}</span>
-                  <Image className={styles.buttonCopy} src='/images/icons/copy.svg' onClick={copyManualKey} alt='copy' width={20} height={20}/>
+                  <Icon
+                    name='copy'
+                    alt='copiar'
+                    width={20}
+                    height={20}
+                    className={styles.buttonCopy}
+                    onClick={copyManualKey}
+                  />
                 </div>
               </div>
             </div>
@@ -134,7 +147,14 @@ const TwoFactorAuthenticationComponent = () => {
                     <label htmlFor='backup_codes'>Guarda los códigos para poder recuperra tu cuenta</label>
                     <div className={styles.backupCodesInput}>
                       <input className={styles.inputBackup} type='text' value={backup_codes} name='backup_codes' onChange={(e) => setBackupCodes(e.target.value)} placeholder='XXXXXX'/>
-                      <Image className={styles.buttonBackup} src='/images/icons/download.svg' onClick={downloadBackup} alt='download' width={20} height={20}/>
+                      <Icon
+                        name='download'
+                        alt='descargar'
+                        width={20}
+                        height={20}
+                        className={styles.buttonBackup}
+                        onClick={downloadBackup}
+                      />
                     </div>
                     <span>Guarda los códigos para poder recuperar tu cuenta en caso de que olvides tu contraseña.</span>
                   </div>

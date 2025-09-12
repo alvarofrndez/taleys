@@ -1,8 +1,8 @@
 import styles from '@/assets/auth/projects/characters/appearances.module.scss'
 import { useState, useEffect } from 'react'
-import Image from 'next/image'
 import { apiCall } from '@/services/apiCall'
 import Loader from '@/components/Loader'
+import Icon from '@/components/iconComponent'
 
 export default function CharacterAppearances({ character, project, can_edit }) {
     const [appearances, setAppearances] = useState(null)
@@ -62,7 +62,12 @@ export default function CharacterAppearances({ character, project, can_edit }) {
                                     <div className={styles.infoGrid}>
                                         <div className={styles.infoSection}>
                                             <h4>
-                                                <Image src="/images/icons/book.svg" alt="Libro" width={16} height={16} />
+                                                <Icon
+                                                    name='book'
+                                                    width={16}
+                                                    height={16}
+                                                    alt='Libro'
+                                                />
                                                 Información del Libro
                                             </h4>
                                             <div className={styles.fieldList}>
@@ -79,7 +84,12 @@ export default function CharacterAppearances({ character, project, can_edit }) {
 
                                         <div className={styles.infoSection}>
                                             <h4>
-                                                <Image src="/images/icons/calendar.svg" alt="Fechas" width={16} height={16} />
+                                                <Icon
+                                                    name='calendar'
+                                                    width={16}
+                                                    height={16}
+                                                    alt='Fechas'
+                                                />
                                                 Fechas
                                             </h4>
                                             <div className={styles.fieldList}>
@@ -108,7 +118,12 @@ export default function CharacterAppearances({ character, project, can_edit }) {
                         ))
                     ) : (
                         <div className={styles.emptyState}>
-                            <Image src="/images/icons/book-open.svg" alt="Sin apariciones" width={48} height={48} />
+                            <Icon
+                                name='book-open'
+                                width={48}
+                                height={48}
+                                alt='Sin apariciones'
+                            />
                             <h3>No se encontraron apariciones</h3>
                             <p>
                                 Este personaje aún no tiene apariciones registradas.

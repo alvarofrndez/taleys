@@ -38,6 +38,14 @@
     --color-active: #{variables.$color-active-light};
     --color-active-foreground: #{variables.$color-active-foreground-light};
     --color-active-border: #{variables.$color-active-border-light};
+    --color-universe: #{variables.$color-universe-light};
+    --color-universe-foreground: #{variables.$color-universe-foreground-light};
+    --color-saga: #{variables.$color-saga-light};
+    --color-saga-foreground: #{variables.$color-saga-foreground-light};
+    --color-book: #{variables.$color-book-light};
+    --color-book-foreground: #{variables.$color-book-foreground-light};
+    --color-character: #{variables.$color-character-light};
+    --color-character-foreground: #{variables.$color-character-foreground-light};
 }
 
 .dark {
@@ -73,6 +81,14 @@
     --color-active: #{variables.$color-active-dark};
     --color-active-foreground: #{variables.$color-active-foreground-dark};
     --color-active-border: #{variables.$color-active-border-dark};
+    --color-universe: #{variables.$color-universe-dark};
+    --color-universe-foreground: #{variables.$color-universe-foreground-dark};
+    --color-saga: #{variables.$color-saga-dark};
+    --color-saga-foreground: #{variables.$color-saga-foreground-dark};
+    --color-book: #{variables.$color-book-dark};
+    --color-book-foreground: #{variables.$color-book-foreground-dark};
+    --color-character: #{variables.$color-character-dark};
+    --color-character-foreground: #{variables.$color-character-foreground-dark};
 }
 
 * {

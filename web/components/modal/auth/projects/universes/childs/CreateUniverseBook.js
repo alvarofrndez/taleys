@@ -9,6 +9,7 @@ import pushToast from '@/utils/pushToast'
 import { apiCall } from '@/services/apiCall'
 import Loader from '@/components/Loader'
 import { useRouter } from 'next/navigation'
+import Icon from '@/components/iconComponent'
 
 const CreateUniverseBook = ({ project, universe }) => {
     const dispatch = useDispatch()
@@ -90,8 +91,13 @@ const CreateUniverseBook = ({ project, universe }) => {
         <section className={styles.container}>
             <header className={styles.header}>
                 <div className={styles.title}>
+                    <Icon
+                        name='info'
+                        alt='información'
+                        width={15}
+                        height={15}
+                    />
                     <h3>Nuevo libro</h3>
-                    <Image src={'/images/icons/info.svg'} alt='information' width={15} height={15} />
                 </div>
                 <p>Crea un nuevo libro dentro del universo &quot;{universe.name}&quot;.</p>
             </header>

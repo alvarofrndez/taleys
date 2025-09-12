@@ -1,10 +1,10 @@
 import styles from '@/assets/auth/projects/characters/relationships.module.scss'
 import { useState, useEffect } from 'react'
-import Image from 'next/image'
 import { apiCall } from '@/services/apiCall'
 import Loader from '@/components/Loader'
 import { openModal } from '@/stores/modalSlice'
 import { useDispatch } from 'react-redux'
+import Icon from '@/components/iconComponent'
 
 export default function CharacterRelationships({ character, project, can_edit }) {
     const dispatch = useDispatch()
@@ -33,13 +33,13 @@ export default function CharacterRelationships({ character, project, can_edit })
 
     const getRelationshipIcon = (type) => {
         switch (type) {
-            case 'ally': return '/images/icons/users.svg'
-            case 'enemy': return '/images/icons/sword.svg'
-            case 'family': return '/images/icons/heart.svg'
-            case 'romantic': return '/images/icons/heart-filled.svg'
-            case 'mentor': return '/images/icons/graduation-cap.svg'
-            case 'neutral': return '/images/icons/user.svg'
-            default: return '/images/icons/users.svg'
+            case 'ally': return 'users'
+            case 'enemy': return 'sword'
+            case 'family': return 'heart'
+            case 'romantic': return 'heart-filled'
+            case 'mentor': return 'graduation-cap'
+            case 'neutral': return 'user'
+            default: return 'users'
         }
     }
 
@@ -106,7 +106,12 @@ export default function CharacterRelationships({ character, project, can_edit })
                 <div className={styles.summaryCard}>
                     <header className={styles.summaryHeader}>
                         <div className={styles.titleContainer}>
-                            <Image src='/images/icons/users.svg' alt='Resumen' width={20} height={20} />
+                            <Icon
+                                name='users'
+                                width={20}
+                                height={20}
+                                alt='Resumen'
+                            />
                             <h3>Resumen de Relaciones</h3>
                         </div>
                         {can_edit && (
@@ -174,11 +179,11 @@ export default function CharacterRelationships({ character, project, can_edit })
                                         </div>
                                         <div className={styles.badges}>
                                             <span className={styles.typeBadge}>
-                                                <Image 
-                                                    src={getRelationshipIcon(relationship.relationship_type)} 
-                                                    alt={relationship.relationship_type} 
-                                                    width={12} 
-                                                    height={12} 
+                                                <Icon
+                                                    name={(relationsgetRelationshipIconhip.relationship_type)}
+                                                    width={12}
+                                                    height={12}
+                                                    alt={relationship.relationship_type}
                                                 />
                                                 {getRelationshipTypeLabel(relationship.relationship_type)}
                                             </span>
@@ -193,7 +198,12 @@ export default function CharacterRelationships({ character, project, can_edit })
                                         <div className={styles.infoGrid}>
                                             <div className={styles.infoSection}>
                                                 <h4>
-                                                    <Image src='/images/icons/user.svg' alt='Personaje' width={16} height={16} />
+                                                    <Icon
+                                                        name='user'
+                                                        width={16}
+                                                        height={16}
+                                                        alt='Personaje'
+                                                    />
                                                     Información del Personaje
                                                 </h4>
                                                 <div className={styles.fieldList}>
@@ -214,7 +224,12 @@ export default function CharacterRelationships({ character, project, can_edit })
 
                                             <div className={styles.infoSection}>
                                                 <h4>
-                                                    <Image src='/images/icons/link.svg' alt='Relación' width={16} height={16} />
+                                                    <Icon
+                                                        name='link'
+                                                        width={16}
+                                                        height={16}
+                                                        alt='Relación'
+                                                    />
                                                     Detalles de la Relación
                                                 </h4>
                                                 <div className={styles.fieldList}>
@@ -252,7 +267,12 @@ export default function CharacterRelationships({ character, project, can_edit })
                 )
                 : (
                     <div className={styles.emptyState}>
-                        <Image src='/images/icons/users.svg' alt='Sin relaciones' width={48} height={48} />
+                        <Icon
+                            name='users'
+                            width={48}
+                            height={48}
+                            alt='Sin relaciones'
+                        />
                         <h3>No se encontraron relaciones</h3>
                         <p>
                             {filter === 'all' 

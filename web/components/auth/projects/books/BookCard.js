@@ -1,4 +1,5 @@
 import styles from '@/assets/auth/projects/books/card.module.scss'
+import Icon from '@/components/iconComponent'
 
 import { useRouter } from 'next/navigation'
 import { useSelector } from 'react-redux'
@@ -16,29 +17,38 @@ export default function BookCard({ project, book }) {
     return (
         <article className={styles.card} onClick={gotToBook}>
             <div className={styles.cardHeader}>
-                <div className={styles.cardIcon}>
-                    📖
+                <div className={styles.cardHeaderIdentifier}>
+                    <h3 className={styles.cardTitle}>{book.title}</h3>
                 </div>
                 <div className={styles.cardBadge}>
-                    Libro
+                    <span className={styles.cardBadgeType}>libro</span>
                 </div>
             </div>
             
             <div className={styles.cardContent}>
-                <h4 className={styles.cardTitle}>{book.title}</h4>
                 <p className={styles.cardDescription}>
                     {book.synopsis || 'Sin sinopsis'}
                 </p>
                 <div className={styles.cardMeta}>
                     <div className={styles.metaItem}>
-                        <span className={styles.universeLabel}>
-                            🌌 {book.universe?.name || 'Sin universo'}
-                        </span>
+                        <Icon 
+                            name='internet'
+                            width={12}
+                            height={12}
+                            alt='Universo'
+                            color='var(--color-muted-foreground)'
+                        />
+                        <span className={styles.universeLabel}>{book.universe?.name || 'Sin universo'}</span>
                     </div>
                     <div className={styles.metaItem}>
-                        <span className={styles.sagaLabel}>
-                            📚 {book.saga?.name || 'Sin saga'}
-                        </span>
+                        <Icon 
+                            name='saga'
+                            width={12}
+                            height={12}
+                            alt='Saga'
+                            color='var(--color-muted-foreground)'
+                        />
+                        <span className={styles.sagaLabel}>{book.universe?.name || 'Sin saga'}</span>
                     </div>
                 </div>
             </div>
@@ -47,11 +57,6 @@ export default function BookCard({ project, book }) {
                 <span className={styles.cardDate}>
                     {book.created_at}
                 </span>
-                <div className={styles.cardActions}>
-                    <button className={styles.actionButton}>
-                        Ver detalles
-                    </button>
-                </div>
             </div>
         </article>
     )

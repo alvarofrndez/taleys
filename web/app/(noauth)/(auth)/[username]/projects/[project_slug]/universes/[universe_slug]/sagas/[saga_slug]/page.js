@@ -1,12 +1,11 @@
 'use client'
 
-import styles from '@/assets/auth/projects/sagas/view.module.scss'
 import { useState, useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { useProject } from '@/context/ProjectContext'
 import { apiCall } from '@/services/apiCall'
 import GlobalLoader from '@/components/GlobalLoader'
-import SagaView from '@/components/auth/projects/sagas/SagaView'
+import SagaFullMode from '@/components/auth/projects/sagas/SagaFullMode'
 
 export default function SagaUniverseViewPage() {
     const router = useRouter()
@@ -38,6 +37,6 @@ export default function SagaUniverseViewPage() {
     if(!saga) return <GlobalLoader />
 
     return (
-        <SagaView saga={saga} universe_name={universe_slug}/>
+        <SagaFullMode project={project} saga={saga} />
     )
 }

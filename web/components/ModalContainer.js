@@ -1,7 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { closeModal } from '@/stores/modalSlice'
 import styles from '@/assets/global/modal/modal.module.scss'
-import Image from 'next/image'
 import Loader from '@/components/Loader'
 import TwoFactorAuthenticationComponent from '@/components/modal/auth/settings/security/twoFactorAuthentication'
 import Dialog from '@/components/modal/Dialog'
@@ -20,6 +19,7 @@ import CreateSagaBook from '@/components/modal/auth/projects/sagas/childs/Create
 import CreateSagaCharacter from '@/components/modal/auth/projects/sagas/childs/CreateSagaCharacter'
 import CreateBookCharacter from '@/components/modal/auth/projects/books/childs/CreateBookCharacter'
 import CreateCharacterRelationship from '@/components/modal/auth/projects/characters/CreateCharacterRelationship'
+import Icon from '@/components/iconComponent'
 
 const component_map = {
   'TwoFactorAuthenticationComponent': TwoFactorAuthenticationComponent,
@@ -52,7 +52,14 @@ const ModalContainer = () => {
   return (
     <div className={styles.modalOverlay} onClick={() => dispatch(closeModal())}>
       <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-        <Image className={styles.closeButton} src='/images/icons/close.svg' onClick={() => dispatch(closeModal())} alt='close' width={15} height={15} />
+        <Icon
+          name='close'
+          alt='cerrar'
+          width={15}
+          height={15}
+          className={styles.closeButton}
+          onClick={() => dispatch(closeModal())}
+        />
         {ComponentToRender ? <ComponentToRender {...props} /> : <Loader />}
       </div>
     </div>

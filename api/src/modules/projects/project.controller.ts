@@ -18,7 +18,7 @@ export const projectController = {
 
         const project = await projectService.getById(project_id)
 
-        const can_res = projectController.checkVisibility(project, req)
+        const can_res = projectService.checkVisibility(project, req)
 
         if(can_res){
             res.status(200).json({
@@ -42,7 +42,7 @@ export const projectController = {
 
         const project = await projectService.getByIdLite(project_id)
 
-        const can_res = projectController.checkVisibility(project, req)
+        const can_res = projectService.checkVisibility(project, req)
 
         if(can_res){
             res.status(200).json({
@@ -67,7 +67,7 @@ export const projectController = {
         let projects = await projectService.getAllByName(project_name)
 
         projects = projects.filter(project => 
-            projectController.checkVisibility(project, req)
+            projectService.checkVisibility(project, req)
         )
         
         res.status(200).json({
@@ -82,7 +82,7 @@ export const projectController = {
 
         const project = await projectService.getBySlug(project_slug)
 
-        const can_res = projectController.checkVisibility(project, req)
+        const can_res = projectService.checkVisibility(project, req)
 
         if(can_res){
             res.status(200).json({
@@ -167,7 +167,7 @@ export const projectController = {
         let projects = await projectService.getAllByUser(user_id)
 
         projects = projects.filter(project => 
-            projectController.checkVisibility(project, req)
+            projectService.checkVisibility(project, req)
         )
         
         res.status(200).json({
@@ -175,25 +175,6 @@ export const projectController = {
             data: projects,
             message: 'Proyectos obtenidos'
         })
-    },
-
-    checkVisibility: (project: IProject, req: any) => {
-        /**
-         * Comprueba la visibilidad de un proyecto.
-         * 
-         * Comprueba si el proyecto es visible y en caso de que no lo sea,`
-         * comprueba si el usuario que ha hecho la petición pertenece al proyecto.
-        */
-        if(project.visibility == 'private'){
-            for(let member of project.members){
-                if(member.user_id == req.user_me?.id){
-                    return true
-                }
-            }
-            return false
-        }else{
-            return true
-        }
     },
 
     create: async (req: any, res: Response, next: NextFunction) => {

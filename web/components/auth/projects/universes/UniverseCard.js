@@ -1,4 +1,5 @@
 import styles from '@/assets/auth/projects/universes/card.module.scss'
+import Icon from '@/components/iconComponent'
 
 import { useRouter } from 'next/navigation'
 import { useSelector } from 'react-redux'
@@ -14,16 +15,15 @@ export default function UniverseCard({ project, universe }) {
     return (
         <article className={styles.card} onClick={goToUniverse}>
             <div className={styles.cardHeader}>
-                <div className={styles.cardIcon}>
-                    🌌
+                <div className={styles.cardHeaderIdentifier}>
+                    <h3 className={styles.cardTitle}>{universe.name}</h3>
                 </div>
                 <div className={styles.cardBadge}>
-                    Universo
+                    <span className={styles.cardBadgeType}>universo</span>
                 </div>
             </div>
             
             <div className={styles.cardContent}>
-                <h4 className={styles.cardTitle}>{universe.name}</h4>
                 <p className={styles.cardDescription}>
                     {universe.description || 'Sin descripción'}
                 </p>
@@ -33,11 +33,6 @@ export default function UniverseCard({ project, universe }) {
                 <span className={styles.cardDate}>
                     {universe.created_at}
                 </span>
-                <div className={styles.cardActions}>
-                    <button className={styles.actionButton}>
-                        Ver detalles
-                    </button>
-                </div>
             </div>
         </article>
     )

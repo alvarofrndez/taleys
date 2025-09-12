@@ -2,7 +2,6 @@
 
 import styles from '@/assets/noAuth/auth.module.scss'
 import { useState } from 'react'
-import Image from 'next/image'
 import { apiCall } from '@/services/apiCall'
 import { checkEmail } from '@/utils/regeEx/checkEmail'
 import { checkUsername } from '@/utils/regeEx/checkUsername'
@@ -15,6 +14,7 @@ import GoogleProvider from '@/components/google/GoogleProvider'
 import GitHubProvider from '@/components/github/GithubProvider'
 import LoaderComponent from '@/components/Loader'
 import Link from 'next/link'
+import Icon from '@/components/iconComponent'
 
 const Singin = () => {
     const dispatch = useDispatch()
@@ -119,12 +119,26 @@ const Singin = () => {
                         <div>
                             <label htmlFor='password'>Contraseña</label>
                             <input type={show_password ? 'text' : 'password'} value={password} onChange={(e) => setPassword(e.target.value)} name='password' placeholder='Contraseña'/>
-                            <Image className={styles.icon} onClick={() => setShowPassword(!show_password)} src={`/images/icons/${show_password ? 'hide' : 'show'}.svg`} alt='mostrar' width={15} height={15}/>
+                            <Icon
+                                name={`${show_password ? 'hide' : 'show'}`}
+                                width={15}
+                                height={15}
+                                alt='mostrar'
+                                className={styles.icon}
+                                onClick={() => setShowPassword(!show_password)}
+                            />
                         </div>
                         <div>
                             <label htmlFor='confirmpassword'>Confirmar contraseña</label>
                             <input type={show_password ? 'text' : 'password'} value={confirm_password} onChange={(e) => setConfirmPassword(e.target.value)} name='confirmpassword' placeholder='Confirmar contraseña'/>
-                            <Image className={styles.icon} onClick={() => setShowPassword(!show_password)} src={`/images/icons/${show_password ? 'hide' : 'show'}.svg`} alt='mostrar' width={15} height={15}/>
+                            <Icon
+                                name={`${show_password ? 'hide' : 'show'}`}
+                                width={15}
+                                height={15}
+                                alt='mostrar'
+                                className={styles.icon}
+                                onClick={() => setShowPassword(!show_password)}
+                            />
                         </div>
                         <div className={styles.terms}>
                             <label htmlFor='terms'>Acepto los <Link href={'/terms'}>términos y condiciones</Link></label>

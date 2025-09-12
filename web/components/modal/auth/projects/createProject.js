@@ -10,6 +10,7 @@ import { apiCall } from '@/services/apiCall'
 import Loader from '@/components/Loader'
 import UserMultiSelect from '@/components/UserMultiselect'
 import { useRouter } from 'next/navigation'
+import Icon from '@/components/iconComponent'
 
 const CreateProject = () => {
     const dispatch = useDispatch()
@@ -75,8 +76,13 @@ const CreateProject = () => {
         <section className={styles.container}>
             <header className={styles.header}>
                 <div className={styles.title}>
+                    <Icon
+                        name='info'
+                        alt='información'
+                        width={15}
+                        height={15}
+                    />
                     <h3>Nuevo proyecto</h3>
-                    <Image src={'/images/icons/info.svg'} alt='information' width={15} height={15}/>
                 </div>
                 <p>Crea un nuevo proyecto, como partida, para poder empezar a escribir tus historias.</p>
             </header>

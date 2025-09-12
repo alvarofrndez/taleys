@@ -9,6 +9,7 @@ import pushToast from '@/utils/pushToast'
 import { apiCall } from '@/services/apiCall'
 import Loader from '@/components/Loader'
 import { useRouter } from 'next/navigation'
+import Icon from '@/components/iconComponent'
 
 const CreateUniverseChild = ({ project, universe }) => {
     const dispatch = useDispatch()
@@ -50,8 +51,13 @@ const CreateUniverseChild = ({ project, universe }) => {
         <section className={styles.container}>
             <header className={styles.header}>
                 <div className={styles.title}>
+                    <Icon
+                        name='info'
+                        alt='información'
+                        width={15}
+                        height={15}
+                    />
                     <h3>Nuevo universo</h3>
-                    <Image src={'/images/icons/info.svg'} alt='information' width={15} height={15} />
                 </div>
                 <p>Crea un nuevo universo para organizar tus historias y sagas.</p>
             </header>

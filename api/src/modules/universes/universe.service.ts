@@ -130,6 +130,29 @@ export const universeService = {
         return final_universes
     },
 
+    getAllUniverseChilds: async (project_id: number) => {
+        /**
+         * Obtiene todos los universos pertenecientes a otro universo.
+         * 
+         * Pasos:
+         * 1. Intenta obtener los universos por id del universo.
+         * 2. Si no se encuentren, lanza un error `DataNotFound`.
+         * 3. Si se encuentren, los devuelve.
+         * 
+         * @param {number} project_id - project_id del proyecto.
+         * 
+         * @returns {IUniverse[]} El array `universos` con los universos.
+        */
+        const universes: IUniverse[] = await universeModel.getAllUniverseChilds(project_id)
+
+        let final_universes = []
+        for(let universe of universes){
+            final_universes.push(await universeService.getAllData(universe))
+        }
+
+        return final_universes
+    },
+
     getAllData: async (universe: IUniverse) => {
         const universe_with_all_data = {
             ...universe
@@ -138,6 +161,10 @@ export const universeService = {
         if(universe_with_all_data.parent_universe_id != null && (typeof universe_with_all_data.parent_universe_id === 'number' || typeof universe_with_all_data.parent_universe_id === 'string')){
             universe_with_all_data.parent_universe = await universeService.getById(universe_with_all_data.parent_universe_id)
         }
+        universe_with_all_data.universes = await universeService.getAllUniverseChilds(universe.id)
+        universe_with_all_data.sagas = await sagaService.getAllByUniverse(universe.id)
+        universe_with_all_data.books = await bookService.getAllByUniverse(universe.id)
+        universe_with_all_data.characters = await characterService.listByBelonging('universe', universe.id)
 
         return universe_with_all_data
     },

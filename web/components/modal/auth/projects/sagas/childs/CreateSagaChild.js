@@ -9,6 +9,7 @@ import pushToast from '@/utils/pushToast'
 import { apiCall } from '@/services/apiCall'
 import Loader from '@/components/Loader'
 import { useRouter } from 'next/navigation'
+import Icon from '@/components/iconComponent'
 
 const CreateSagaChild = ({ project, saga }) => {
     const dispatch = useDispatch()
@@ -53,8 +54,13 @@ const CreateSagaChild = ({ project, saga }) => {
         <section className={styles.container}>
             <header className={styles.header}>
                 <div className={styles.title}>
+                    <Icon
+                        name='info'
+                        alt='información'
+                        width={15}
+                        height={15}
+                    />
                     <h3>Nueva saga hija</h3>
-                    <Image src={'/images/icons/info.svg'} alt='information' width={15} height={15} />
                 </div>
                 <p>Crea una nueva saga dentro de <strong>{saga.name}</strong>.</p>
             </header>

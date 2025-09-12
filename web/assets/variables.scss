@@ -37,6 +37,14 @@ $color-warning-dot-light: #f59e0b;
 $color-active-light: #dbeafe;
 $color-active-foreground-light: #1e40af;
 $color-active-border-light: #93c5fd;
+$color-universe-light:#dbeafe;
+$color-universe-foreground-light:#193cb8;
+$color-saga-light:#ffedd4;
+$color-saga-foreground-light:#9f2d00;
+$color-book-light: #dcfce7;
+$color-book-foreground-light: #314a32;
+$color-character-light: #f3e8ff;
+$color-character-foreground-light: #6e11b0;
 
 
 // Paleta de colores (modo oscuro)
@@ -69,7 +77,15 @@ $color-warning-foreground-dark: #fde68a;
 $color-warning-dot-dark: #fbbf24;
 $color-active-dark: #1e3a8a;
 $color-active-foreground-dark: #bfdbfe;
-$color-active-border-dark: #3b82f6; 
+$color-active-border-dark: #3b82f6;
+$color-universe-dark: #0f172a;
+$color-universe-foreground-dark: #93c5fd;
+$color-saga-dark: #1f0a00;
+$color-saga-foreground-dark: #ffb085;
+$color-book-dark: #416143;
+$color-book-foreground-dark: #4dca51;
+$color-character-dark: #2a053f;
+$color-character-foreground-dark: #e9d5ff;
 
 // Breakpoints
 $breakpoint-sm: 640px;

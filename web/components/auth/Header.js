@@ -6,6 +6,7 @@ import UserAvatar from '@/components/auth/MeAvatar'
 import { useRouter, usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import React from 'react'
+import Icon from '@/components/iconComponent'
 
 const HeaderComponent = () => {
     const user = useSelector((state) => state.auth.user)
@@ -106,10 +107,20 @@ const HeaderComponent = () => {
     const UserMenu = () => (
         <div className={styles.user}>
             <Link href={'/notifications'}>
-                <Image src={'/images/icons/notification.svg'} alt='notification' width={15} height={15} />
+                <Icon
+                    name='notification'
+                    alt='notificación'
+                    width={15}
+                    height={15}
+                />
             </Link>
             <Link href={'/messages'}>
-                <Image src={'/images/icons/comment.svg'} alt='comment' width={15} height={15} />
+                <Icon
+                    name='comment'
+                    alt='comentarios'
+                    width={15}
+                    height={15}
+                />
             </Link>
             <div className={styles.avatar}>
                 <UserAvatar />
@@ -203,7 +214,13 @@ const HeaderComponent = () => {
         {component?.type === 'users/:username' && (
             <header className={styles.header}>
                 <div className={styles.logo}>
-                    <Image src={'/images/icons/arrow.svg'} onClick={() => router.back()} alt='arrow' width={15} height={15} />
+                    <Icon
+                        name='arrow'
+                        alt='flecha'
+                        width={15}
+                        height={15}
+                        onClick={() => router.back()}
+                    />
                     <h3>Usuario</h3>
                 </div>
                 {user ? <UserMenu /> : <AuthButtons />}
@@ -213,7 +230,13 @@ const HeaderComponent = () => {
         {component?.type === 'projects/create' && (
             <header className={styles.header}>
                 <div className={styles.logo}>
-                    <Image src={'/images/icons/arrow.svg'} onClick={() => router.back()} alt='arrow' width={15} height={15} />
+                    <Icon
+                        name='arrow'
+                        alt='flecha'
+                        width={15}
+                        height={15}
+                        onClick={() => router.back()}
+                    />
                     <h3>Subir proyecto</h3>
                 </div>
                 <UserMenu />
@@ -223,7 +246,13 @@ const HeaderComponent = () => {
         {component?.type === 'projectView' && (
             <header className={styles.header}>
                 <div className={styles.info}>
-                    <Image src={'/images/icons/arrow.svg'} onClick={() => router.back()} alt='arrow' width={15} height={15} />
+                    <Icon
+                        name='arrow'
+                        alt='flecha'
+                        width={15}
+                        height={15}
+                        onClick={() => router.back()}
+                    />
                     <div className={styles.logo} onClick={() => router.push('/')}>
                         <h3>{process.env.NEXT_PUBLIC_PROJECT_LABEL}</h3>
                     </div>
@@ -245,13 +274,28 @@ const HeaderComponent = () => {
                 {user ? (
                     <div className={styles.user}>
                         <Link href={'/notifications'}>
-                            <Image src={'/images/icons/notification.svg'} alt='notification' width={15} height={15} />
+                            <Icon
+                                name='notification'
+                                alt='notificación'
+                                width={15}
+                                height={15}
+                            />
                         </Link>
                         <Link href={'/messages'}>
-                            <Image src={'/images/icons/comment.svg'} alt='comment' width={15} height={15} />
+                            <Icon
+                                name='comment'
+                                alt='comentarios'
+                                width={15}
+                                height={15}
+                            />
                         </Link>
                         <div className={styles.upload} onClick={() => router.push('/projects/create')}>
-                            <Image src={'/images/icons/add.svg'} alt='upload' width={15} height={15} />
+                            <Icon
+                                name='add'
+                                alt='Crear proyecto'
+                                width={15}
+                                height={15}
+                            />
                             <p>Nuevo proyecto</p>
                         </div>
                         <div className={styles.avatar}>

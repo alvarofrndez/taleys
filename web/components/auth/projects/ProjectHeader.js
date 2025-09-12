@@ -8,6 +8,7 @@ import { useProject } from '@/context/ProjectContext'
 import pushToast from '@/utils/pushToast'
 import LoaderComponent from '@/components/Loader'
 import ProjectDeleteButton from '@/components/auth/projects/ProjectDeleteButton'
+import Icon from '@/components/iconComponent'
 
 export function ProjectHeader() {
     const { project, setProject, view_mode, setViewMode } = useProject()
@@ -102,11 +103,14 @@ export function ProjectHeader() {
                                 <LoaderComponent size={20}/>
                             ) : (
                                 <>
-                                    {like_by_user ? 
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="17.5" height="17.5" viewBox="0 0 24 24" fill="red" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart h-4 w-4 mr-1 fill-current"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
-                                    : 
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="17.5" height="17.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart h-4 w-4 mr-1 fill-current"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
-                                    }
+                                    <Icon
+                                        name='like'
+                                        width={15}
+                                        height={15}
+                                        alt='like'
+                                        fill={like_by_user ? 'var(--color-danger)' : 'transparent'}
+                                        color={like_by_user ? 'var(--color-danger)' : 'var(--color-primary)'}
+                                    />
                                 </>
                             )}
                         </div>
@@ -115,11 +119,13 @@ export function ProjectHeader() {
                                 <LoaderComponent size={20}/>
                             ) : (
                                 <>
-                                    {save_by_user ?
-                                        <svg width="17.5" height="17.5" xmlns="http://www.w3.org/2000/svg" fill="black" stroke="black" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bookmark h-5 w-5"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path></svg>
-                                    : 
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="17.5" height="17.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bookmark h-5 w-5"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path></svg>
-                                    }
+                                    <Icon
+                                        name='like'
+                                        width={15}
+                                        height={15}
+                                        alt='like'
+                                        fill={save_by_user ? 'var(--color-primary)' : 'transparent'}
+                                    />
                                 </>
                             )}
                         </div>

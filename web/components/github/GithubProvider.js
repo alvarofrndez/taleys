@@ -3,6 +3,7 @@
 import styles from '@/assets/noAuth/auth.module.scss'
 import Image from 'next/image'
 import pushToast from '@/utils/pushToast'
+import Icon from '@/components/iconComponent'
 
 const GitHubProvider = ({ terms = true }) => {
     const loginWithGitHub = () => {
@@ -11,7 +12,12 @@ const GitHubProvider = ({ terms = true }) => {
     }
 
     return <button className={styles.buttonProvider} type='button' onClick={loginWithGitHub}> 
-        <Image src='/images/icons/github.svg' alt='logo github' width={28} height={28} />
+        <Icon
+            name='github'
+            alt='logo github'
+            width={28}
+            height={28}
+        />
         <span>GitHub</span>
     </button>
 }

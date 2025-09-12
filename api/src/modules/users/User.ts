@@ -3,11 +3,20 @@ import { env } from '@/config/config_env'
 import { IUser, IUserRegister } from './User.interface'
 
 const COLUMNS = ['id', 'username', 'name', 'email', 'avatar_url', 'description', `TO_CHAR(created_at, 'DD TMMonth, YYYY') AS created_at`, 'role_id']
+const COLUMNS_DTO = ['id', 'username', 'name', 'avatar_url']
 
 export const userModel = {
   getById: async (id: number) => {
     const result = await db.query(
       `SELECT ${COLUMNS.join(', ')} FROM ${env.DB_TABLE_USERS} WHERE id = $1`,
+      [id]
+    )
+    return result.rows[0]
+  },
+
+  getByIdDTO: async (id: number) => {
+    const result = await db.query(
+      `SELECT ${COLUMNS_DTO.join(', ')} FROM ${env.DB_TABLE_USERS} WHERE id = $1`,
       [id]
     )
     return result.rows[0]

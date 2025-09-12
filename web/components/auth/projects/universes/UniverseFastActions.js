@@ -18,7 +18,7 @@ export default function UniverseFastActions({ project, universe }) {
             component: 'CreateUniverseChild'
         },
         {
-            icon: '/images/icons/book.svg',
+            icon: '/images/icons/saga.svg',
             color: '#e67300ff',
             title: 'Nueva Saga',
             subtitle: 'Inicia una nueva saga',

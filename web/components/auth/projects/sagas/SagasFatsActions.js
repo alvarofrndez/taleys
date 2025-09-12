@@ -10,7 +10,7 @@ export default function SagaFastActions({ project, saga }) {
 
     const FAST_ACTIONS = [
         {
-            icon: '/images/icons/book.svg',
+            icon: '/images/icons/saga.svg',
             color: '#e67300ff',
             title: 'Nueva Saga',
             subtitle: `Crea una saga hija de '${saga.name}'`,

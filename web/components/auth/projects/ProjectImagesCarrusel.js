@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import styles from '@/assets/auth/projects/image-carrusel.module.scss'
 import Image from 'next/image'
+import Icon from '@/components/iconComponent'
 
 export default function ProjectImagesCarousel({ images = [] }) {
     const [currentIndex, setCurrentIndex] = useState(0)
@@ -27,12 +28,12 @@ export default function ProjectImagesCarousel({ images = [] }) {
     return (
         <div className={styles.carousel}>
             <div className={styles.imageContainer}>
-                <Image 
-                    className={styles.imageZoom}
-                    src={'/images/icons/expand.svg'}
+                <Icon
+                    name='expand'
                     alt='zoom'
                     width={15}
                     height={15}
+                    className={styles.imageZoom}
                     onClick={zoomImage}
                 />
                 <img
