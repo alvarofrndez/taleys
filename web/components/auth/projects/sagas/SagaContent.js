@@ -21,8 +21,6 @@ export default function SagaContent({ project, saga }) {
 
     // Íconos propios
     const icons = {
-        all: 'all',
-        universe: 'internet',
         saga: 'saga',
         book: 'book',
         character: 'character',
@@ -35,7 +33,6 @@ export default function SagaContent({ project, saga }) {
     }
 
     const filter_options = [
-        { value: 'universe', label: 'Universos', icon: icons.universe },
         { value: 'saga', label: 'Sagas', icon: icons.saga },
         { value: 'book', label: 'Libros', icon: icons.book },
         { value: 'character', label: 'Personajes', icon: icons.character },
@@ -76,8 +73,6 @@ export default function SagaContent({ project, saga }) {
 
     const renderCard = (item) => {
         switch (item.type) {
-            case 'universe':
-                return <UniverseCard key={`${item.id}-${item.slug}`} project={project} universe={item} />
             case 'saga':
                 return <SagaCard key={`${item.id}-${item.slug}`} project={project} saga={item} />
             case 'book':

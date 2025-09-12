@@ -246,7 +246,8 @@ export const bookService = {
          * 
          * @returns {IBook[]} El array `books` con los libros.
         */
-        const books: IBook[] = await bookModel.getAllByUniverse(saga_id)
+        const books: IBook[] = await bookModel.getAllBySaga(saga_id)
+
 
         let final_books = []
         for(let book of books){
@@ -266,8 +267,10 @@ export const bookService = {
         }
 
         if(book_with_all_data.saga_id != null && (typeof book_with_all_data.saga_id === 'number' || typeof book_with_all_data.saga_id === 'string')){
-            book_with_all_data.saga = await sagaService.getById(book_with_all_data.saga_id)
+            book_with_all_data.saga = await sagaService.getByIdLite(book_with_all_data.saga_id)
         }
+
+        book_with_all_data.characters = await characterService.listByBelonging('book', book.id)
 
         return book_with_all_data
     },

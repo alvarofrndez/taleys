@@ -41,18 +41,12 @@ export const projectController = {
         const { project_id } = req.params
 
         const project = await projectService.getByIdLite(project_id)
-
-        const can_res = projectService.checkVisibility(project, req)
-
-        if(can_res){
-            res.status(200).json({
-                success: true,
-                data: project,
-                message: 'Proyecto obtenido'
-            })
-        }else{
-            throw new CustomError('El proyecto no existe', 404, env.DATA_NOT_FOUND_CODE)
-        }
+        
+        res.status(200).json({
+            success: true,
+            data: project,
+            message: 'Proyecto obtenido'
+        })
     },
 
     getAllByName: async (req: any, res: Response, next: NextFunction) => {

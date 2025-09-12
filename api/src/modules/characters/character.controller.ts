@@ -34,7 +34,6 @@ export const characterController = {
         res.status(200).json({ success: true, message: 'Personaje eliminado' })
     },
 
-    // ✅ Nuevo método list RESTful
     list: async (req: Request, res: Response, next: NextFunction) => {
         const { project_id, universe_id, saga_id, book_id } = req.params as any
 

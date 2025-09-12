@@ -132,7 +132,7 @@ export default function SagaView({ saga, universe_name = null }) {
                         className={styles.textarea}
                     />
                 ) : (
-                    <span>{local_saga.description}</span>
+                    <span>{local_saga.description ?? <i>Sin descripción</i>}</span>
                 )}
                 <div className={styles.info}>
                     <span className={styles.created_at}>Creada el {local_saga.created_at}</span>

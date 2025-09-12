@@ -17,6 +17,13 @@ export const characterService = {
         return characterService.getAllData(character)
     },
 
+    getByIdLite: async (id: number) => {
+        const character = await characterModel.getById(id)
+        if(!character) throw new CustomError('El personaje no existe', 404, env.DATA_NOT_FOUND_CODE)
+        
+        return character
+    },
+
     getBySlug: async (slug: string) => {
         const character = await characterModel.getBySlug(slug)
         if(!character) throw new CustomError('El personaje no existe', 404, env.DATA_NOT_FOUND_CODE)
@@ -42,6 +49,8 @@ export const characterService = {
         } else {
             character_with_all_data.belonging_object = null
         }
+
+        character_with_all_data.relationships = await characterService.listRelationships(character.id)
 
         return character_with_all_data
     },
@@ -206,8 +215,14 @@ export const characterService = {
     },
 
     listRelationships: async (character_id: number) => {
-        await characterService.getById(character_id)
-        return await characterModel.listRelationships(character_id)
+        const relationships: ICharacterRelationshipInput[] = await characterModel.listRelationships(character_id)
+
+        let final_relationships = []
+        for(let relationship of relationships){
+            final_relationships.push({ ...relationship, related_character: await characterService.getByIdLite(relationship.related_character_id)})
+        }
+
+        return final_relationships
     },
 
     checkCreateData: (data: ICharacter) => {

@@ -6,6 +6,7 @@ import { userSetter } from '@/middlewares/userSetter'
 import { upload } from '@/utils/images/upload'
 import { projectRequired } from '@/middlewares/projectRequired'
 import { userRequired } from '@/middlewares/userRequired'
+import { projectVisibility } from '@/middlewares/projectVisibility'
 
 const router = Router()
 
@@ -16,7 +17,7 @@ router.get('/name/:project_name', asyncHandler(userSetter), asyncHandler(project
 router.get('/slug/:project_slug', asyncHandler(userSetter), asyncHandler(projectController.getBySlug))
 router.get('/slug/:project_slug/users/:user_id', asyncHandler(authRequired), asyncHandler(userRequired), asyncHandler(projectController.getByUserAndSlug))
 router.get('/slug/:project_slug/users/username/:username', asyncHandler(authRequired), asyncHandler(projectController.getByUserUsernameAndSlug))
-router.get('/:project_id/lite', asyncHandler(userSetter), asyncHandler(projectRequired), asyncHandler(projectController.getByIdLite))
+router.get('/:project_id/lite', asyncHandler(userSetter), asyncHandler(projectRequired), asyncHandler(projectVisibility), asyncHandler(projectController.getByIdLite))
 router.get('/:project_id', asyncHandler(userSetter), asyncHandler(projectRequired), asyncHandler(projectController.getById))
 router.post('/:project_id/save', asyncHandler(authRequired), asyncHandler(projectRequired), asyncHandler(projectController.save))
 router.post('/:project_id/like', asyncHandler(authRequired), asyncHandler(projectRequired), asyncHandler(projectController.like))

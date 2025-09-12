@@ -21,10 +21,6 @@ export default function BookContent({ project, book }) {
 
     // Íconos propios
     const icons = {
-        all: 'all',
-        universe: 'internet',
-        saga: 'saga',
-        book: 'book',
         character: 'character',
         event: 'calendar',
         place: 'place',
@@ -35,9 +31,6 @@ export default function BookContent({ project, book }) {
     }
 
     const filter_options = [
-        { value: 'universe', label: 'Universos', icon: icons.universe },
-        { value: 'saga', label: 'Sagas', icon: icons.saga },
-        { value: 'book', label: 'Libros', icon: icons.book },
         { value: 'character', label: 'Personajes', icon: icons.character },
         { value: 'event', label: 'Eventos', icon: icons.event },
         { value: 'place', label: 'Lugares', icon: icons.place },
@@ -45,9 +38,6 @@ export default function BookContent({ project, book }) {
 
     const getAllItems = () => {
         const all_items = [
-            ...(book.universes || []).map(u => ({ ...u, type: 'universe', name: u.name, description: u.description || '' })),
-            ...(book.sagas || []).map(s => ({ ...s, type: 'saga', name: s.name, description: s.description || '' })),
-            ...(book.books || []).map(b => ({ ...b, type: 'book', name: b.title, description: b.description || '' })),
             ...(book.characters || []).map(c => ({ ...c, type: 'character', name: c.name, description: c.biography || '' })),
         ]
 
@@ -66,20 +56,14 @@ export default function BookContent({ project, book }) {
 
     const toggleFilter = (filterValue) => {
         if (active_filters.includes(filterValue)) {
-            // quitar del array
             setActiveFilters(active_filters.filter(f => f !== filterValue))
         } else {
-            // agregar al array
             setActiveFilters([...active_filters, filterValue])
         }
     }
 
     const renderCard = (item) => {
         switch (item.type) {
-            case 'universe':
-                return <UniverseCard key={`${item.id}-${item.slug}`} project={project} universe={item} />
-            case 'saga':
-                return <SagaCard key={`${item.id}-${item.slug}`} project={project} saga={item} />
             case 'book':
                 return <BookCard key={`${item.id}-${item.slug}`} project={project} book={item} />
             case 'character':

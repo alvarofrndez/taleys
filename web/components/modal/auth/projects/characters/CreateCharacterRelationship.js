@@ -10,7 +10,7 @@ import { apiCall } from '@/services/apiCall'
 import Loader from '@/components/Loader'
 import Icon from '@/components/iconComponent'
 
-const CreateCharacterRelationship = ({ project, character }) => {
+const CreateCharacterRelationship = ({ project, character, onClose }) => {
     const dispatch = useDispatch()
 
     const [global_loading, setGlobalLoading] = useState(false)
@@ -109,6 +109,11 @@ const CreateCharacterRelationship = ({ project, character }) => {
         const response = await apiCall('POST', `/projects/${project.id}/characters/${character.id}/relationships`, form)
         if (response?.success) {
             pushToast(response.message || 'Relación creada', 'success')
+
+            if (typeof onClose === 'function') {
+                onClose()
+            }
+
             dispatch(closeModal())
         }
         setLoading(false)

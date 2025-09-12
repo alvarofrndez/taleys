@@ -145,7 +145,7 @@ export default function BookView({ book, universe_slug = null, saga_slug = null 
                         className={styles.textarea}
                     />
                 ) : (
-                    <span>{local_book.synopsis}</span>
+                    <span>{local_book.synopsis ?? <i>Sin sinopsis</i>}</span>
                 )}
                 <div className={styles.info}>
                     <span className={styles.created_at}>Creado el {local_book.created_at}</span>

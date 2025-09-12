@@ -126,7 +126,7 @@ export default function UniverseHeader({ universe, onUniverseUpdate }) {
                     className={styles.textarea}
                 />
             ) : (
-                <span>{local_universe.description}</span>
+                <span>{local_universe.description ?? <i>Sin descripción</i>}</span>
             )}
             <div className={styles.info}>
                 <span className={styles.created_at}>Creado el {local_universe.created_at}</span>

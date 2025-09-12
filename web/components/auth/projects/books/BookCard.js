@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useSelector } from 'react-redux'
 
 export default function BookCard({ project, book }) {
+    console.log(book)
     const router = useRouter()
     const user = useSelector((state) => state.auth.user)
 
@@ -48,7 +49,7 @@ export default function BookCard({ project, book }) {
                             alt='Saga'
                             color='var(--color-muted-foreground)'
                         />
-                        <span className={styles.sagaLabel}>{book.universe?.name || 'Sin saga'}</span>
+                        <span className={styles.sagaLabel}>{book.saga?.name || 'Sin saga'}</span>
                     </div>
                 </div>
             </div>

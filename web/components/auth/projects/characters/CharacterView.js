@@ -144,7 +144,7 @@ export default function CharacterView({ character }) {
                     )}
                 </div>
 
-                <span className={styles.biography}>{local_character.biography}</span>
+                <span className={styles.biography}>{local_character.biography ?? <i>Sin biografía</i>}</span>
 
                 <div className={styles.info}>
                     <span className={styles.created_at}>

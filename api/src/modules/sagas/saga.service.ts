@@ -165,6 +165,29 @@ export const sagaService = {
         return final_sagas
     },
 
+    getAllSagasChilds: async (saga_id: number) => {
+        /**
+         * Obtiene todas las sagas pertenecientes a otra universa.
+         * 
+         * Pasos:
+         * 1. Intenta obtener las sagas por su id.
+         * 2. Si no se encuentren, lanza un error `DataNotFound`.
+         * 3. Si se encuentren, las devuelva.
+         * 
+         * @param {number} saga_id - saga_id del proyecto.
+         * 
+         * @returns {ISaga[]} El array `universos` con las sagas.
+        */
+        const sagas: ISaga[] = await sagaModel.getAllSagasChilds(saga_id)
+
+        let final_sagas = []
+        for(let saga of sagas){
+            final_sagas.push(await sagaService.getAllData(saga))
+        }
+
+        return final_sagas
+    },
+
     getAllData: async (saga: ISaga) => {
         const saga_with_all_data = {
             ...saga
@@ -175,8 +198,11 @@ export const sagaService = {
         }
 
         if(saga_with_all_data.parent_saga_id != null && (typeof saga_with_all_data.parent_saga_id === 'number' || typeof saga_with_all_data.parent_saga_id === 'string')){
-            saga_with_all_data.parent_saga = await sagaService.getById(saga_with_all_data.parent_saga_id)
+            saga_with_all_data.parent_saga = await sagaService.getByIdLite(saga_with_all_data.parent_saga_id)
         }
+        saga_with_all_data.sagas = await sagaService.getAllSagasChilds(saga.id)
+        saga_with_all_data.books = await bookService.getAllBySaga(saga.id)
+        saga_with_all_data.characters = await characterService.listByBelonging('saga', saga.id)
 
         return saga_with_all_data
     },
@@ -410,7 +436,7 @@ export const sagaService = {
          * 
          * @throws {CustomError} Si la saga no existe.
          */
-        const sagas = await sagaModel.getAllSagaChilds(saga_id)
+        const sagas = await sagaModel.getAllSagasChilds(saga_id)
 
         for (const saga of sagas) {
             await sagaService.delete(saga.id)

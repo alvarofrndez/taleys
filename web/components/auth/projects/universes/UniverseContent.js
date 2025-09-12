@@ -16,11 +16,7 @@ export default function UniverseContent({ project, universe }) {
     const [active_filters, setActiveFilters] = useState([])
     const [view_mode, setViewMode] = useState('grid')
 
-    const router = useRouter()
-    const user = useSelector((state) => state.auth.user)
-
     const icons = {
-        all: 'all',
         universe: 'internet',
         saga: 'saga',
         book: 'book',

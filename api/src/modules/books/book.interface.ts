@@ -1,5 +1,6 @@
 import { IUniverse } from "@/modules/universes/universe.interface"
 import { ISaga } from "@/modules/sagas/saga.interface"
+import { ICharacter } from "@/modules/characters/character.interface"
 
 export interface IBook {
     id?: number
@@ -14,4 +15,5 @@ export interface IBook {
     synopsis?: string
     cteated_at?: Date
     updated_at?: Date
+    characters: ICharacter[]
 }

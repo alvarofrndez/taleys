@@ -176,7 +176,7 @@ export const sagaModel = {
         return result.rows
     },
 
-    getAllSagaChilds: async (saga_id: number) => {
+    getAllSagasChilds: async (saga_id: number) => {
         /**
          * Obtiene todas als sagas hiajs de una saga a través de su ID.
          *

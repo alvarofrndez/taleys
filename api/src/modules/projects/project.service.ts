@@ -64,7 +64,7 @@ export const projectService = {
 
         if(!project) throw new CustomError('El proyecto no existe', 404, env.DATA_NOT_FOUND_CODE)
 
-        project.created_by = await userService.getByIdLite(typeof project.created_by === 'number' ||  typeof project.created_by === 'string' ? project.created_by : null)
+        project.created_by = await userService.getByIdDTO(typeof project.created_by === 'number' ||  typeof project.created_by === 'string' ? project.created_by : null)
         project.likes_count = await projectLikeService.getProyectCount(project.id)
         project.saves_count = await projectSaveService.getProyectCount(project.id)
         project.likes = await projectLikeService.getByProject(project.id)

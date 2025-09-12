@@ -17,7 +17,7 @@ export const userFollowService = {
 
         let final_followers = []
         for(let follow of followers) {
-            final_followers.push(await userService.getByIdLite(follow.follower_id))
+            final_followers.push(await userService.getByIdDTO(follow.follower_id))
         }
 
         return final_followers
@@ -36,7 +36,7 @@ export const userFollowService = {
 
         let final_followers = []
         for(let follow of follows) {
-            final_followers.push(await userService.getByIdLite(follow.followed_id))
+            final_followers.push(await userService.getByIdDTO(follow.followed_id))
         }
 
         return final_followers

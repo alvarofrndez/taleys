@@ -26,9 +26,19 @@ export default function CharacterRelationships({ character, project, can_edit })
         fetchRelationships()
     }, [project.id, character.id])
 
+    const fetchRelationships = async () => {
+        const response = await apiCall('GET', `/projects/${project.id}/characters/${character.id}/relationships`)
+        if (response.success) {
+            setRelationships(response.data || [])
+        } else {
+            setRelationships([])
+        }
+        setLoading(false)
+    }
+
     const getFilteredRelationships = () => {
         if (filter === 'all') return relationships
-        return relationships.filter(relationship => relationship.relationship_type === filter)
+        return relationships.filter(relationship => relationship.relation_type === filter)
     }
 
     const getRelationshipIcon = (type) => {
@@ -78,7 +88,7 @@ export default function CharacterRelationships({ character, project, can_edit })
     const openNewCharacter = () => {
         dispatch(openModal({
             component: 'CreateCharacterRelationship',
-            props: { project, character }
+            props: { project, character, onClose: fetchRelationships },
         }))
     }
 
@@ -94,9 +104,9 @@ export default function CharacterRelationships({ character, project, can_edit })
     const filteredRelationships = getFilteredRelationships()
     const relationshipStats = {
         total: relationships.length,
-        allies: relationships.filter(r => r.relationship_type === 'ally').length,
-        enemies: relationships.filter(r => r.relationship_type === 'enemy').length,
-        family: relationships.filter(r => r.relationship_type === 'family').length
+        allies: relationships.filter(r => r.relation_type === 'ally').length,
+        enemies: relationships.filter(r => r.relation_type === 'enemy').length,
+        family: relationships.filter(r => r.relation_type === 'family').length
     }
 
     return (
@@ -170,7 +180,7 @@ export default function CharacterRelationships({ character, project, can_edit })
                                     <header className={styles.relationshipHeader}>
                                         <div className={styles.characterInfo}>
                                             <div className={styles.characterAvatar}>
-                                                {relationship.related_character.name[0]}
+                                                {relationship.related_character.name}
                                             </div>
                                             <div className={styles.characterDetails}>
                                                 <h3>{relationship.related_character.name}</h3>
@@ -180,12 +190,12 @@ export default function CharacterRelationships({ character, project, can_edit })
                                         <div className={styles.badges}>
                                             <span className={styles.typeBadge}>
                                                 <Icon
-                                                    name={(relationsgetRelationshipIconhip.relationship_type)}
+                                                    name={(getRelationshipIcon(relationship.relation_type))}
                                                     width={12}
                                                     height={12}
-                                                    alt={relationship.relationship_type}
+                                                    alt={relationship.relation_type}
                                                 />
-                                                {getRelationshipTypeLabel(relationship.relationship_type)}
+                                                {getRelationshipTypeLabel(relationship.relation_type)}
                                             </span>
                                             <span>·</span>
                                             <span className={`${styles.intensityBadge} ${getIntensityColor(relationship.intensity)}`}>
@@ -235,7 +245,7 @@ export default function CharacterRelationships({ character, project, can_edit })
                                                 <div className={styles.fieldList}>
                                                     <div className={styles.field}>
                                                         <span className={styles.label}>Tipo:</span>
-                                                        <span className={styles.value}>{getRelationshipTypeLabel(relationship.relationship_type)}</span>
+                                                        <span className={styles.value}>{getRelationshipTypeLabel(relationship.relation_type)}</span>
                                                     </div>
                                                     <div className={styles.field}>
                                                         <span className={styles.label}>Intensidad:</span>
@@ -255,7 +265,7 @@ export default function CharacterRelationships({ character, project, can_edit })
                                             <h4>Descripción de la Relación</h4>
                                             <div className={styles.descriptionContainer}>
                                                 <p>
-                                                    {relationship.relationship_description || 'No hay descripción específica para esta relación.'}
+                                                    {relationship.note || 'No hay una nota específica para esta relación.'}
                                                 </p>
                                             </div>
                                         </div>
