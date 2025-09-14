@@ -1,0 +1,93 @@
+@use '@/assets/variables.scss' as variables;
+@use '@/assets/mixins.scss' as mixins;
+
+.dropdownTrigger {
+    // size
+    padding: variables.$spacing-1;
+
+    // decoration
+    background: none;
+    border: none;
+    border-radius: variables.$border-radius-md;
+    cursor: pointer;
+
+    &:hover {
+        background: var(--color-muted);
+    }
+}
+
+.dropdownMenu {
+    // margin
+    padding: variables.$spacing-1;
+
+    // decoration
+    background: var(--color-background);
+    border-radius: variables.$border-radius-lg;
+    border: 1px solid var(--color-border);
+    box-shadow: variables.$shadow-md;
+}
+
+.dropdownItem {
+    // display
+    @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
+
+    // size
+    padding: variables.$spacing-2;
+
+    // decoration
+    font-size: variables.$font-size-sm;
+    border-radius: variables.$border-radius-md;
+    cursor: pointer;
+    outline: none;
+
+    &:hover {
+        background: var(--color-muted);
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+}
+
+.dangerous {
+    color: var(--color-danger);
+
+    &:hover {
+        background: rgba(var(--color-danger-hover-rgba), 0.1);
+    }
+}
+
+.itemLabel {
+    // display
+    flex: 1;
+}
+
+.shortcut {
+    // decoration
+    font-size: variables.$font-size-xs;
+    color: var(--color-muted-foreground);
+}
+
+.dropdownSeparator {
+    // size
+    height: 1px;
+
+    // margin
+    margin: variables.$spacing-1 0;
+
+    // decoration
+    background: var(--color-border);
+}
+
+/* Animación */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

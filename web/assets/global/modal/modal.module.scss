@@ -31,12 +31,10 @@
   .modalContent {
     // size
     min-width: 300px;
+    max-height: 90%;
 
     // position
     position: relative;
-
-    // decoration
-    background: var(--color-background);
 
     // margin
     padding: variables.$spacing-8;
@@ -45,6 +43,8 @@
     border-radius: variables.$border-radius-md;
     box-shadow: variables.$shadow-md;
     cursor: auto;
+    background: var(--color-background);
+    overflow-y: scroll;
 
     @media (min-width: variables.$breakpoint-sm) {
         max-width: 485px;

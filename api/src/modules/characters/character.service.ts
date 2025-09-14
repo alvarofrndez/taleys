@@ -14,7 +14,7 @@ export const characterService = {
         const character = await characterModel.getById(id)
         if(!character) throw new CustomError('El personaje no existe', 404, env.DATA_NOT_FOUND_CODE)
         
-        return characterService.getAllData(character)
+        return await characterService.getAllData(character)
     },
 
     getByIdLite: async (id: number) => {
@@ -28,7 +28,7 @@ export const characterService = {
         const character = await characterModel.getBySlug(slug)
         if(!character) throw new CustomError('El personaje no existe', 404, env.DATA_NOT_FOUND_CODE)
         
-        return characterService.getAllData(character)
+        return await characterService.getAllData(character)
     },
 
     getAllData: async (character: ICharacter): Promise<ICharacter> => {
@@ -37,9 +37,11 @@ export const characterService = {
          */
         const character_with_all_data: ICharacter = { ...character }
 
+        character_with_all_data.extra_attributes = await characterService.getExtraAttributes(character.id)
+
         const BELONGING_OBJECT_RELATION: Record<CharacterBelongingLevel, (id: number) => Promise<any>> = {
-            book: async (id: number) => bookService.getByIdLite(id),
-            saga: async (id: number) => sagaService.getByIdLite(id),
+            book: async (id: number) => bookService.getByIdLiteWithParentsLite(id),
+            saga: async (id: number) => sagaService.getByIdLiteWithParentsLite(id),
             universe: async (id: number) => universeService.getByIdLite(id),
             project: async (id: number) => projectService.getByIdLite(id),
         }
@@ -88,6 +90,10 @@ export const characterService = {
 
         const created = await characterModel.create(project_id, data)
 
+        if(data.extra_attributes && data.extra_attributes.length){
+            await characterService.addExtraAttributes(created.id as number, data.extra_attributes)
+        }
+
         if(data.appearances && data.appearances.length){
             await characterService.addAppearances(created.id as number, { book_ids: data.appearances })
         }
@@ -125,6 +131,9 @@ export const characterService = {
         }
 
         await characterModel.update(id, data)
+
+        await characterService.updateAllExtraAttributes(id, data.extra_attributes, exists.extra_attributes)
+
         return await characterService.getById(id)
     },
 
@@ -146,6 +155,8 @@ export const characterService = {
             await characterModel.deleteRelationships(id)
         }
         await characterModel.deleteRelatedRelationships(id)
+
+        await characterService.deleteAllExtraAttributes(id)
 
         await characterModel.delete(id)
 
@@ -173,6 +184,65 @@ export const characterService = {
         return true
     },
 
+    addExtraAttributes: async (character_id: number, extra_attributes: any[]) => {
+        await characterService.getByIdLite(character_id)
+        return await characterModel.addExtraAttributes(character_id, extra_attributes)
+    },
+
+    updateAllExtraAttributes: async (character_id: number, new_extra_attributes: any[], old_extra_attributes: any[]) => {
+        const old_map = new Map(old_extra_attributes.map(attr => [attr.key, attr.value]))
+        const new_map = new Map(new_extra_attributes.map(attr => [attr.key, attr.value]))
+
+        const to_insert: any[] = []
+        const to_update: any[] = []
+        const to_delete: string[] = []
+
+        for (const [key, value] of new_map.entries()) {
+            if (!old_map.has(key)) {
+                to_insert.push({ key, value })
+            } else if (old_map.get(key) !== value) {
+                to_update.push({ key, value })
+            }
+        }
+
+        for (const [key] of old_map.entries()) {
+            if (!new_map.has(key)) {
+                to_delete.push(key)
+            }
+        }
+
+        const results: any = {}
+
+        if (to_insert.length > 0) {
+            results.inserted = await characterModel.addExtraAttributes(character_id, to_insert)
+        }
+
+        if (to_update.length > 0) {
+            results.updated = await characterModel.updateExtraAttributes(character_id, to_update)
+        }
+
+        if (to_delete.length > 0) {
+            results.deleted = await characterModel.deleteExtraAttributes(character_id, to_delete)
+        }
+
+        return results
+    },
+
+    deleteExtraAttribute: async (character_id: number, key: string) => {
+        await characterService.getByIdLite(character_id)
+        return await characterModel.deleteExtraAttribute(character_id, key)
+    },
+    
+    deleteAllExtraAttributes: async (character_id: number) => {
+        await characterService.getByIdLite(character_id)
+        return await characterModel.deleteAllExtraAttributes(character_id)
+    },
+
+    getExtraAttributes: async (character_id: number) => {
+        await characterService.getByIdLite(character_id)
+        return await characterModel.getExtraAttributes(character_id)
+    },
+
     addAppearances: async (character_id: number, data: ICharacterAppearanceInput) => {
         if(!Array.isArray(data.book_ids)) throw new CustomError('appearances debe ser un array de ids de libros', 400, env.INVALID_DATA_CODE)
         if(data.book_ids.length === 0) return []
@@ -183,7 +253,7 @@ export const characterService = {
     },
 
     listAppearances: async (character_id: number) => {
-        await characterService.getById(character_id)
+        await characterService.getByIdLite(character_id)
 
         const appearances = await characterModel.listAppearances(character_id)
 
@@ -195,7 +265,7 @@ export const characterService = {
     },
 
     setTimeline: async (character_id: number, events: ICharacterTimelineEventInput[]) => {
-        await characterService.getById(character_id)
+        await characterService.getByIdLite(character_id)
         const error_message = characterService.checkTimeline(events)
         if(typeof error_message === 'string') throw new CustomError(error_message, 400, env.INVALID_DATA_CODE)
         await characterModel.setTimeline(character_id, events)
@@ -203,15 +273,29 @@ export const characterService = {
     },
 
     getTimeline: async (character_id: number) => {
-        await characterService.getById(character_id)
+        await characterService.getByIdLite(character_id)
         return await characterModel.getTimeline(character_id)
     },
 
+    getRelationshipById: async (id: number) => {
+        const relationship = await characterModel.getRelationshipById(id)
+
+        if(!relationship) throw new CustomError('La relación no existe', 404, env.DATA_NOT_FOUND_CODE)
+
+        return relationship 
+    },
+
     addRelationship: async (character_id: number, rel: ICharacterRelationshipInput) => {
-        await characterService.getById(character_id)
-        await characterService.getById(rel.related_character_id)
+        await characterService.getByIdLite(character_id)
+        await characterService.getByIdLite(rel.related_character_id)
         if(!rel.relation_type || !rel.relation_type.trim()) throw new CustomError('relation_type es requerido', 400, env.INVALID_DATA_CODE)
         return await characterModel.addRelationship(character_id, rel.related_character_id, rel.relation_type, rel.note)
+    },
+
+    deleteRelationship: async (relationship_id: number) => {
+        await characterService.getRelationshipById(relationship_id)
+
+        return await characterModel.deleteRelationship(relationship_id)
     },
 
     listRelationships: async (character_id: number) => {
@@ -230,15 +314,13 @@ export const characterService = {
         if(data.slug && !data.slug.trim()) return 'El slug no puede estar vacío'
         if(!data.belonging_level) return 'Nivel de dependencia es requerido'
         if(!data.belonging_id) return 'El nivel de dependencia es requerido'
-        const allowedLevels = ['project','universe','saga','book']
-        if(!allowedLevels.includes(data.belonging_level)) return 'Nivel de dependencia inválido'
-        if(data.status && !['alive','dead','unknown'].includes(data.status)) return 'status inválido'
+        const allowed_levels = ['project','universe','saga','book']
+        if(!allowed_levels.includes(data.belonging_level)) return 'Nivel de dependencia inválido'
         if(data.appearances && !Array.isArray(data.appearances)) return 'appearances debe ser un array'
         return true
     },
 
     checkUpdateData: (data: Partial<ICharacter>) => {
-        if(data.status && !['alive','dead','unknown'].includes(data.status)) return 'status inválido'
         if(data.belonging_level && !['project','universe','saga','book'].includes(data.belonging_level)) return 'Nivel de dependencia inválido'
         if(data.slug && !data.slug.trim()) return 'El slug no puede estar vacío'
         return true

@@ -1,8 +1,6 @@
 @use '@/assets/variables.scss' as variables;
 @use '@/assets/mixins.scss' as mixins;
 
-// relationships.module.scss - Estilos para el componente CharacterRelationships
-
 .loadingContainer {
     // size
     width: 100%;
@@ -209,6 +207,7 @@
                 @include mixins.card;
                 backdrop-filter: blur(12px);
                 box-shadow: variables.$shadow-md;
+                cursor: pointer;
 
                 .relationshipHeader {
                     // display
@@ -229,27 +228,26 @@
                         @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-4);
 
                         .characterAvatar {
-                            // size
-                            height: 3rem;
-                            width: 3rem;
-                            
                             // decoration
-                            border-radius: 50%;
+                            border-radius: variables.$border-radius-2xl;
                             background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
                             color: var(--color-primary-foreground);
                             font-size: variables.$font-size-lg;
                             font-weight: variables.$font-weight-bold;
                             border: 2px solid var(--color-primary-border);
+                            overflow: hidden;
+                            object-fit: contain;
+                            object-position: center;
                             
                             // display
                             @include mixins.flex(row, center, center);
                         }
 
                         .characterDetails {
+                            // display
+                            @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-1);
+
                             h3 {
-                                // margin
-                                margin: 0 0 variables.$spacing-1 0;
-                                
                                 // decoration
                                 font-size: variables.$font-size-lg;
                                 font-weight: variables.$font-weight-semibold;
@@ -257,9 +255,6 @@
                             }
 
                             p {
-                                // margin
-                                margin: 0;
-                                
                                 // decoration
                                 font-size: variables.$font-size-sm;
                                 color: var(--color-muted-foreground);
@@ -291,6 +286,8 @@
                         }
 
                         .intensityBadge {
+                            // margin
+                            padding: variables.$spacing-1 variables.$spacing-2;
                             // decoration
                             font-size: variables.$font-size-xs;
                             font-weight: variables.$font-weight-medium;

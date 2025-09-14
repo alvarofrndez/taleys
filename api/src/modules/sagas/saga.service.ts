@@ -53,6 +53,32 @@ export const sagaService = {
         return saga
     },
 
+    getByIdLiteWithParentsLite: async (saga_id: number) => {
+        /**
+         * Obtiene una saga a través de su ID, obteniendo los objetos lite de sus elementos narrativos padres.
+         * 
+         * Pasos:
+         * 1. Intenta obtener la saga por su ID.
+         * 2. Si no se encuentra, lanza un error `DataNotFound`.
+         * 3. Si se encuentra, lo devuelve.
+         * 
+         * @param {number} saga_id - ID de la saga que se desea obtener.
+         * 
+         * @returns {ISaga} El objeto `saga` correspondiente al ID proporcionado.
+         * 
+         * @throws `DataNotFound` Si no se encuentra ningún saga con el ID dado.
+        */
+        let saga: ISaga = await sagaModel.getById(saga_id)
+
+        if(!saga) throw new CustomError('La saga no existe', 404, env.DATA_NOT_FOUND_CODE)
+
+        if(saga.universe_id != null && (typeof saga.universe_id === 'number' || typeof saga.universe_id === 'string')){
+            saga.universe = await universeService.getByIdLite(saga.universe_id)
+        }
+
+        return saga
+    },
+
     getByIdEditData: async (saga_id: number) => {
         /**
          * Obtiene los datos de una saga, necesarios para editarlo a través de su ID.

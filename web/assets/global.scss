@@ -29,6 +29,7 @@
     --color-flashy-hover: #{variables.$color-flashy-hover-light};
     --color-danger: #{variables.$color-danger-light};
     --color-danger-hover: #{variables.$color-danger-hover-light};
+    --color-danger-hover-rgba: #{variables.$color-danger-hover-rgba-light};
     --color-success: #{variables.$color-success-light};
     --color-success-hover: #{variables.$color-success-hover-light};
     --color-warning: #{variables.$color-warning-light};
@@ -72,6 +73,7 @@
     --color-flashy-hover: #{variables.$color-flashy-hover-dark};
     --color-danger: #{variables.$color-danger-dark};
     --color-danger-hover: #{variables.$color-danger-hover-dark};
+    --color-danger-hover-rgba: #{variables.$color-danger-hover-rgba-dark};
     --color-success: #{variables.$color-success-dark};
     --color-success-hover: #{variables.$color-success-hover-dark};
     --color-warning: #{variables.$color-warning-dark};

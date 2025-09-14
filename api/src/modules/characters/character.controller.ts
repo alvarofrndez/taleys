@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import { characterService } from './character.service'
+import CustomError from '@/modules/customerror/CustomError'
+import { env } from '@/config/config_env'
 
 export const characterController = {
     create: async (req: Request, res: Response, next: NextFunction) => {
@@ -59,7 +61,6 @@ export const characterController = {
     listAppearances: async (req: Request, res: Response, next: NextFunction) => {
         const { id } = req.params as any
         const appearances = await characterService.listAppearances(Number(id))
-        console.log(appearances)
         res.status(200).json({ success: true, data: appearances, message: 'Apariciones obtenidas' })
     },
 
@@ -87,5 +88,19 @@ export const characterController = {
         const { id } = req.params as any
         const relationships = await characterService.listRelationships(Number(id))
         res.status(200).json({ success: true, data: relationships, message: 'Relaciones obtenidas' })
+    },
+
+    deleteRelationship: async (req: Request, res: Response, next: NextFunction) => {
+        const { relationship_id } = req.params as any
+        const deleted = await characterService.deleteRelationship(Number(relationship_id))
+        
+        if (deleted) {
+            res.status(200).json({
+                success: true,
+                message: 'Relación eliminada'
+            })
+        } else {
+            throw new CustomError('Error al eliminar la relación', 400, env.INVALID_DATA_CODE)
+        }
     },
 }

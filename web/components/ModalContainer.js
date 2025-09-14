@@ -18,7 +18,8 @@ import CreateSagaChild from '@/components/modal/auth/projects/sagas/childs/Creat
 import CreateSagaBook from '@/components/modal/auth/projects/sagas/childs/CreateSagaBook'
 import CreateSagaCharacter from '@/components/modal/auth/projects/sagas/childs/CreateSagaCharacter'
 import CreateBookCharacter from '@/components/modal/auth/projects/books/childs/CreateBookCharacter'
-import CreateCharacterRelationship from '@/components/modal/auth/projects/characters/CreateCharacterRelationship'
+import CreateCharacterRelationship from '@/components/modal/auth/projects/characters/relationships/CreateCharacterRelationship'
+import EditCharacterRelationship from '@/components/modal/auth/projects/characters/relationships/EditCharacterRelationship'
 import Icon from '@/components/iconComponent'
 
 const component_map = {
@@ -39,6 +40,7 @@ const component_map = {
   'CreateSagaCharacter': CreateSagaCharacter,
   'CreateBookCharacter': CreateBookCharacter,
   'CreateCharacterRelationship': CreateCharacterRelationship,
+  'EditCharacterRelationship': EditCharacterRelationship,
 }
 
 const ModalContainer = () => {

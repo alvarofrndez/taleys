@@ -100,18 +100,14 @@ export const characterModel = {
         const result = await db.query(
             `
             INSERT INTO ${env.DB_TABLE_CHARACTERS}
-            (project_id, name, slug, alias, age, gender, race_species, status, image_url,
-             belonging_level, belonging_id,
-             biography, motivations, objectives, fears, strengths, weaknesses, profession,
-             physical_description, abilities, limitations)
-            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21)
+            (project_id, name, slug, alias, biography, image_url,
+             belonging_level, belonging_id)
+            VALUES ($1,$2,$3,$4,$5,$6,$7, $8)
             RETURNING *
             `,
             [
-                project_id, data.name, data.slug, data.alias ?? null, data.age ?? null, data.gender ?? null, data.race_species ?? null, data.status ?? 'unknown', data.image_url ?? null,
+                project_id, data.name, data.slug, data.alias ?? null, data.biography ?? null, data.image_url ?? null,
                 data.belonging_level, data.belonging_id,
-                data.biography ?? null, data.motivations ?? null, data.objectives ?? null, data.fears ?? null, data.strengths ?? null, data.weaknesses ?? null, data.profession ?? null,
-                data.physical_description ?? null, data.abilities ?? null, data.limitations ?? null,
             ]
         )
         return result.rows[0]
@@ -121,18 +117,14 @@ export const characterModel = {
         const result = await db.query(
             `
             UPDATE ${env.DB_TABLE_CHARACTERS}
-            SET name=$1, slug=$2, alias=$3, age=$4, gender=$5, race_species=$6, status=$7, image_url=$8,
-                belonging_level=$9, belonging_id=$10,
-                biography=$11, motivations=$12, objectives=$13, fears=$14, strengths=$15, weaknesses=$16, profession=$17,
-                physical_description=$18, abilities=$19, limitations=$20,
+            SET name=$1, slug=$2, alias=$3, biography=$4, image_url=$5,
+                belonging_level=$6, belonging_id=$7,
                 updated_at = now()
-            WHERE id=$21
+            WHERE id=$8
             `,
             [
-                data.name, data.slug, data.alias ?? null, data.age ?? null, data.gender ?? null, data.race_species ?? null, data.status ?? 'unknown', data.image_url ?? null,
+                data.name, data.slug, data.alias ?? null, data.biography ?? null, data.image_url ?? null,
                 data.belonging_level, data.belonging_id,
-                data.biography ?? null, data.motivations ?? null, data.objectives ?? null, data.fears ?? null, data.strengths ?? null, data.weaknesses ?? null, data.profession ?? null,
-                data.physical_description ?? null, data.abilities ?? null, data.limitations ?? null,
                 id
             ]
         )
@@ -143,6 +135,91 @@ export const characterModel = {
         const result = await db.query(
             `DELETE FROM ${env.DB_TABLE_CHARACTERS} WHERE id = $1`,
             [id]
+        )
+        return result.rowCount
+    },
+
+    getExtraAttributes: async (character_id: number) => {
+        const result = await db.query(
+            `SELECT * FROM ${env.DB_TABLE_CHARACTER_EXTRA_ATTRIBUTES} WHERE character_id = $1`,
+            [character_id]
+        )
+        return result.rows
+    },
+
+    addExtraAttributes: async (character_id: number, extra_attributes: { key: string, value: string }[]) => {
+        if (extra_attributes.length === 0) return []
+
+        const params: any[] = []
+        const values: string[] = []
+
+        extra_attributes.forEach((attr, index) => {
+            const param_index_start = index * 3
+            values.push(`($${param_index_start + 1}, $${param_index_start + 2}, $${param_index_start + 3})`)
+            params.push(character_id, attr.key, attr.value)
+        })
+
+        const result = await db.query(
+            `
+            INSERT INTO ${env.DB_TABLE_CHARACTER_EXTRA_ATTRIBUTES} (character_id, key, value)
+            VALUES ${values.join(', ')}
+            RETURNING *
+            `,
+            params
+        )
+
+        return result.rows
+    },
+    
+    updateExtraAttributes: async (character_id: number, extra_attributes: any[]) => {
+        if (extra_attributes.length === 0) return []
+
+        const results: any[] = []
+
+        for (const attr of extra_attributes) {
+            const res = await db.query(
+                `
+                UPDATE ${env.DB_TABLE_CHARACTER_EXTRA_ATTRIBUTES}
+                SET value = $1
+                WHERE character_id = $2 AND key = $3
+                RETURNING *
+                `,
+                [attr.value, character_id, attr.key]
+            )
+            results.push(...res.rows)
+        }
+
+        return results
+    },
+
+    deleteExtraAttribute: async (character_id: number, key: string) => {
+        const result = await db.query(
+            `DELETE FROM ${env.DB_TABLE_CHARACTER_EXTRA_ATTRIBUTES} WHERE character_id = $1 AND key = $2`,
+            [character_id, key]
+        )
+        return result.rowCount
+    },
+
+    deleteExtraAttributes: async (character_id: number, keys: string[]) => {
+        if (keys.length === 0) return []
+
+        const params = [character_id, keys]
+        const result = await db.query(
+            `
+            DELETE FROM ${env.DB_TABLE_CHARACTER_EXTRA_ATTRIBUTES}
+            WHERE character_id = $1 AND key = ANY($2::text[])
+            RETURNING *
+            `,
+            params
+        )
+
+        return result.rows
+    },
+
+    deleteAllExtraAttributes: async (character_id: number) => {
+        const result = await db.query(
+            `DELETE FROM ${env.DB_TABLE_CHARACTER_EXTRA_ATTRIBUTES} WHERE character_id = $1`,
+            [character_id]
         )
         return result.rowCount
     },
@@ -187,6 +264,18 @@ export const characterModel = {
         return result.rowCount
     },
 
+    getRelationshipById: async (id: number) => {
+        const result = await db.query(
+            `
+            SELECT *
+            FROM ${env.DB_TABLE_CHARACTER_RELATIONSHIPS}
+            WHERE id = $1
+            `,
+            [id]
+        )
+        return result.rows[0]
+    },
+
     addRelationship: async (character_id: number, related_character_id: number, relation_type: string, note?: string) => {
         const result = await db.query(
             `
@@ -198,6 +287,14 @@ export const characterModel = {
             [character_id, related_character_id, relation_type, note ?? null]
         )
         return result.rows[0]
+    },
+
+    deleteRelationship: async (id: number) => {
+        const result = await db.query(
+            `DELETE FROM ${env.DB_TABLE_CHARACTER_RELATIONSHIPS} WHERE id = $1`,
+            [id]
+        )
+        return result.rowCount
     },
 
     listRelationships: async (character_id: number) => {

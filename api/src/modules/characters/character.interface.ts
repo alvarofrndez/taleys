@@ -11,13 +11,6 @@ export const CharacterBelongingLevel = {
   book: 'book',
 } as const
 
-export type CharacterStatus = 'alive' | 'dead' | 'unknown'
-export const CharacterStatus = {
-  alive: 'alive',
-  dead: 'dead',
-  unknown: 'unknown',
-} as const
-
 export interface ICharacterRelationshipInput {
     related_character_id: number
     relation_type: string
@@ -42,30 +35,17 @@ export interface ICharacter {
     name: string
     slug: string
     alias?: string
-    age?: string
-    gender?: string
-    race_species?: string
-    status?: CharacterStatus
+    biography?: string
     image_url?: string | null
+
+    extra_attributes?: any[]
 
     belonging_level: CharacterBelongingLevel
     belonging_id: number
     belonging_object: IProject | IUniverse | ISaga | IBook
 
-    biography?: string
-    motivations?: string
-    objectives?: string
-    fears?: string
-    strengths?: string
-    weaknesses?: string
-    profession?: string
-
-    physical_description?: string
-    abilities?: string
-    limitations?: string
-
     appearances?: number[]
-
     relationships?: ICharacterRelationshipInput[]
+
 }
 

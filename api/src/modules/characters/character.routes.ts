@@ -24,5 +24,6 @@ router.get('/:id/timeline', asyncHandler(userSetter), asyncHandler(projectRequir
 
 router.post('/:id/relationships', asyncHandler(authRequired), asyncHandler(projectRequired), asyncHandler(projectVisibility), asyncHandler(characterController.addRelationship))
 router.get('/:id/relationships', asyncHandler(userSetter), asyncHandler(projectRequired), asyncHandler(projectVisibility), asyncHandler(characterController.listRelationships))
+router.delete('/:id/relationships/:relationship_id', asyncHandler(userSetter), asyncHandler(projectRequired), asyncHandler(projectVisibility), asyncHandler(characterController.deleteRelationship))
 
 export default router

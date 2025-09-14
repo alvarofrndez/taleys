@@ -53,6 +53,37 @@ export const bookService = {
         return book
     },
 
+    getByIdLiteWithParentsLite: async (book_id: number) => {
+        /**
+         * Obtiene un libro a través de su ID, obteniendo los objetos lite de sus elementos narrativos padres.
+         * 
+         * Pasos:
+         * 1. Intenta obtener el libro por su ID.
+         * 2. Si no se encuentra, lanza un error `DataNotFound`.
+         * 3. Si se encuentra, lo devuelve.
+         * 
+         * @param {number} book_id - ID de el libro que se desea obtener.
+         * 
+         * @returns {IBook} El objeto `book` correspondiente al ID proporcionado.
+         * 
+         * @throws `DataNotFound` Si no se encuentra ningún libro con el ID dado.
+        */
+        let book: IBook = await bookModel.getById(book_id)
+
+        if(!book) throw new CustomError('El libro no existe', 404, env.DATA_NOT_FOUND_CODE)
+
+
+        if(book.universe_id != null && (typeof book.universe_id === 'number' || typeof book.universe_id === 'string')){
+            book.universe = await universeService.getByIdLite(book.universe_id)
+        }
+
+        if(book.saga_id != null && (typeof book.saga_id === 'number' || typeof book.saga_id === 'string')){
+            book.saga = await sagaService.getByIdLite(book.saga_id)
+        }
+
+        return book
+    },
+
     getByIdEditData: async (book_id: number) => {
         /**
          * Obtiene los datos de un libro, necesarios para editarlo a través de su ID.

@@ -3,11 +3,17 @@ import { useState, useEffect } from 'react'
 import { apiCall } from '@/services/apiCall'
 import Loader from '@/components/Loader'
 import { openModal } from '@/stores/modalSlice'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Icon from '@/components/iconComponent'
+import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+import DropdownMenu from '@/components/DropdownMenu'
+import pushToast from '@/utils/pushToast'
 
 export default function CharacterRelationships({ character, project, can_edit }) {
     const dispatch = useDispatch()
+    const router = useRouter()
+    const user = useSelector((state) => state.auth.user)
     const [relationships, setRelationships] = useState(null)
     const [loading, setLoading] = useState(true)
     const [filter, setFilter] = useState('all')
@@ -101,12 +107,73 @@ export default function CharacterRelationships({ character, project, can_edit })
         )
     }
 
-    const filteredRelationships = getFilteredRelationships()
-    const relationshipStats = {
+    const handleEditRelationship = (relationship) => {
+        dispatch(openModal({
+            component: 'EditCharacterRelationship',
+            props: { 
+                project, 
+                character, 
+                relationship,
+                onClose: fetchRelationships 
+            },
+        }))
+    }
+
+    const handleDeleteRelationship = async (relationshipId) => {
+        dispatch(openModal({
+            component: 'Dialog',
+            props: {
+                message: '¿Estás seguro de que quieres eliminar esta relación?'
+            },
+            onConfirmCallback: async () => {
+                setLoading(true)
+                const response = await apiCall('DELETE', `/projects/${project.id}/characters/${character.id}/relationships/${relationshipId}`)
+                if (response.success) {
+                    fetchRelationships()
+                    pushToast(response.message, 'success')
+                }
+                setLoading(false)
+            }
+        }))
+    }
+
+    const createDropdownOptions = (relationship) => [
+        {
+            id: 'edit',
+            label: 'Editar',
+            icon: 'edit',
+            onClick: (e) => {
+                e.stopPropagation()
+                handleEditRelationship(relationship)
+            },
+            disabled: !can_edit,
+            'data-option-id': 'edit'
+        },
+        { divider: true },
+        {
+            id: 'delete',
+            label: 'Eliminar',
+            icon: 'trash',
+            dangerous: true,
+            onClick: (e) => {
+                e.stopPropagation()
+                handleDeleteRelationship(relationship.id)
+            },
+            disabled: !can_edit,
+            'data-option-id': 'delete'
+        }
+    ]
+
+    const filtered_relationships = getFilteredRelationships()
+    const relationship_stats = {
         total: relationships.length,
         allies: relationships.filter(r => r.relation_type === 'ally').length,
         enemies: relationships.filter(r => r.relation_type === 'enemy').length,
         family: relationships.filter(r => r.relation_type === 'family').length
+    }
+
+    const goToCharacter = (slug) => {
+        router.push(`/${user.username}/projects/${project.slug}/characters/${slug}`)
     }
 
     return (
@@ -137,19 +204,19 @@ export default function CharacterRelationships({ character, project, can_edit })
                         <div className={styles.statsGrid}>
                             <div className={styles.statItem}>
                                 <div className={`${styles.statNumber} ${styles.totalStat}`}>
-                                    {relationshipStats.total}
+                                    {relationship_stats.total}
                                 </div>
                                 <div className={styles.statLabel}>Total</div>
                             </div>
                             <div className={styles.statItem}>
                                 <div className={`${styles.statNumber} ${styles.alliesStat}`}>
-                                    {relationshipStats.allies}
+                                    {relationship_stats.allies}
                                 </div>
                                 <div className={styles.statLabel}>Aliados</div>
                             </div>
                             <div className={styles.statItem}>
                                 <div className={`${styles.statNumber} ${styles.enemiesStat}`}>
-                                    {relationshipStats.enemies}
+                                    {relationship_stats.enemies}
                                 </div>
                                 <div className={styles.statLabel}>Enemigos</div>
                             </div>
@@ -157,7 +224,6 @@ export default function CharacterRelationships({ character, project, can_edit })
                     </div>
                 </div>
 
-                {/* Filtros */}
                 <div className={styles.filterSection}>
                     <div className={styles.filterButtons}>
                         {['all','ally','enemy','family','romantic'].map(type => (
@@ -172,19 +238,24 @@ export default function CharacterRelationships({ character, project, can_edit })
                     </div>
                 </div>
 
-                {filteredRelationships.length > 0 ? (
+                {filtered_relationships.length > 0 ? (
                     <div className={styles.relationshipsList}>
                         {
-                            filteredRelationships.map((relationship) => (
-                                <div key={relationship.id} className={styles.relationshipCard}>
+                            filtered_relationships.map((relationship) => (
+                                <div key={relationship.id} className={styles.relationshipCard} onClick={() => goToCharacter(relationship.related_character.slug)}>
                                     <header className={styles.relationshipHeader}>
                                         <div className={styles.characterInfo}>
                                             <div className={styles.characterAvatar}>
-                                                {relationship.related_character.name}
+                                                <Image
+                                                    src={relationship.related_character.iamge_url ?? '/images/placeholder.svg'}
+                                                    alt={relationship.related_character.name}
+                                                    width={50}
+                                                    height={50}
+                                                />
                                             </div>
                                             <div className={styles.characterDetails}>
                                                 <h3>{relationship.related_character.name}</h3>
-                                                <p>{relationship.related_character.role}</p>
+                                                <p>{relationship.related_character.alias}</p>
                                             </div>
                                         </div>
                                         <div className={styles.badges}>
@@ -201,6 +272,16 @@ export default function CharacterRelationships({ character, project, can_edit })
                                             <span className={`${styles.intensityBadge} ${getIntensityColor(relationship.intensity)}`}>
                                                 {getIntensityLabel(relationship.intensity)}
                                             </span>
+
+                                            {
+                                                can_edit &&
+                                                <DropdownMenu
+                                                    options={createDropdownOptions(relationship)}
+                                                    triggerIcon="more-horizontal"
+                                                    triggerIconSize={18}
+                                                    ariaLabel={`Opciones para la relación con ${relationship.related_character.name}`}
+                                                />
+                                            }
                                         </div>
                                     </header>
 

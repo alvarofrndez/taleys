@@ -97,6 +97,9 @@
             box-shadow: variables.$shadow-md;
 
             .sectionHeader {
+                // display
+                @include mixins.flex(row, space-between, center);
+
                 // margin
                 padding: variables.$spacing-6 variables.$spacing-6 0;
 
@@ -115,6 +118,29 @@
                     img {
                         // decoration
                         opacity: 0.7;
+                    }
+                }
+
+                .customHeader{
+                    // display
+                    @include mixins.flex(row, flex-end, center);
+
+                    button{
+                        // display
+                        @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-1);
+
+                        // margin
+                        padding: variables.$spacing-1 variables.$spacing-2;
+
+                        // decoration
+                        color: var(--color-terciary-foreground);
+                        border-radius: variables.$border-radius-md;
+                        background: var(--color-terciary);
+                        border: 1px solid var(--color-terciary);
+
+                        &:hover {
+                            background: var(--color-accent);
+                        }
                     }
                 }
             }
@@ -171,9 +197,8 @@
 
                 .field {
                     // display
-                    @include mixins.flex(row, space-between, center);
+                    @include mixins.flex(row, space-between, center, nowrap, variables.$spacing-2);
 
-                    // margin
                     padding: variables.$spacing-3 0;
 
                     // decoration
@@ -203,7 +228,6 @@
                         
                         // size
                         flex: 1;
-
                         
                         .fieldStatus {
                             // display
@@ -319,143 +343,47 @@
                             animation: spin 1s linear infinite;
                         }
                     }
-                }
 
-                .largeField {
-                    // margin
-                    margin-bottom: variables.$spacing-6;
+                    .labelExtra{
+                        *{
+                             @include mixins.flex(row, flex-start, center);
 
-                    &:last-child {
-                        // margin
-                        margin-bottom: 0;
-                    }
-
-                    .fieldHeader {
-                        // display
-                        @include mixins.flex(row, space-between, center);
-                        
-                        // margin
-                        margin-bottom: variables.$spacing-3;
-                        
-                        h4 {
-                            // display
-                            @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
-                            
                             // margin
-                            margin: 0;
-                            
+                            padding: 0;
+
                             // decoration
                             font-size: variables.$font-size-sm;
-                            font-weight: variables.$font-weight-semibold;
-                            color: var(--color-foreground);
-                        }
-                    }
-
-                    .textContainer {
-                        // margin
-                        padding: variables.$spacing-4;
-                        
-                        // decoration
-                        background: var(--color-muted);
-                        border-radius: variables.$border-radius-lg;
-
-                        p {
-                            // margin
-                            margin: 0;
-                            
-                            // decoration
+                            font-weight: variables.$font-weight-medium;
                             color: var(--color-muted-foreground);
-                            line-height: 1.6;
-                            font-size: variables.$font-size-sm;
-                        }
-
-                        &.editable {
-                            // position
-                            position: relative;
-                            
-                            // decoration
-                            border: 1px solid transparent;
-                            border-radius: variables.$border-radius-lg;
-                            cursor: pointer;
-                            
-                            // animation
-                            transition: all 0.2s ease;
+                            border: none;
+                            background-color: transparent;
+                            text-align: start;
                             
                             &:hover {
                                 // decoration
-                                border-color: var(--color-border);
-                                background: var(--color-card);
-                            }
-                        }
-
-                        .textDisplay {
-                            // position
-                            position: relative;
-                            
-                            &.clickable {
-                                // decoration
-                                cursor: pointer;
-                                
-                                .editHint {
-                                    // position
-                                    position: absolute;
-                                    top: variables.$spacing-2;
-                                    right: variables.$spacing-2;
-                                    
-                                    // decoration
-                                    opacity: 0;
-                                    padding: variables.$spacing-1;
-                                    background: rgba(255, 255, 255, 0.9);
-                                    border-radius: variables.$border-radius-sm;
-                                    
-                                    // animation
-                                    transition: opacity 0.2s ease;
-                                }
-                                
-                                &:hover .editHint {
-                                    // decoration
-                                    opacity: 1;
-                                }
+                                background: transparent;
+                                border-color: transparent;
                             }
                             
-                            p.emptyText {
+                            &:focus {
                                 // decoration
-                                color: var(--color-muted-foreground);
-                                font-style: italic;
-                                opacity: 0.7;
-                            }
-                        }
-
-                        .editTextarea {
-                            // size
-                            width: 100%;
-                            min-height: 100px;
-                            
-                            // margin
-                            padding: variables.$spacing-3;
-                            
-                            // decoration
-                            border: 2px solid #3b82f6;
-                            border-radius: variables.$border-radius-lg;
-                            background: var(--color-background);
-                            color: var(--color-foreground);
-                            font-family: inherit;
-                            font-size: variables.$font-size-sm;
-                            line-height: 1.6;
-                            resize: vertical;
-                            outline: none;
-                            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-                            
-                            // animation
-                            animation: focusIn 0.2s ease-out forwards;
-                            
-                            &::placeholder {
-                                // decoration
-                                color: var(--color-muted-foreground);
-                                opacity: 0.6;
+                                outline: none;
+                                border-color: transparent;
+                                box-shadow: none;
                             }
                         }
                     }
+
+                    .deleteIcon{
+                        // display
+                        @include mixins.flex(row, center, center);
+
+                    }
+                }
+
+                .fieldList{
+                    // decoration
+                    cursor: pointer;
                 }
             }
 

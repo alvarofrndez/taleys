@@ -10,8 +10,10 @@ export default function Icon({
   color,
   className = '',
   hoverColor,
-  fill, // 👈 ahora opcional, solo se aplica si lo pasas
-  onClick = null
+  backgroundHoverColor,
+  fill,
+  onClick = null,
+  disabled = false
 }) {
   const [svgContent, setSvgContent] = useState(null)
 
@@ -26,11 +28,9 @@ export default function Icon({
     if (!svgContent) return null
 
     let result = svgContent
-      // strokes → siempre currentColor
       .replace(/stroke="[^"]*"/g, 'stroke="currentColor"')
 
     if (fill) {
-      // 👇 Solo reemplazamos fill si ya existe en el svg
       if (/fill="[^"]*"/.test(result)) {
         result = result.replace(/fill="[^"]*"/g, `fill="${fill}"`)
       }
@@ -40,6 +40,23 @@ export default function Icon({
   }, [svgContent, fill])
 
   if (!coloredSvg) return null
+
+  const handleClick = (e) => {
+    if (disabled) return
+    if (onClick) onClick(e)
+  }
+
+  const handleMouseEnter = (e) => {
+    if (disabled) return
+    if (hoverColor) e.currentTarget.style.color = hoverColor
+    if (backgroundHoverColor) e.currentTarget.style.backgroundColor = backgroundHoverColor
+  }
+
+  const handleMouseLeave = (e) => {
+    if (disabled) return
+    if (hoverColor) e.currentTarget.style.color = ''
+    if (backgroundHoverColor) e.currentTarget.style.backgroundColor = ''
+  }
 
   return (
     <span
@@ -51,16 +68,14 @@ export default function Icon({
         width,
         height,
         color: color,
-        stroke: color
+        stroke: color,
+        opacity: disabled ? 0.5 : 1,
+        cursor: disabled ? 'not-allowed' : 'pointer'
       }}
       dangerouslySetInnerHTML={{ __html: coloredSvg }}
-      onMouseEnter={
-        hoverColor ? (e) => (e.currentTarget.style.color = hoverColor) : undefined
-      }
-      onMouseLeave={
-        hoverColor ? (e) => (e.currentTarget.style.color = color || 'currentColor') : undefined
-      }
-      onClick={onClick || undefined}
+      onClick={handleClick}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     />
   )
 }
