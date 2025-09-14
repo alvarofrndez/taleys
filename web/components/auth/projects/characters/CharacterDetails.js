@@ -63,7 +63,7 @@ export default function CharacterDetails({ character, onSave, can_edit }) {
                     case 'saga':
                         return 'saga'
                     case 'universe':
-                        return 'universe'
+                        return 'internet'
                     case 'project':
                         return 'project'
                     default:

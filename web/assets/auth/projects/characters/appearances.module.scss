@@ -15,20 +15,22 @@
     // size
     width: 100%;
 
+    // display
+    @include mixins.flex(row);
+
     .contentContainer {
         // size
         width: 100%;
 
-        // margin
-        margin: 0 auto;
-
         // display
-        @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-8);
+        @include mixins.flex(row);
 
         // Appearances List
         .appearancesList {
+            // size
+            width: 100%;
             // display
-            @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-6);
+            @include mixins.flex(row, flex-start, flex-start, wrap, variables.$spacing-6);
 
             .appearanceCard {
                 // decoration
@@ -41,7 +43,7 @@
                     @include mixins.flex(row, space-between, center);
 
                     // margin
-                    padding: variables.$spacing-6;
+                    padding: variables.$spacing-4;
 
                     .typeBadge {
                         // margin
@@ -62,7 +64,7 @@
                     @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-8);
                     
                     // margin
-                    padding: variables.$spacing-6;
+                    padding: variables.$spacing-4;
 
                     .infoGrid {
                         // display

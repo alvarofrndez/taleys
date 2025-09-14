@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation'
 import Icon from '@/components/iconComponent'
 import MultiSelect from '@/components/Multiselect'
 
-const CreateSagaCharacter = ({ project, saga }) => {
+const CreateUniverseCharacter = ({ project, universe }) => {
     const dispatch = useDispatch()
     const router = useRouter()
     const BASE_URL = `/projects/${project.id}/characters`
@@ -24,8 +24,8 @@ const CreateSagaCharacter = ({ project, saga }) => {
     const [form, setForm] = useState({
         name: '',
         alias: '',
-        belonging_level: 'saga',
-        belonging_id: saga.id,
+        belonging_level: 'universe',
+        belonging_id: universe.id,
         appearances: [],
         extra_attributes: []
     })
@@ -33,14 +33,14 @@ const CreateSagaCharacter = ({ project, saga }) => {
     useEffect(() => {
         const fetchData = async () => {
             setLoadingGlobal(true)
-            const res = await apiCall('GET', `/projects/${project.id}/sagas/${saga.id}/books`)
+            const res = await apiCall('GET', `/projects/${project.id}/universes/${universe.id}/books`)
             if (res?.success) {
                 setBooks(res.data)
             }
             setLoadingGlobal(false)
         }
         fetchData()
-    }, [project.id, saga.id])
+    }, [project.id, universe.id])
 
     const addAttribute = () => {
         setForm({
@@ -59,15 +59,6 @@ const CreateSagaCharacter = ({ project, saga }) => {
         const updated = [...form.extra_attributes]
         updated.splice(index, 1)
         setForm({ ...form, extra_attributes: updated })
-    }
-
-    const toggleAppearance = (book_id) => {
-        setForm({
-            ...form,
-            appearances: form.appearances.includes(book_id)
-                ? form.appearances.filter((id) => id !== book_id)
-                : [...form.appearances, book_id]
-        })
     }
 
     const handleSubmit = async () => {
@@ -103,9 +94,9 @@ const CreateSagaCharacter = ({ project, saga }) => {
             <header className={styles.header}>
                 <div className={styles.name}>
                     <Icon name='character' alt='personaje' width={15} height={15} />
-                    <h3>Nuevo Personaje en Saga</h3>
+                    <h3>Nuevo Personaje en Universo</h3>
                 </div>
-                <p>Crea un nuevo personaje dentro de la saga &quot;{saga.name}&quot;.</p>
+                <p>Crea un nuevo personaje dentro del universo &quot;{universe.name}&quot;.</p>
             </header>
         
             <div className={styles.content}>
@@ -209,4 +200,4 @@ const CreateSagaCharacter = ({ project, saga }) => {
     )
 }
 
-export default CreateSagaCharacter
+export default CreateUniverseCharacter

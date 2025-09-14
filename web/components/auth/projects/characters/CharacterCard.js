@@ -43,7 +43,7 @@ export default function CharacterCard({ project, character }) {
                     {character.belonging_level === 'saga' && character.belonging_object && (
                         <div className={styles.metaItem}>
                             <Icon 
-                                name='books'
+                                name='saga'
                                 width={12}
                                 height={12}
                                 alt='Saga'
