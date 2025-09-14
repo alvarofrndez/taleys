@@ -15,7 +15,7 @@
         // display
         @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-1);
         
-        .title{
+        .name{
             // display
             @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
 
@@ -59,6 +59,49 @@
                     // decoration
                     font-size: variables.$font-size-sm;
                     font-weight: variables.$font-weight-medium;
+                }
+
+                textarea{
+                    // size
+                    width: 100%;
+
+                    // margin
+                    padding: variables.$spacing-2;
+
+                    // decoration
+                    font-size: variables.$font-size-sm;
+                    font-weight: variables.$font-weight-normal;
+                    background-color: var(--color-muted);
+                    border-radius: variables.$border-radius-md;
+                    border: 1px solid var(--color-border);
+                }
+
+                select{
+                    // margin
+                    padding: variables.$spacing-2;
+
+                    // decoration
+                    font-size: variables.$font-size-sm;
+                    font-weight: variables.$font-weight-normal;
+                    background-color: var(--color-muted);
+                    border-radius: variables.$border-radius-md;
+                    border: 1px solid var(--color-border);
+                    cursor: pointer;
+                }
+
+                .select{
+                    // size
+                    width: 100%;
+                    height: min-content;
+                    min-height: 0;
+                    overflow-y: auto;
+                }
+
+                span{
+                    // decoration
+                    font-size: variables.$font-size-sm;
+                    font-weight: variables.$font-weight-normal;
+                    color: var(--color-muted-foreground);
                 }
 
                 .inputGroup{

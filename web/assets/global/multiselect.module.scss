@@ -1,0 +1,135 @@
+@use '@/assets/variables.scss' as variables;
+@use '@/assets/mixins.scss' as mixins;
+
+.multiselectContainer {
+    // size
+    width: 100%;
+
+    //  position
+    position: relative;
+
+    &.disabled {
+        .multiselectInput {
+            background-color: var(--color-muted);
+            cursor: not-allowed;
+        }
+
+        .selectedTag button {
+            display: none;
+        }
+    }
+
+    .multiselectInput {
+        border: 1px solid var(--color-border);
+        border-radius: variables.$border-radius-md;
+        padding: variables.$spacing-2 variables.$spacing-3;
+        background-color: var(--color-background);
+        min-height: 42px;
+
+        @include mixins.flex(row, flex-start, center, wrap, variables.$spacing-1);
+
+        cursor: pointer;
+
+        .selectedTag {
+        background-color: var(--color-muted);
+        color: var(--color-foreground);
+        padding: 2px 8px;
+        border-radius: variables.$border-radius-sm;
+        font-size: variables.$font-size-sm;
+
+        @include mixins.flex(row, center, center, nowrap, variables.$spacing-1);
+
+        button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            color: var(--color-muted-foreground);
+            font-size: 16px;
+            font-weight: bold;
+        }
+        }
+
+        .placeholder {
+        color: var(--color-muted-foreground);
+        font-size: variables.$font-size-sm;
+        }
+
+        .arrow {
+        margin-left: auto;
+        color: var(--color-muted-foreground);
+        }
+    }
+
+    .multiselectDropdown {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+
+        background-color: var(--color-background);
+        border: 1px solid var(--color-border);
+        border-radius: variables.$border-radius-md;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+
+        max-height: 250px;
+        overflow: hidden;
+
+        .searchBox {
+        padding: variables.$spacing-2;
+
+        input {
+            width: 100%;
+            padding: variables.$spacing-1 variables.$spacing-2;
+            border: 1px solid var(--color-border);
+            border-radius: variables.$border-radius-sm;
+            font-size: variables.$font-size-sm;
+        }
+        }
+
+        .selectAll {
+        padding: variables.$spacing-2 variables.$spacing-3;
+        cursor: pointer;
+        border-bottom: 1px solid var(--color-border);
+        font-size: variables.$font-size-sm;
+        font-weight: variables.$font-weight-medium;
+        color: var(--color-foreground);
+
+        @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
+
+        &.active {
+            background-color: var(--color-muted);
+        }
+        }
+
+        .itemsList {
+        max-height: 200px;
+        overflow-y: auto;
+
+        .item {
+            padding: variables.$spacing-2 variables.$spacing-3;
+            cursor: pointer;
+            font-size: variables.$font-size-sm;
+            color: var(--color-foreground);
+
+            @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
+
+            &:hover {
+            background-color: var(--color-muted);
+            }
+
+            &.selected {
+            background-color: var(--color-muted);
+            }
+        }
+
+        .empty {
+            padding: variables.$spacing-3;
+            text-align: center;
+            color: var(--color-muted-foreground);
+            font-size: variables.$font-size-sm;
+        }
+        }
+    }
+}

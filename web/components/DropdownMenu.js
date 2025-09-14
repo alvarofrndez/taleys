@@ -37,7 +37,7 @@ export default function DropdownMenu({options, triggerIcon = 'more-horizontal', 
                         <RadixDropdown.Item
                             key={option.id || idx}
                             className={`${styles.dropdownItem} ${option.dangerous ? styles.dangerous : ''}`}
-                            disabled={option.disabled}
+                            disabled={`${option.disabled}`}
                             onClick={(e) => {
                                 e.stopPropagation()
                                 e.preventDefault()
