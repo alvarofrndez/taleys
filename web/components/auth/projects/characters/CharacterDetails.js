@@ -142,7 +142,8 @@ export default function CharacterDetails({ character, onSave, can_edit }) {
             icon: 'user',
             fields: [
                 { label: 'Nombre', key: 'name', type: 'input' },
-                { label: 'Alias', key: 'alias', type: 'input' }
+                { label: 'Alias', key: 'alias', type: 'input' },
+                { label: 'Biografía', key: 'biography', type: 'input' }
             ],
             customHeader: () => {
                 return can_edit && (
@@ -163,6 +164,7 @@ export default function CharacterDetails({ character, onSave, can_edit }) {
                     <>
                         {renderField({ label: 'Nombre', key: 'name', type: 'input' })}
                         {renderField({ label: 'Alias', key: 'alias', type: 'input' })}
+                        {renderField({ label: 'Biografía', key: 'biography', type: 'input' })}
                         
                         {edited_character.extra_attributes.map((attr, index) => 
                             renderExtraAttribute(attr, index)
