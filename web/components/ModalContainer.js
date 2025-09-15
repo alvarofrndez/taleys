@@ -18,6 +18,8 @@ import CreateSagaChild from '@/components/modal/auth/projects/sagas/childs/Creat
 import CreateSagaBook from '@/components/modal/auth/projects/sagas/childs/CreateSagaBook'
 import CreateSagaCharacter from '@/components/modal/auth/projects/sagas/childs/CreateSagaCharacter'
 import CreateBookCharacter from '@/components/modal/auth/projects/books/childs/CreateBookCharacter'
+import CreateCharacterAppearance from '@/components/modal/auth/projects/characters/appearances/CreateCharacterAppearance'
+import EditCharacterAppearance from '@/components/modal/auth/projects/characters/appearances/EditCharacterAppearance'
 import CreateCharacterRelationship from '@/components/modal/auth/projects/characters/relationships/CreateCharacterRelationship'
 import EditCharacterRelationship from '@/components/modal/auth/projects/characters/relationships/EditCharacterRelationship'
 import Icon from '@/components/iconComponent'
@@ -39,6 +41,8 @@ const component_map = {
   'CreateSagaBook': CreateSagaBook,
   'CreateSagaCharacter': CreateSagaCharacter,
   'CreateBookCharacter': CreateBookCharacter,
+  'CreateCharacterAppearance': CreateCharacterAppearance,
+  'EditCharacterAppearance': EditCharacterAppearance,
   'CreateCharacterRelationship': CreateCharacterRelationship,
   'EditCharacterRelationship': EditCharacterRelationship,
 }

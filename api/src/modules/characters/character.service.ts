@@ -1,7 +1,7 @@
 import { env } from '@/config/config_env'
 import CustomError from '@/modules/customerror/CustomError'
 import { characterModel } from './Character'
-import { ICharacter, ICharacterAppearanceInput, ICharacterRelationshipInput, ICharacterTimelineEventInput } from './character.interface'
+import { ICharacter, ICharacterAppearance, ICharacterAppearanceInput, ICharacterRelationship, ICharacterRelationshipInput, ICharacterTimelineEventInput } from './character.interface'
 import { bookService } from '@/modules/books/book.service'
 import { generateUniqueSlug } from '@/utils/slugify'
 import { CharacterBelongingLevel } from '@/modules/characters/character.interface'
@@ -243,6 +243,33 @@ export const characterService = {
         return await characterModel.getExtraAttributes(character_id)
     },
 
+    getAppearanceById: async (id: number) => {
+        const appearance = await characterModel.getAppearanceById(id)
+
+        if(!appearance) throw new CustomError('La aparición no existe', 404, env.DATA_NOT_FOUND_CODE)
+
+        return appearance 
+    },
+
+    getAppearanceByCharacterAndBook: async (character_id: number, book_id: number) => {
+        const appearance = await characterModel.getAppearanceByCharacterAndBook(character_id, book_id)
+
+        if(!appearance) throw new CustomError('La aparición no existe', 404, env.DATA_NOT_FOUND_CODE)
+
+        return appearance 
+    },
+
+    addAppearance: async (character_id: number, data: ICharacterAppearance) => {
+        if (!data.book_id) {
+            throw new CustomError('No se ha indicado correctamente el libro', 400, env.INVALID_DATA_CODE)
+        }
+        await bookService.getByIdLite(data.book_id)
+
+        if(await characterModel.getAppearanceByCharacterAndBook(character_id, data.book_id))throw new CustomError('Ya hay una aparición de este personaje en este libro', 400, env.DUPLICATE_DATA_CODE)
+
+        return await characterModel.addAppearance(character_id, data)
+    },
+
     addAppearances: async (character_id: number, data: ICharacterAppearanceInput) => {
         if(!Array.isArray(data.book_ids)) throw new CustomError('appearances debe ser un array de ids de libros', 400, env.INVALID_DATA_CODE)
         if(data.book_ids.length === 0) return []
@@ -250,6 +277,25 @@ export const characterService = {
             await bookService.getByIdLite(book_id)
         }
         return await characterModel.addAppearances(character_id, data.book_ids)
+    },
+
+    updateAppearance: async (character_id: number, appearance_id: number, data: ICharacterAppearance) => {
+        if (!data.book_id) {
+            throw new CustomError('No se ha indicado correctamente el libro', 400, env.INVALID_DATA_CODE)
+        }
+        await bookService.getByIdLite(data.book_id)
+
+        const exists = await characterModel.getAppearanceByCharacterAndBook(character_id, data.book_id)
+
+        if(exists && exists.id != appearance_id) throw new CustomError('Ya hay una aparición de este personaje en este libro', 400, env.DUPLICATE_DATA_CODE)
+
+        return await characterModel.updateAppearance(appearance_id, data)
+    },
+
+    deleteAppearance: async (relationship_id: number) => {
+        await characterService.getAppearanceById(relationship_id)
+
+        return await characterModel.deleteAppearance(relationship_id)
     },
 
     listAppearances: async (character_id: number) => {
@@ -285,11 +331,35 @@ export const characterService = {
         return relationship 
     },
 
+    getRelationshipByCharactersAndType: async (character_id: number, related_character_id: number, type: string) => {
+        const relationship = await characterModel.getRelationshipByCharactersAndType(character_id,related_character_id, type)
+
+        if(!relationship) throw new CustomError('La relación no existe', 404, env.DATA_NOT_FOUND_CODE)
+
+        return relationship 
+    },
+
     addRelationship: async (character_id: number, rel: ICharacterRelationshipInput) => {
         await characterService.getByIdLite(character_id)
         await characterService.getByIdLite(rel.related_character_id)
-        if(!rel.relation_type || !rel.relation_type.trim()) throw new CustomError('relation_type es requerido', 400, env.INVALID_DATA_CODE)
+
+        if(!rel.relation_type || !rel.relation_type.trim()) throw new CustomError('El tipo de relación es requerido', 400, env.INVALID_DATA_CODE)
+        if(await characterModel.getRelationshipByCharactersAndType(character_id, rel.related_character_id, rel.relation_type)) throw new CustomError('Ya hay una relación de este tipo entro estos dos personajes', 400, env.DUPLICATE_DATA_CODE)
         return await characterModel.addRelationship(character_id, rel.related_character_id, rel.relation_type, rel.note)
+    },
+
+    updateRelationship: async (character_id: number, realtionship_id: number, data: ICharacterRelationship) => {
+        if (!data.related_character_id) throw new CustomError('No se ha indicado correctamente el personaje con el que relacionar', 400, env.INVALID_DATA_CODE)
+        if(!data.relation_type || !data.relation_type.trim()) throw new CustomError('El tipo de relación es requerido', 400, env.INVALID_DATA_CODE)
+        
+        await characterService.getByIdLite(character_id)
+        await characterService.getByIdLite(data.related_character_id)
+
+        const exists = await characterModel.getRelationshipByCharactersAndType(character_id, data.related_character_id, data.relation_type)
+
+        if(exists && exists.id != realtionship_id) throw new CustomError('Ya hay una relación de este tipo entro estos dos personajes', 400, env.DUPLICATE_DATA_CODE)
+
+        return await characterModel.updateRelationship(realtionship_id, data)
     },
 
     deleteRelationship: async (relationship_id: number) => {

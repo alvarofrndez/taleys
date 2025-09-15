@@ -51,17 +51,45 @@ export const characterController = {
         res.status(200).json({ success: true, data: list, message: 'Personajes obtenidos' })
     },
 
+    addAppearance: async (req: Request, res: Response, next: NextFunction) => {
+        const { id } = req.params as any
+        const data = req.body
+        const inserted = await characterService.addAppearance(Number(id), data)
+        res.status(200).json({ success: true, data: inserted, message: `Aparición añadida` })
+    },
+
     addAppearances: async (req: Request, res: Response, next: NextFunction) => {
         const { id } = req.params as any
         const data = req.body
         const inserted = await characterService.addAppearances(Number(id), data)
-        res.status(200).json({ success: true, data: inserted, message: 'Apariciones añadidas' })
+        res.status(200).json({ success: true, data: inserted, message: `Aparici${inserted.length == 1 ? 'ó' : 'o'}n${inserted.length == 1 ? '' : 'es'} añadida${inserted.length == 1 ? '' : 's'}` })
+    },
+
+    updateAppearance: async (req: Request, res: Response, next: NextFunction) => {
+        const { id, appearance_id } = req.params as any
+        const data = req.body
+        const inserted = await characterService.updateAppearance(Number(id), Number(appearance_id), data)
+        res.status(200).json({ success: true, data: inserted, message: `Aparición actualizada` })
     },
 
     listAppearances: async (req: Request, res: Response, next: NextFunction) => {
         const { id } = req.params as any
         const appearances = await characterService.listAppearances(Number(id))
         res.status(200).json({ success: true, data: appearances, message: 'Apariciones obtenidas' })
+    },
+
+    deleteAppearance: async (req: Request, res: Response, next: NextFunction) => {
+        const { appearance_id } = req.params as any
+        const deleted = await characterService.deleteAppearance(Number(appearance_id))
+        
+        if (deleted) {
+            res.status(200).json({
+                success: true,
+                message: 'Aparición eliminada'
+            })
+        } else {
+            throw new CustomError('Error al eliminar la aparición', 400, env.INVALID_DATA_CODE)
+        }
     },
 
     setTimeline: async (req: Request, res: Response, next: NextFunction) => {
@@ -88,6 +116,13 @@ export const characterController = {
         const { id } = req.params as any
         const relationships = await characterService.listRelationships(Number(id))
         res.status(200).json({ success: true, data: relationships, message: 'Relaciones obtenidas' })
+    },
+
+    updateRelationship: async (req: Request, res: Response, next: NextFunction) => {
+        const { id, relationship_id } = req.params as any
+        const data = req.body
+        const inserted = await characterService.updateRelationship(Number(id), Number(relationship_id), data)
+        res.status(200).json({ success: true, data: inserted, message: `Relación actualizada` })
     },
 
     deleteRelationship: async (req: Request, res: Response, next: NextFunction) => {

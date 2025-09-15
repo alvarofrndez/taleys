@@ -1,6 +1,6 @@
 import { env } from '@/config/config_env'
 import db from '@/database/connection'
-import { ICharacter, ICharacterTimelineEventInput } from './character.interface'
+import { ICharacter, ICharacterAppearance, ICharacterRelationship, ICharacterTimelineEventInput } from './character.interface'
 
 export const characterModel = {
     getById: async (id: number) => {
@@ -224,6 +224,43 @@ export const characterModel = {
         return result.rowCount
     },
 
+    getAppearanceById: async (id: number) => {
+        const result = await db.query(
+            `
+            SELECT *
+            FROM ${env.DB_TABLE_CHARACTER_APPEARANCES}
+            WHERE id = $1
+            `,
+            [id]
+        )
+        return result.rows[0]
+    },
+
+    getAppearanceByCharacterAndBook: async (character_id: number, book_id: number) => {
+        const result = await db.query(
+            `
+            SELECT *
+            FROM ${env.DB_TABLE_CHARACTER_APPEARANCES}
+            WHERE character_id = $1 AND book_id = $2
+            `,
+            [character_id, book_id]
+        )
+        return result.rows[0]
+    },
+
+    addAppearance: async (character_id: number, data: ICharacterAppearance) => {
+        const result = await db.query(
+            `
+            INSERT INTO ${env.DB_TABLE_CHARACTER_APPEARANCES} (character_id, book_id, note)
+            VALUES ($1, $2, $3)
+            ON CONFLICT (character_id, book_id) DO NOTHING
+            RETURNING *
+            `,
+            [character_id, data.book_id, data.note ?? null]
+        )
+        return result.rows
+    },
+
     addAppearances: async (character_id: number, book_ids: number[]) => {
         if(book_ids.length === 0) return []
         const values = book_ids.map((_, i) => `($1, $${i+2})`).join(',')
@@ -239,6 +276,19 @@ export const characterModel = {
         )
         return result.rows
     },
+    
+    updateAppearance: async (id: number, data: ICharacterAppearance) => {
+        const result = await db.query(
+            `
+            UPDATE ${env.DB_TABLE_CHARACTER_APPEARANCES} 
+            SET book_id = $1, note = $2
+            WHERE id = $3
+            RETURNING *
+            `,
+            [data.book_id, data.note ?? null, id]
+        )
+        return result.rows
+    },
 
     listAppearances: async (character_id: number) => {
         const result = await db.query(
@@ -246,6 +296,14 @@ export const characterModel = {
             [character_id]
         )
         return result.rows
+    },
+
+    deleteAppearance: async (id: number) => {
+        const result = await db.query(
+            `DELETE FROM ${env.DB_TABLE_CHARACTER_APPEARANCES} WHERE id = $1`,
+            [id]
+        )
+        return result.rowCount
     },
 
     deleteAppearances: async (character_id: number) => {
@@ -276,17 +334,45 @@ export const characterModel = {
         return result.rows[0]
     },
 
+    getRelationshipByCharactersAndType: async (character_id: number, related_character_id: number, relation_type: string) => {
+        const result = await db.query(
+            `
+            SELECT *
+            FROM ${env.DB_TABLE_CHARACTER_RELATIONSHIPS}
+            WHERE relation_type = $1
+                AND (
+                    (character_id = $2 AND related_character_id = $3)
+                    OR (character_id = $3 AND related_character_id = $2)
+                )
+            `,
+            [relation_type, character_id, related_character_id, ]
+        )
+        return result.rows[0]
+    },
+
     addRelationship: async (character_id: number, related_character_id: number, relation_type: string, note?: string) => {
         const result = await db.query(
             `
             INSERT INTO ${env.DB_TABLE_CHARACTER_RELATIONSHIPS} (character_id, related_character_id, relation_type, note)
             VALUES ($1,$2,$3,$4)
-            ON CONFLICT (character_id, related_character_id, relation_type) DO UPDATE SET note = EXCLUDED.note
             RETURNING *
             `,
             [character_id, related_character_id, relation_type, note ?? null]
         )
         return result.rows[0]
+    },
+
+    updateRelationship: async (id: number, data: ICharacterRelationship) => {
+        const result = await db.query(
+            `
+            UPDATE ${env.DB_TABLE_CHARACTER_RELATIONSHIPS} 
+            SET related_character_id = $1, relation_type = $2, note = $3
+            WHERE id = $4
+            RETURNING *
+            `,
+            [data.related_character_id, data.relation_type, data.note ?? null, id]
+        )
+        return result.rows
     },
 
     deleteRelationship: async (id: number) => {

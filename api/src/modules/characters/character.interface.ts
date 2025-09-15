@@ -18,6 +18,13 @@ export interface ICharacterRelationshipInput {
     related_character: ICharacter
 }
 
+export interface ICharacterRelationship {
+  related_character_id: number
+  relation_type: string
+  note?: string
+  related_character: ICharacter
+}
+
 export interface ICharacterTimelineEventInput {
     book_id?: number | null
     event_order: number
@@ -27,6 +34,11 @@ export interface ICharacterTimelineEventInput {
 
 export interface ICharacterAppearanceInput {
   book_ids: number[]
+}
+
+export interface ICharacterAppearance {
+  book_id: number
+  note?: string
 }
 
 export interface ICharacter {

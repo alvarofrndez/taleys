@@ -41,7 +41,7 @@ export default function CharacterView({ character }) {
     const dispatch = useDispatch()
     const { project } = useProject()
 
-    const [activeTab, setActiveTab] = useState('details')
+    const [active_tab, setActiveTab] = useState('details')
     const [loading_delete, setLoadingDelete] = useState(false)
     const [local_character, setLocalCharacter] = useState(character)
 
@@ -110,7 +110,7 @@ export default function CharacterView({ character }) {
     const can_edit = project.members.some((member) => member.user_id === user.id)
 
     const renderTabContent = () => {
-        switch (activeTab) {
+        switch (active_tab) {
             case 'details':
                 return <CharacterDetails character={local_character} can_edit={can_edit} onSave={updateCharacter}/>
             case 'appearances':
@@ -167,7 +167,7 @@ export default function CharacterView({ character }) {
                 {menu_items.map((item) => (
                     <button
                         key={item.key}
-                        className={`${styles.tabButton} ${activeTab === item.key ? styles.active : ''}`}
+                        className={`${styles.tabButton} ${active_tab === item.key ? styles.active : ''}`}
                         onClick={() => setActiveTab(item.key)}
                     >
                         <Icon

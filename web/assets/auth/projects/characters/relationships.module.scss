@@ -102,11 +102,17 @@
 
                     // display
                     display: grid;
-                    grid-template-columns: repeat(3, 1fr);
+                    grid-template-columns: repeat(4, 1fr);
                     gap: variables.$spacing-6;
                     text-align: center;
 
                     @media (max-width: variables.$breakpoint-md) {
+                        // display
+                        grid-template-columns: repeat(2, 1fr);
+                        gap: variables.$spacing-4;
+                    }
+
+                    @media (max-width: variables.$breakpoint-sm) {
                         // display
                         grid-template-columns: 1fr;
                         gap: variables.$spacing-4;
@@ -125,12 +131,16 @@
                                 color: var(--color-primary);
                             }
 
-                            &.alliesStat {
+                            &.publishedStat {
                                 color: var(--color-success);
                             }
 
-                            &.enemiesStat {
-                                color: var(--color-destructive);
+                            &.draftStat {
+                                color: var(--color-warning);
+                            }
+
+                            &.recentStat {
+                                color: var(--color-info);
                             }
                         }
 
@@ -144,14 +154,74 @@
             }
         }
 
-        .filterSection {
+        .searchAndFilterSection {
+            // size
+            width: 100%;
+
             // display
-            align-self: flex-end;
+            @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-4);
 
             // decoration
             @include mixins.card;
             backdrop-filter: blur(12px);
-            padding: variables.$spacing-3  variables.$spacing-4;
+            padding: variables.$spacing-4;
+
+            @media (min-width: variables.$breakpoint-md) {
+                // display
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .searchContainer {
+                // size
+                flex: 1;
+                position: relative;
+
+                // display
+                @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
+
+                // decoration
+                background: var(--color-muted);
+                border: 1px solid var(--color-border);
+                border-radius: variables.$border-radius-md;
+                padding: variables.$spacing-2 variables.$spacing-3;
+
+                @media (min-width: variables.$breakpoint-md) {
+                    // size
+                    max-width: 400px;
+                    margin-right: variables.$spacing-4;
+                }
+
+                .searchInput {
+                    // size
+                    flex: 1;
+                    border: none;
+                    background: transparent;
+                    outline: none;
+
+                    // decoration
+                    font-size: variables.$font-size-sm;
+                    color: var(--color-foreground);
+
+                    &::placeholder {
+                        color: var(--color-muted-foreground);
+                    }
+                }
+
+                .clearSearch {
+                    // decoration
+                    background: none;
+                    border: none;
+                    cursor: pointer;
+                    color: var(--color-muted-foreground);
+                    transition: color 0.2s ease;
+
+                    &:hover {
+                        color: var(--color-foreground);
+                    }
+                }
+            }
 
             .filterButtons {
                 // display
@@ -160,6 +230,7 @@
                 @media (max-width: variables.$breakpoint-md) {
                     // display
                     justify-content: center;
+                    width: 100%;
                 }
 
                 .filterButton {
@@ -455,10 +526,30 @@
 
             p {
                 // margin
-                margin: 0;
+                margin: 0 0 variables.$spacing-4 0;
                 
                 // decoration
                 font-size: variables.$font-size-sm;
+                color: var(--color-muted-foreground);
+            }
+
+            .clearFiltersButton {
+                // margin
+                padding: variables.$spacing-2 variables.$spacing-4;
+
+                // decoration
+                border-radius: variables.$border-radius-md;
+                border: 1px solid var(--color-border);
+                background: transparent;
+                color: var(--color-primary);
+                font-size: variables.$font-size-sm;
+                font-weight: variables.$font-weight-medium;
+                cursor: pointer;
+                transition: all 0.2s ease;
+
+                &:hover {
+                    background: var(--color-muted);
+                }
             }
 
             img {
