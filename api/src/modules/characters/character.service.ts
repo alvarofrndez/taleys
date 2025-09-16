@@ -140,6 +140,8 @@ export const characterService = {
     delete: async (id: number) => {
         await characterService.getById(id)
         
+        await characterService.deleteAllExtraAttributes(id)
+        
         const appearances = await characterModel.listAppearances(id)
         if (appearances.length) {
             await characterModel.deleteAppearances(id)
@@ -155,8 +157,6 @@ export const characterService = {
             await characterModel.deleteRelationships(id)
         }
         await characterModel.deleteRelatedRelationships(id)
-
-        await characterService.deleteAllExtraAttributes(id)
 
         await characterModel.delete(id)
 
@@ -174,11 +174,7 @@ export const characterService = {
         const characters = await characterModel.listByBelonging(belonging_level, belonging_id)
 
         for (const character of characters) {
-            await characterModel.delete(character.id)
-        }
-
-        if (belonging_level === CharacterBelongingLevel.book) {
-            await characterModel.deleteAppearancesByBook(belonging_id)
+            await characterService.delete(character.id)
         }
 
         return true
