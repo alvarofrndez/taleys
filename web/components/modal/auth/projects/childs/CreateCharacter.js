@@ -10,6 +10,7 @@ import Loader from '@/components/Loader'
 import { useRouter } from 'next/navigation'
 import Icon from '@/components/iconComponent'
 import MultiSelect from '@/components/Multiselect'
+import Fallback from '@/components/Fallback'
 
 const CreateProjectCharacter = ({ project }) => {
     const dispatch = useDispatch()
@@ -87,100 +88,102 @@ const CreateProjectCharacter = ({ project }) => {
         setLoading(false)
     }
 
-    if (loading_global) return <Loader />
+    if (loading_global) return <Fallback type='modal' />
 
     return (
         <section className={styles.container}>
-            <header className={styles.header}>
-                <div className={styles.name}>
-                    <Icon name='character' alt='personaje' width={15} height={15} />
-                    <h3>Nuevo Personaje en Proyecto</h3>
-                </div>
-                <p>Crea un nuevo personaje dentro del universo &quot;{project.name}&quot;.</p>
-            </header>
-        
-            <div className={styles.content}>
-                <form>
-                    <div className={styles.formGroup}>
-                        <label className={styles.label}>Apariciones en Libros</label>
-
-                        <MultiSelect
-                            items={books}
-                            selected_items={books.filter((b) => form.appearances.includes(b.id))}
-                            onChange={(newSelection) => {
-                                setForm({
-                                ...form,
-                                appearances: newSelection.map((item) => item.id),
-                                })
-                            }}
-                            display_property='title'
-                            value_property='id'
-                            placeholder='Selecciona libros...'
-                            searchable={true}
-                            show_select_all={true}
-                        />
+            <div className={styles.containerTop}>
+                <header className={styles.header}>
+                    <div className={styles.name}>
+                        <Icon name='character' alt='personaje' width={15} height={15} />
+                        <h3>Nuevo Personaje en Proyecto</h3>
                     </div>
-
-                    <div className={styles.formGroup}>
-                        <label className={styles.label}>Nombre</label>
-                        <div className={styles.inputGroup}>
-                            <input
-                                type='text'
-                                value={form.name}
-                                onChange={(e) => setForm({ ...form, name: e.target.value })}
-                                placeholder='Ej. Rand al’Thor'
+                    <p>Crea un nuevo personaje dentro del universo &quot;{project.name}&quot;.</p>
+                </header>
+                
+                <div className={styles.content}>
+                    <form>
+                        <div className={styles.formGroup}>
+                            <label className={styles.label}>Apariciones en Libros</label>
+                
+                            <MultiSelect
+                                items={books}
+                                selected_items={books.filter((b) => form.appearances.includes(b.id))}
+                                onChange={(newSelection) => {
+                                    setForm({
+                                    ...form,
+                                    appearances: newSelection.map((item) => item.id),
+                                    })
+                                }}
+                                display_property='title'
+                                value_property='id'
+                                placeholder='Selecciona libros...'
+                                searchable={true}
+                                show_select_all={true}
                             />
-                            <Icon name='cross' width={15} height={15} disabled={true} className={styles.delete} />
                         </div>
-                    </div>
-
-                    <div className={styles.formGroup}>
-                        <label className={styles.label}>Alias</label>
-                        <div className={styles.inputGroup}>
-                            <input
-                                type='text'
-                                value={form.alias}
-                                onChange={(e) => setForm({ ...form, alias: e.target.value })}
-                                placeholder='Ej. El Dragón Renacido'
-                            />
-                            <Icon name='cross' width={15} height={15} disabled={true} className={styles.delete} />
-                        </div>
-                    </div>
-
-                    {form.extra_attributes.map((attr, index) => (
-                        <div key={index} className={styles.formGroup}>
-                            <input
-                                type='text'
-                                placeholder='Nombre atributo'
-                                value={attr.key}
-                                className={styles.label}
-                                onChange={(e) => updateAttribute(index, 'key', e.target.value)}
-                            />
+                
+                        <div className={styles.formGroup}>
+                            <label className={styles.label}>Nombre</label>
                             <div className={styles.inputGroup}>
                                 <input
                                     type='text'
-                                    placeholder='Valor atributo'
-                                    value={attr.value}
-                                    onChange={(e) => updateAttribute(index, 'value', e.target.value)}
+                                    value={form.name}
+                                    onChange={(e) => setForm({ ...form, name: e.target.value })}
+                                    placeholder='Ej. Rand al’Thor'
                                 />
-                                <Icon
-                                    name='cross'
-                                    alt='Quitar'
-                                    width={15}
-                                    height={15}
-                                    color='var(--color-danger)'
-                                    className={styles.delete}
-                                    onClick={() => removeAttribute(index)}
-                                />
+                                <Icon name='cross' width={15} height={15} disabled={true} className={styles.delete} />
                             </div>
                         </div>
-                    ))}
-
-                    <button type='button' onClick={addAttribute} className={styles.addInput}>
-                        <Icon name='add' alt='Añadir' width={15} height={15} />
-                        <span>Añadir atributo</span>
-                    </button>
-                </form>
+                
+                        <div className={styles.formGroup}>
+                            <label className={styles.label}>Alias</label>
+                            <div className={styles.inputGroup}>
+                                <input
+                                    type='text'
+                                    value={form.alias}
+                                    onChange={(e) => setForm({ ...form, alias: e.target.value })}
+                                    placeholder='Ej. El Dragón Renacido'
+                                />
+                                <Icon name='cross' width={15} height={15} disabled={true} className={styles.delete} />
+                            </div>
+                        </div>
+                
+                        {form.extra_attributes.map((attr, index) => (
+                            <div key={index} className={styles.formGroup}>
+                                <input
+                                    type='text'
+                                    placeholder='Nombre atributo'
+                                    value={attr.key}
+                                    className={styles.label}
+                                    onChange={(e) => updateAttribute(index, 'key', e.target.value)}
+                                />
+                                <div className={styles.inputGroup}>
+                                    <input
+                                        type='text'
+                                        placeholder='Valor atributo'
+                                        value={attr.value}
+                                        onChange={(e) => updateAttribute(index, 'value', e.target.value)}
+                                    />
+                                    <Icon
+                                        name='cross'
+                                        alt='Quitar'
+                                        width={15}
+                                        height={15}
+                                        color='var(--color-danger)'
+                                        className={styles.delete}
+                                        onClick={() => removeAttribute(index)}
+                                    />
+                                </div>
+                            </div>
+                        ))}
+                
+                        <button type='button' onClick={addAttribute} className={styles.addInput}>
+                            <Icon name='add' alt='Añadir' width={15} height={15} />
+                            <span>Añadir atributo</span>
+                        </button>
+                    </form>
+                </div>
             </div>
         
             <footer className={styles.footer}>

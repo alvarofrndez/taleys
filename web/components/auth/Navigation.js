@@ -10,12 +10,12 @@ import ProjectCreateButton from '@/components/auth/projects/ProjectCreateButton'
 import Icon from '../iconComponent'
 
 const nav_items = [
-  { name: 'Sagas', href: '/sagas', icon: 'close.svg', icon_alt: 'sagas' },
-  { name: 'Libros', href: '/books', icon: 'close.svg', icon_alt: 'sagas' },
-  { name: 'Personajes', href: '/characters', icon: 'close.svg', icon_alt: 'sagas' },
-  { name: 'Lugares', href: '/locations', icon: 'close.svg', icon_alt: 'sagas'},
-  { name: 'Eventos', href: '/events', icon: 'close.svg', icon_alt: 'sagas'},
-  { name: 'Notas del autor', href: '/notes', icon: 'close.svg', icon_alt: 'sagas'},
+  { name: 'Sagas', href: '/sagas', icon: 'close', icon_alt: 'sagas' },
+  { name: 'Libros', href: '/books', icon: 'close', icon_alt: 'sagas' },
+  { name: 'Personajes', href: '/characters', icon: 'close', icon_alt: 'sagas' },
+  { name: 'Lugares', href: '/locations', icon: 'close', icon_alt: 'sagas'},
+  { name: 'Eventos', href: '/events', icon: 'close', icon_alt: 'sagas'},
+  { name: 'Notas del autor', href: '/notes', icon: 'close', icon_alt: 'sagas'},
 ]
 
 const Navigation = () => {

@@ -6,6 +6,7 @@ import TwoFactorAuthenticationComponent from '@/components/modal/auth/settings/s
 import Dialog from '@/components/modal/Dialog'
 import ChangePassword from '@/components/modal/auth/settings/security/changePassword'
 import CreateProject from '@/components/modal/auth/projects/createProject'
+import DeleteProjectConfirmation from '@/components/modal/auth/projects/deleteProjectConfirmation'
 import CreateUniverse from '@/components/modal/auth/projects/childs/createUniverse'
 import CreateSaga from '@/components/modal/auth/projects/childs/createSaga'
 import CreateBook from '@/components/modal/auth/projects/childs/CreateBook'
@@ -29,6 +30,7 @@ const component_map = {
   'Dialog': Dialog,
   'ChangePassword': ChangePassword,
   'CreateProject': CreateProject,
+  'DeleteProjectConfirmation': DeleteProjectConfirmation,
   'CreateUniverse': CreateUniverse,
   'CreateSaga': CreateSaga,
   'CreateBook': CreateBook,
@@ -58,15 +60,7 @@ const ModalContainer = () => {
   return (
     <div className={styles.modalOverlay} onClick={() => dispatch(closeModal())}>
       <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-        <Icon
-          name='close'
-          alt='cerrar'
-          width={15}
-          height={15}
-          className={styles.closeButton}
-          onClick={() => dispatch(closeModal())}
-        />
-        {ComponentToRender ? <ComponentToRender {...props} /> : <Loader />}
+        {ComponentToRender ? <ComponentToRender {...props} /> : <div className={styles.contianerLoader}><Loader /></div>}
       </div>
     </div>
   )

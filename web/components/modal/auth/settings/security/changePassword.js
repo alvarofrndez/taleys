@@ -42,27 +42,29 @@ const ChangePassword = () => {
 
     return (
         <section className={styles.container}>
-            <header className={styles.header}>
-                <div className={styles.title}>
-                    <h3>Cambiar contraseña</h3>
+            <div className={styles.containerTop}>
+                <header className={styles.header}>
+                    <div className={styles.title}>
+                        <h3>Cambiar contraseña</h3>
+                    </div>
+                    <p>Cambia tu contraseña actual por una nueva.</p>
+                </header>
+                <div className={styles.content}>
+                    <form >
+                        <div className={styles.form_group}>
+                            <label htmlFor='current_password'>Contraseña actual</label>
+                            <input value={form.current_password} onChange={(e) => setForm({ ...form, current_password: e.target.value })} type='password' id='current_password' name='current_password' />
+                        </div>
+                        <div className={styles.form_group}>
+                            <label htmlFor='new_password'>Nueva contraseña</label>
+                            <input value={form.new_password} onChange={(e) => setForm({ ...form, new_password: e.target.value })} type='password' id='new_password' name='new_password' />
+                        </div>
+                        <div className={styles.form_group}>
+                            <label htmlFor='confirm_password'>Confirmar contraseña</label>
+                            <input value={form.confirm_password} onChange={(e) => setForm({ ...form, confirm_password: e.target.value })} type='password' id='confirm_password' name='confirm_password' />
+                        </div>
+                    </form>
                 </div>
-                <p>Cambia tu contraseña actual por una nueva.</p>
-            </header>
-            <div className={styles.content}>
-                <form >
-                    <div className={styles.form_group}>
-                        <label htmlFor='current_password'>Contraseña actual</label>
-                        <input value={form.current_password} onChange={(e) => setForm({ ...form, current_password: e.target.value })} type='password' id='current_password' name='current_password' />
-                    </div>
-                    <div className={styles.form_group}>
-                        <label htmlFor='new_password'>Nueva contraseña</label>
-                        <input value={form.new_password} onChange={(e) => setForm({ ...form, new_password: e.target.value })} type='password' id='new_password' name='new_password' />
-                    </div>
-                    <div className={styles.form_group}>
-                        <label htmlFor='confirm_password'>Confirmar contraseña</label>
-                        <input value={form.confirm_password} onChange={(e) => setForm({ ...form, confirm_password: e.target.value })} type='password' id='confirm_password' name='confirm_password' />
-                    </div>
-                </form>
             </div>
 
             <footer className={styles.footer}>

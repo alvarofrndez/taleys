@@ -134,12 +134,14 @@ export default function UniverseHeader({ universe, onUniverseUpdate }) {
                 <span className={styles.updated_at}>
                     Actualizado por última vez hace {time.since(local_universe.updated_at_formatted, Date.now())}
                 </span>
-                <div className={styles.separator}/>
                 {
                     local_universe.parent_universe_id != null &&
-                    <div className={styles.parent_universe}>
-                        Universo padre: {local_universe.parent_universe.name}
-                    </div>
+                    <>
+                        <div className={styles.separator}/>
+                            <div className={styles.parent_universe}>
+                            Universo padre: {local_universe.parent_universe.name}
+                        </div>
+                    </>
                 }
             </div>
         </header>

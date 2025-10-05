@@ -1,0 +1,201 @@
+@use '@/assets/variables.scss' as variables;
+@use '@/assets/mixins.scss' as mixins;
+
+.selectContainer {
+    // size
+    width: 100%;
+    
+    //  position
+    position: relative;
+    
+    &.disabled {
+        .selectInput {
+            background-color: var(--color-muted);
+            cursor: not-allowed;
+        }
+        
+        .clearIcon {
+            display: none;
+        }
+    }
+}
+
+.selectInput {
+    width: 100%;
+    border: 1px solid var(--color-border);
+    border-radius: variables.$border-radius-md;
+    padding: variables.$spacing-2 variables.$spacing-3;
+    background-color: var(--color-background);
+    min-height: 42px;
+    
+    @include mixins.flex(row, space-between, center, nowrap, 0);
+    
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+    
+    &:hover:not(.disabled) {
+        border-color: var(--color-primary);
+    }
+    
+    &:focus-within {
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.1);
+    }
+}
+
+.selectedItem{
+    @include mixins.flex(row, center, center, nowrap, variables.$spacing-2);
+    border-radius: variables.$border-radius-md;
+    padding: variables.$spacing-2 variables.$spacing-3;
+    background-color: var(--color-muted);
+}
+
+.selectedValue {
+    color: var(--color-primary) !important;
+    font-size: variables.$font-size-sm;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.placeholder {
+    color: var(--color-muted-foreground);
+    font-size: variables.$font-size-sm;
+    flex: 1;
+}
+
+.selectActions {
+    @include mixins.flex(row, center, center, nowrap, variables.$spacing-2);
+}
+
+.clearIcon {
+    cursor: pointer;
+    color: var(--color-muted-foreground);
+    transition: color 0.2s ease;
+    
+    &:hover {
+        color: var(--color-destructive);
+    }
+}
+
+.arrow {
+    @include mixins.flex(row, center, center, nowrap, 0);
+    color: var(--color-muted-foreground);
+    transition: transform 0.2s ease;
+}
+
+.selectDropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: variables.$border-radius-md;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    
+    max-height: 250px;
+    overflow: hidden;
+    
+    animation: fadeIn 0.15s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.searchBox {
+    padding: variables.$spacing-2;
+    border-bottom: 1px solid var(--color-border);
+    
+    input {
+        width: 100%;
+        padding: variables.$spacing-1 variables.$spacing-2;
+        border: 1px solid var(--color-border);
+        border-radius: variables.$border-radius-sm;
+        font-size: variables.$font-size-sm;
+        background-color: var(--color-background);
+        color: var(--color-foreground);
+        outline: none;
+        
+        &:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 2px rgba(var(--color-primary-rgb), 0.1);
+        }
+        
+        &::placeholder {
+            color: var(--color-muted-foreground);
+        }
+    }
+}
+
+.itemsList {
+    max-height: 200px;
+    overflow-y: auto;
+    
+    .item {
+        padding: variables.$spacing-2 variables.$spacing-3;
+        cursor: pointer;
+        font-size: variables.$font-size-sm;
+        color: var(--color-foreground);
+        
+        @include mixins.flex(row, space-between, center, nowrap, variables.$spacing-2);
+        
+        transition: background-color 0.15s ease;
+        
+        &:hover:not(.disabled) {
+            background-color: var(--color-muted);
+        }
+        
+        &.selected {
+            background-color: var(--color-muted);
+            font-weight: variables.$font-weight-medium;
+        }
+        
+        &.disabled {
+            color: var(--color-muted-foreground);
+            cursor: not-allowed;
+            background-color: transparent;
+        }
+    }
+    
+    .empty {
+        padding: variables.$spacing-3;
+        text-align: center;
+        color: var(--color-muted-foreground);
+        font-size: variables.$font-size-sm;
+    }
+}
+
+.checkIcon {
+    color: var(--color-primary);
+    flex-shrink: 0;
+}
+
+// Scrollbar styles para mantener consistencia con el diseño
+.itemsList::-webkit-scrollbar {
+    width: 6px;
+}
+
+.itemsList::-webkit-scrollbar-track {
+    background: var(--color-muted);
+}
+
+.itemsList::-webkit-scrollbar-thumb {
+    background: var(--color-muted-foreground);
+    border-radius: 3px;
+}
+
+.itemsList::-webkit-scrollbar-thumb:hover {
+    background: var(--color-foreground);
+}

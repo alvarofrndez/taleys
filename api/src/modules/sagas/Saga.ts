@@ -59,6 +59,26 @@ export const sagaModel = {
         return result.rows[0]
     },
 
+    getBySlug: async (project_id: number, slug: string) => {
+        /**
+         * Obtiene un universo de un proyecto a través de su slug.
+         */
+        const result = await db.query(
+            `
+                SELECT 
+                *, 
+                TO_CHAR(created_at, 'DD TMMonth, YYYY') AS created_at,
+                TO_CHAR(updated_at, 'DD TMMonth, YYYY') AS updated_at,
+                TO_CHAR(updated_at, 'YYYY-MM-DD"T"HH24:MI:SSZ') AS updated_at_formatted
+                FROM ${env.DB_TABLE_UNIVERSES}
+                WHERE project_id = $1 AND slug = $2
+            `,
+            [project_id, slug]
+        )
+
+        return result.rows[0]
+    },
+
     getByProjectAndSlug: async (project_id: number, slug: string) => {
         const result = await db.query(
             `
@@ -142,6 +162,34 @@ export const sagaModel = {
                 TO_CHAR(updated_at, 'YYYY-MM-DD"T"HH24:MI:SSZ') AS updated_at_formatted
                 FROM ${env.DB_TABLE_SAGAS}
                 WHERE project_id = $1
+            `,
+            [project_id]
+        )
+        
+        return result.rows
+    },
+
+    getAllByProjectAndNullParentSaga: async (project_id: number) => {
+        /**
+         * Obtiene todas los sagas a través de su project_id, donde parent_saga_id sea null.
+         *
+         * Realiza una consulta SQL en la tabla de sagas utilizando el project_id proporcionado.
+         * Devuelve todo el resultado.
+         *
+         * @param {number} project_id - project_id del saga.
+         * 
+         * @returns {Array|null} El array con los sagas encontrados o `null` si da error.
+         */
+        const result = await db.query(
+            `
+                SELECT 
+                *, 
+                TO_CHAR(created_at, 'DD TMMonth, YYYY') AS created_at,
+                TO_CHAR(updated_at, 'DD TMMonth, YYYY') AS updated_at,
+                TO_CHAR(updated_at, 'YYYY-MM-DD"T"HH24:MI:SSZ') AS updated_at_formatted
+                FROM ${env.DB_TABLE_SAGAS}
+                WHERE project_id = $1
+                AND parent_saga_id IS NULL
             `,
             [project_id]
         )

@@ -21,7 +21,14 @@ const ProjectDeleteButton = ({project}) => {
                 message: '¿Estas seguro de que quieres eliminar este proyecto? es una acción irreversible.'
             },
             onConfirmCallback: async () => {
-                await handleDeleteProject()
+                await Promise.resolve()
+                dispatch(openModal({
+                    component: 'DeleteProjectConfirmation',
+                    props: { project },
+                    onConfirmCallback: async () => {
+                        await handleDeleteProject()
+                    }
+                }))
             }
         }))
     }

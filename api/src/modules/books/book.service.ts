@@ -218,6 +218,17 @@ export const bookService = {
         return await bookService.getAllData(book)
     },
 
+    getByProjectAndSagaSlugAndSlug: async (project_id: number, saga_slug: string,  slug: string) => {
+        const saga = await sagaService.getByProjectAndSlug(project_id, saga_slug)
+
+        const book: IBook = await bookModel.getBySagaAndSlug(saga.id, slug)
+
+        if(!book) throw new CustomError('El libro no existe', 404, env.DATA_NOT_FOUND_CODE)
+
+        return await bookService.getAllData(book)
+    },
+
+
     getAllByProject: async (project_id: number) => {
         /**
          * Obtiene todos los libros a través de un proyecto.

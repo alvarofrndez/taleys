@@ -10,6 +10,8 @@ import { apiCall } from '@/services/apiCall'
 import Loader from '@/components/Loader'
 import { useRouter } from 'next/navigation'
 import Icon from '@/components/iconComponent'
+import Fallback from '@/components/Fallback'
+import Select from '@/components/Select'
 
 const CreateSaga = ({ project }) => {
     const dispatch = useDispatch()
@@ -47,14 +49,21 @@ const CreateSaga = ({ project }) => {
         fetchData()
     }, [])
 
-    // Filtrar sagas disponibles al cambiar universo
-    const filteredSagas = form.universe_id
+    const filtered_sagas = form.universe_id
         ? available_sagas.filter(s => s.universe_id === form.universe_id)
         : available_sagas.filter(s => s.universe_id === null)
 
+    const getSelectedUniverse = () => {
+        return form.universe_id ? universes.find(u => u.id === form.universe_id) : null
+    }
+
+    const getSelectedParentSaga = () => {
+        return form.parent_saga_id ? filtered_sagas.find(s => s.id === form.parent_saga_id) : null
+    }
+
     const handleSubmit = async () => {
         if (form.name.trim() === '' || form.description.trim() === '') {
-            pushToast('Rellene todos los campos obligatorios', 'error')
+            pushToast('Rellene todos los campos', 'error')
             return
         }
 
@@ -77,99 +86,95 @@ const CreateSaga = ({ project }) => {
     }
 
     return loadingGeneral ? (
-        <Loader />
+        <Fallback type='modal' />
     ) : (
         <section className={styles.container}>
-            <header className={styles.header}>
-                <div className={styles.title}>
-                    <Icon
-                        name='info'
-                        alt='información'
-                        width={15}
-                        height={15}
-                    />
-                    <h3>Nueva saga</h3>
+            <div className={styles.containerTop}>
+                <header className={styles.header}>
+                    <div className={styles.title}>
+                        <Icon
+                            name='saga'
+                            alt='saga'
+                            width={15}
+                            height={15}
+                        />
+                        <h3>Nueva saga</h3>
+                    </div>
+                    <p>Crea una nueva saga y asóciala a un universo o al proyecto directamente.</p>
+                </header>
+                
+                <div className={styles.content}>
+                    <form>
+                        <div className={styles.formGroup}>
+                            <label htmlFor='name'>Nombre</label>
+                            <input
+                                type='text'
+                                id='name'
+                                name='name'
+                                value={form.name}
+                                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                                placeholder='Ej. La Guerra del Anillo'
+                            />
+                        </div>
+                
+                        <div className={styles.formGroup}>
+                            <label htmlFor='description'>Descripción</label>
+                            <textarea
+                                id='description'
+                                name='description'
+                                value={form.description}
+                                onChange={(e) => setForm({ ...form, description: e.target.value })}
+                                placeholder='Breve descripción de la saga'
+                                rows={4}
+                            />
+                        </div>
+                
+                        {universes.length > 0 && (
+                            <div className={styles.formGroup}>
+                                <label htmlFor='universe_id'>Universo (opcional)</label>
+                                <Select
+                                    items={universes}
+                                    selected_item={getSelectedUniverse()}
+                                    onChange={(selected_universe) => 
+                                        setForm({
+                                            ...form,
+                                            universe_id: selected_universe ? selected_universe.id : null,
+                                            parent_saga_id: null
+                                        })
+                                    }
+                                    display_property='name'
+                                    value_property='id'
+                                    disabled_property='disabled'
+                                    placeholder='Selecciona un universo...'
+                                    searchable={true}
+                                    allow_clear={true}
+                                />
+                            </div>
+                        )}
+                
+                        {filtered_sagas.length > 0 && (
+                            <div className={styles.formGroup}>
+                                <label htmlFor='parent_saga_id'>Saga padre (opcional)</label>
+                                <Select
+                                    items={filtered_sagas}
+                                    selected_item={getSelectedParentSaga()}
+                                    onChange={(selected_parent_saga) => 
+                                        setForm({
+                                            ...form,
+                                            parent_saga_id: selected_parent_saga ? selected_parent_saga.id : null
+                                        })
+                                    }
+                                    display_property='name'
+                                    value_property='id'
+                                    disabled_property='disabled'
+                                    placeholder='Selecciona una saga padre...'
+                                    searchable={true}
+                                    allow_clear={true}
+                                />
+                            </div>
+                        )}
+                    </form>
                 </div>
-                <p>Crea una nueva saga y asóciala a un universo o al proyecto directamente.</p>
-            </header>
-
-            <div className={styles.content}>
-                <form>
-                    <div className={styles.formGroup}>
-                        <label htmlFor='name'>Nombre</label>
-                        <input
-                            type='text'
-                            id='name'
-                            name='name'
-                            value={form.name}
-                            onChange={(e) => setForm({ ...form, name: e.target.value })}
-                            placeholder='Ej. La Guerra del Anillo'
-                        />
-                    </div>
-
-                    <div className={styles.formGroup}>
-                        <label htmlFor='description'>Descripción</label>
-                        <textarea
-                            id='description'
-                            name='description'
-                            value={form.description}
-                            onChange={(e) => setForm({ ...form, description: e.target.value })}
-                            placeholder='Breve descripción de la saga'
-                            rows={4}
-                        />
-                    </div>
-
-                    {/* Universo */}
-                    {universes.length > 0 && (
-                        <div className={styles.formGroup}>
-                            <label htmlFor='universe_id'>Universo (opcional)</label>
-                            <select
-                                id='universe_id'
-                                name='universe_id'
-                                value={form.universe_id || ''}
-                                onChange={(e) =>
-                                    setForm({
-                                        ...form,
-                                        universe_id: e.target.value === '' ? null : e.target.value,
-                                        parent_saga_id: null,
-                                    })
-                                }
-                            >
-                                <option value=''>Ninguno (Asociada solo al proyecto)</option>
-                                {universes.map((u) => (
-                                    <option key={u.id} value={u.id}>
-                                        {u.name}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                    )}
-
-                    {/* Saga padre */}
-                    {filteredSagas.length > 0 && (
-                        <div className={styles.formGroup}>
-                            <label htmlFor='parent_saga_id'>Saga padre (opcional)</label>
-                            <select
-                                id='parent_saga_id'
-                                name='parent_saga_id'
-                                value={form.parent_saga_id || ''}
-                                onChange={(e) =>
-                                    setForm({
-                                        ...form,
-                                        parent_saga_id: e.target.value === '' ? null : e.target.value,
-                                    })
-                                }
-                            >
-                                <option value=''>Ninguna</option>
-                                {filteredSagas.map((s) => (
-                                    <option key={s.id} value={s.id}>
-                                        {s.name}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                    )}
-                </form>
             </div>
 
             <footer className={styles.footer}>

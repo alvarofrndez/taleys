@@ -133,6 +133,34 @@ export const universeModel = {
         return result.rows
     },
 
+    getAllByProjectAndNullParentUniverse: async (project_id: number) => {
+        /**
+         * Obtiene todos los universos a través de su project_id, donde el parent_universe_id sea null.
+         *
+         * Realiza una consulta SQL en la tabla de universos utilizando el project_id proporcionado.
+         * Devuelve todo el resultado.
+         *
+         * @param {number} project_id - project_id del universo.
+         * 
+         * @returns {Array|null} El array con los universos encontrados o `null` si da error.
+         */
+        const result = await db.query(
+            `
+                SELECT 
+                *, 
+                TO_CHAR(created_at, 'DD TMMonth, YYYY') AS created_at,
+                TO_CHAR(updated_at, 'DD TMMonth, YYYY') AS updated_at,
+                TO_CHAR(updated_at, 'YYYY-MM-DD"T"HH24:MI:SSZ') AS updated_at_formatted
+                FROM ${env.DB_TABLE_UNIVERSES}
+                WHERE project_id = $1
+                AND parent_universe_id IS NULL
+            `,
+            [project_id]
+        )
+        
+        return result.rows
+    },
+
     getAllUniverseChilds: async (universe_id: number) => {
         /**
          * Obtiene todos los universos hijos de un universo a través de su ID.

@@ -45,7 +45,7 @@ export default function SagaCard({ project, saga }) {
                     { saga.parent_saga &&
                         <div className={styles.metaItem}>
                             <Icon 
-                                name='books'
+                                name='saga'
                                 width={12}
                                 height={12}
                                 alt='Saga'

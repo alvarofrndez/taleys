@@ -1,0 +1,241 @@
+@use '@/assets/variables.scss' as variables;
+@use '@/assets/mixins.scss' as mixins;
+
+// Animación de carga
+@keyframes skeleton-loading {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+// Estilos base para skeletons
+.skeleton {
+  background: linear-gradient(90deg, var(--color-muted) 25%, var(--color-accent) 50%, var(--color-muted) 75%);
+  background-size: 200px 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: variables.$border-radius-sm;
+  display: block;
+}
+
+// Variantes de skeleton
+.skeleton-text {
+  border-radius: variables.$border-radius-sm;
+}
+
+.skeleton-input {
+  border-radius: variables.$border-radius-md;
+  border: 1px solid var(--color-border);
+}
+
+.skeleton-button {
+  border-radius: variables.$border-radius-md;
+  border: 1px solid var(--color-border);
+}
+
+.skeleton-circle {
+  border-radius: 50%;
+}
+
+.skeleton-rectangle {
+  border-radius: variables.$border-radius-md;
+}
+
+// Contenedores para diferentes tipos de componentes
+
+// Modal Container
+.modalContainer {
+  // size
+  width: 100%;
+  height: 100%;
+
+  // display
+  @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-6);
+
+  .header {
+    // size
+    width: calc(100% - variables.$spacing-3);
+
+    // display
+    @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-1);
+
+    // margin
+    padding: variables.$spacing-4 variables.$spacing-4 0 variables.$spacing-4;
+  }
+
+  .content {
+    // size
+    width: 100%;
+
+    // margin
+    padding: 0 variables.$spacing-4;
+
+    // display
+    @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-6);
+
+    .form {
+      // size
+      width: 100%;
+
+      // display
+      @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-6);
+
+      .formGroup {
+        // size
+        width: 100%;
+
+        // display
+        @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-2);
+      }
+    }
+  }
+
+  .footer {
+    // size
+    width: 100%;
+
+    // display
+    @include mixins.flex(row, space-between, center);
+
+    // margin
+    padding: variables.$spacing-4;
+
+    // decoration
+    background-color: var(--color-background);
+    border-top: 1px solid var(--color-border);
+  }
+}
+
+// Dialog Container
+.dialogContainer {
+  // size
+  width: 100%;
+
+  // display
+  @include mixins.flex(column, flex-start, flex-start);
+
+  .content {
+    // size
+    width: 100%;
+
+    // display
+    @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-6);
+
+    .buttonsContainer {
+      // size
+      width: 100%;
+
+      // display
+      @include mixins.flex(row, flex-end, flex-start, nowrap, variables.$spacing-2);
+    }
+  }
+}
+
+// List Container
+.listContainer {
+  // size
+  width: 100%;
+
+  // display
+  @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-4);
+
+  .listHeader {
+    // size
+    width: 100%;
+
+    // margin
+    padding: variables.$spacing-2 0;
+
+    // decoration
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .listContent {
+    // size
+    width: 100%;
+
+    // display
+    @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-2);
+
+    .listItem {
+      // size
+      width: 100%;
+
+      // display
+      @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-3);
+
+      // margin
+      padding: variables.$spacing-3;
+
+      // decoration
+      background-color: var(--color-muted);
+      border-radius: variables.$border-radius-md;
+      border: 1px solid var(--color-border);
+    }
+  }
+}
+
+// Card Container
+.cardContainer {
+  // size
+  width: 100%;
+
+  // margin
+  padding: variables.$spacing-4;
+
+  // decoration
+  background-color: var(--color-card);
+  border-radius: variables.$border-radius-lg;
+  border: 1px solid var(--color-border);
+
+  .cardContent {
+    // display
+    @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-3);
+  }
+}
+
+// Utilidades adicionales
+.skeleton-small {
+  height: 12px;
+}
+
+.skeleton-medium {
+  height: 16px;
+}
+
+.skeleton-large {
+  height: 20px;
+}
+
+.skeleton-full-width {
+  width: 100% !important;
+}
+
+.skeleton-half-width {
+  width: 50% !important;
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .modalContainer {
+    .header {
+      padding: variables.$spacing-2;
+    }
+
+    .content {
+      padding: 0 variables.$spacing-2;
+    }
+
+    .footer {
+      padding: variables.$spacing-2;
+    }
+  }
+
+  .listContent {
+    .listItem {
+      padding: variables.$spacing-2;
+    }
+  }
+}

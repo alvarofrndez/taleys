@@ -53,54 +53,69 @@ const CreateSagaBook = ({ project, saga }) => {
 
     return (
         <section className={styles.container}>
-            <header className={styles.header}>
-                <div className={styles.title}>
-                    <Icon
-                        name='info'
-                        alt='información'
-                        width={15}
-                        height={15}
-                    />
-                    <h3>Nuevo libro</h3>
+            <div className={styles.containerTop}>
+                <header className={styles.header}>
+                    <div className={styles.title}>
+                        <Icon
+                            name='book'
+                            alt='Libro'
+                            width={15}
+                            height={15}
+                        />
+                        <h3>Nuevo libro</h3>
+                    </div>
+                    <p>Crea un nuevo libro dentro de la saga &quot;{saga.name}&quot;.</p>
+                </header>
+
+                <div className={styles.content}>
+                    <form>
+                        <div className={styles.formGroup}>
+                            <label htmlFor='title'>Título</label>
+                            <input
+                                type='text'
+                                id='title'
+                                name='title'
+                                value={form.title}
+                                onChange={(e) => setForm({ ...form, title: e.target.value })}
+                                placeholder='Ej. El Retorno del Rey'
+                            />
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label htmlFor='synopsis'>Sinopsis</label>
+                            <textarea
+                                id='synopsis'
+                                name='synopsis'
+                                value={form.synopsis}
+                                onChange={(e) => setForm({ ...form, synopsis: e.target.value })}
+                                placeholder='Breve resumen del libro'
+                                rows={4}
+                            />
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label>Saga</label>
+                            <input
+                                type='text'
+                                value={saga.name}
+                                disabled
+                                className={styles.disabledInput}
+                            />
+                        </div>
+
+                        {saga.universe_id && (
+                            <div className={styles.formGroup}>
+                                <label>Universo</label>
+                                <input
+                                    type='text'
+                                    value={saga.universe?.name || ''}
+                                    disabled
+                                    className={styles.disabledInput}
+                                />
+                            </div>
+                        )}
+                    </form>
                 </div>
-                <p>Crea un nuevo libro dentro de la saga &quot;{saga.name}&quot;.</p>
-            </header>
-
-            <div className={styles.content}>
-                <form>
-                    <div className={styles.formGroup}>
-                        <label htmlFor='title'>Título</label>
-                        <input
-                            type='text'
-                            id='title'
-                            name='title'
-                            value={form.title}
-                            onChange={(e) => setForm({ ...form, title: e.target.value })}
-                            placeholder='Ej. El Retorno del Rey'
-                        />
-                    </div>
-
-                    <div className={styles.formGroup}>
-                        <label htmlFor='synopsis'>Sinopsis</label>
-                        <textarea
-                            id='synopsis'
-                            name='synopsis'
-                            value={form.synopsis}
-                            onChange={(e) => setForm({ ...form, synopsis: e.target.value })}
-                            placeholder='Breve resumen del libro'
-                            rows={4}
-                        />
-                    </div>
-
-                    <div className={styles.formGroup}>
-                        <label>Saga</label>
-                        <input
-                            type='text'
-                            value={saga.name}
-                            disabled
-                        />
-                    </div>
-                </form>
             </div>
 
             <footer className={styles.footer}>

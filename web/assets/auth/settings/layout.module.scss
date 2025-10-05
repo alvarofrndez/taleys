@@ -5,9 +5,13 @@
     // size
     width: 70%;
 
+    // position
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    
     // display
     @include mixins.flex(column, flex-start, flex-start);
-    align-self: center;
 
     // margin
     padding: variables.$spacing-8;

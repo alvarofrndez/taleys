@@ -11,10 +11,13 @@ import Loader from '@/components/Loader'
 import UserMultiSelect from '@/components/UserMultiselect'
 import { useRouter } from 'next/navigation'
 import Icon from '@/components/iconComponent'
+import MultiSelect from '@/components/Multiselect'
+import Fallback from '@/components/Fallback'
 
 const CreateProject = () => {
     const dispatch = useDispatch()
     const router = useRouter()
+    const [global_loading, setGlobalLoading] = useState(true)
     const [loading, setLoading] = useState(true)
     const user = useSelector((state) => state.auth.user)
     const [all_users, setAllUsers] = useState([])
@@ -29,29 +32,28 @@ const CreateProject = () => {
         const getAllUsers = async () => {
             const response = await apiCall('GET', '/users')
 
-            if(response?.success){
-                setAllUsers(response.data)
-                
-                // se añade al usuario logueado a los miembros
-                if(!form.members.find((member) => member.id == user.id)){
-                    let final_members = form.members
-                    final_members.push(user)
-                    setForm({...form, members: final_members})
+            if (response?.success) {
+                const users_with_disabled = response.data.map((u) => ({
+                    ...u,
+                    disabled: u.id === user.id,
+                }))
+
+                setAllUsers(users_with_disabled)
+
+                if (!form.members.find((member) => member.id == user.id)) {
+                    setForm({
+                        ...form,
+                        members: [...form.members, { id: String(user.id) }],
+                    })
                 }
             }
-
+            setGlobalLoading(false)
             setLoading(false)
         }
 
         getAllUsers()
     }, [])
 
-    const handleRemoveMember = (index) => {
-        setForm(prev_data => ({
-            ...prev_data,
-            members: prev_data.members.filter((_, i) => i !== index)
-        }))
-    }
 
     const handleSubmit = async () => {
         if (form.name.trim() === '' || form.description?.trim() === '') {
@@ -72,96 +74,95 @@ const CreateProject = () => {
         setLoading(false)
     }
 
-    return (
+    return global_loading ? (
+        <Fallback type='modal' />
+    ) : (
         <section className={styles.container}>
-            <header className={styles.header}>
-                <div className={styles.title}>
-                    <Icon
-                        name='info'
-                        alt='información'
-                        width={15}
-                        height={15}
-                    />
-                    <h3>Nuevo proyecto</h3>
-                </div>
-                <p>Crea un nuevo proyecto, como partida, para poder empezar a escribir tus historias.</p>
-            </header>
-
-            <div className={styles.content}>
-                <form>
-                    <div className={styles.formGroup}>
-                        <label htmlFor='name'>Nombre del proyecto</label>
-                        <input
-                        type='text'
-                        id='name'
-                        name='name'
-                        value={form.name}
-                        onChange={(e) => setForm({ ...form, name: e.target.value })}
-                        placeholder='Ej. El señor de los amillos'
+            <div className={styles.containerTop}>
+                <header className={styles.header}>
+                    <div className={styles.title}>
+                        <Icon
+                            name='info'
+                            alt='información'
+                            width={15}
+                            height={15}
                         />
+                        <h3>Nuevo proyecto</h3>
                     </div>
+                    <p>Crea un nuevo proyecto, como partida, para poder empezar a escribir tus historias.</p>
+                </header>
 
-                    <div className={styles.formGroup}>
-                        <label htmlFor='description'>Descripción</label>
-                        <textarea
-                            id='description'
-                            name='description'
-                            value={form.description}
-                            onChange={(e) => setForm({ ...form, description: e.target.value })}
-                            placeholder='Breve sinopsis o contexto del proyecto'
-                            rows={4}
-                        />
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label>Visibilidad</label>
-                        <div className={styles.toggleVisibility}>
-                            <button
-                                type='button'
-                                className={`${styles.toggleButton} ${form.visibility === 'public' ? styles.active : ''}`}
-                                onClick={() => setForm({ ...form, visibility: 'public' })}
-                            >
-                                Pública
-                            </button>
-                            <button
-                                type='button'
-                                className={`${styles.toggleButton} ${form.visibility === 'private' ? styles.active : ''}`}
-                                onClick={() => setForm({ ...form, visibility: 'private' })}
-                            >
-                                Privada
-                            </button>
-                        </div>
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label>Miembros</label>
-                        <div className={styles.members}>
-                            <UserMultiSelect
-                                users={all_users}
-                                selected_users={form.members}
-                                onSelect={(selected) => setForm({
-                                    ...form,
-                                    members: selected
-                                })}
+                <div className={styles.content}>
+                    <form>
+                        <div className={styles.formGroup}>
+                            <label htmlFor='name'>Nombre del proyecto</label>
+                            <input
+                            type='text'
+                            id='name'
+                            name='name'
+                            value={form.name}
+                            onChange={(e) => setForm({ ...form, name: e.target.value })}
+                            placeholder='Ej. El señor de los amillos'
                             />
-                            <div className={styles.formGroupList}>
-                                {
-                                    form.members.map((m, index) => {
-                                        return(
-                                            <div className={styles.formGroupListItem} key={m.id}>
-                                                <label>- {m.username} {m.id == user.id ? '(tú)' : null}</label>
-                                                { m.id != user.id && 
-                                                    <div className={styles.formGroupListItemActions}>
-                                                        <Image src={'/images/icons/crossMuted.svg'} onClick={() => handleRemoveMember(index)} alt='upload' width={15} height={15} />
-                                                    </div>
-                                                }
-                                            </div>
-                                        )
-                                    })  
-                                }
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label htmlFor='description'>Descripción</label>
+                            <textarea
+                                id='description'
+                                name='description'
+                                value={form.description}
+                                onChange={(e) => setForm({ ...form, description: e.target.value })}
+                                placeholder='Breve sinopsis o contexto del proyecto'
+                                rows={4}
+                            />
+                        </div>
+                        <div className={styles.formGroup}>
+                            <label>Visibilidad</label>
+                            <div className={styles.toggleVisibility}>
+                                <button
+                                    type='button'
+                                    className={`${styles.toggleButton} ${form.visibility === 'public' ? styles.active : ''}`}
+                                    onClick={() => setForm({ ...form, visibility: 'public' })}
+                                >
+                                    Pública
+                                </button>
+                                <button
+                                    type='button'
+                                    className={`${styles.toggleButton} ${form.visibility === 'private' ? styles.active : ''}`}
+                                    onClick={() => setForm({ ...form, visibility: 'private' })}
+                                >
+                                    Privada
+                                </button>
                             </div>
                         </div>
-                    </div>
-                </form>
+                        <div className={styles.multiFormGroup}>
+                            <label>Miembros</label>
+                            <div className={styles.members}>
+                                <MultiSelect
+                                    items={all_users}
+                                    selected_items={all_users.filter((u) =>
+                                        form.members.some((m) => m.id == u.id)
+                                    )}
+                                    onChange={(new_selection) =>
+                                        setForm({
+                                        ...form,
+                                        members: new_selection.map((user) => ({ id: String(user.id) })),
+                                        })
+                                    }
+                                    display_property='name'
+                                    value_property='id'
+                                    disabled_property='disabled'
+                                    placeholder='Selecciona usuarios...'
+                                    searchable={true}
+                                    show_select_all={true}
+                                />
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
+            
 
             <footer className={styles.footer}>
                 <button className={styles.close} type='button' onClick={() => dispatch(closeModal())}>

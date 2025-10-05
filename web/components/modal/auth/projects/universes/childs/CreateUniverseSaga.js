@@ -10,13 +10,15 @@ import { apiCall } from '@/services/apiCall'
 import Loader from '@/components/Loader'
 import { useRouter } from 'next/navigation'
 import Icon from '@/components/iconComponent'
+import Fallback from '@/components/Fallback'
+import Select from '@/components/Select'
 
 const CreateUniverseSaga = ({ project, universe }) => {
     const dispatch = useDispatch()
     const router = useRouter()
     const BASE_URL = `/projects/${project.id}/universes/${universe.id}`
 
-    const [loadingGeneral, setLoadingGeneral] = useState(true)
+    const [loading_general, setLoadingGeneral] = useState(true)
     const [loading, setLoading] = useState(false)
 
     const [form, setForm] = useState({
@@ -42,6 +44,11 @@ const CreateUniverseSaga = ({ project, universe }) => {
         fetchData()
     }, [universe.name])
 
+    
+    const getSelectedParentSaga = () => {
+        return form.parent_saga_id ? available_sagas.find(s => s.id === form.parent_saga_id) : null
+    }
+
     const handleSubmit = async () => {
         if (form.name.trim() === '' || form.description.trim() === '') {
             pushToast('Rellene todos los campos obligatorios', 'error')
@@ -62,74 +69,91 @@ const CreateUniverseSaga = ({ project, universe }) => {
         setLoading(false)
     }
 
-    return loadingGeneral ? (
-        <Loader />
+    return loading_general ? (
+        <Fallback type='modal' />
     ) : (
         <section className={styles.container}>
-            <header className={styles.header}>
-                <div className={styles.title}>
-                    <Icon
-                        name='info'
-                        alt='información'
-                        width={15}
-                        height={15}
-                    />
-                    <h3>Nueva saga para {universe.name}</h3>
-                </div>
-                <p>Crea una nueva saga dentro del universo <strong>{universe.name}</strong>.</p>
-            </header>
-
-            <div className={styles.content}>
-                <form>
-                    <div className={styles.formGroup}>
-                        <label htmlFor='name'>Nombre</label>
-                        <input
-                            type='text'
-                            id='name'
-                            name='name'
-                            value={form.name}
-                            onChange={(e) => setForm({ ...form, name: e.target.value })}
-                            placeholder='Ej. La Guerra del Anillo'
+            <div className={styles.containerTop}>
+                <header className={styles.header}>
+                    <div className={styles.title}>
+                        <Icon
+                            name='info'
+                            alt='información'
+                            width={15}
+                            height={15}
                         />
+                        <h3>Nueva saga para {universe.name}</h3>
                     </div>
-
-                    <div className={styles.formGroup}>
-                        <label htmlFor='description'>Descripción</label>
-                        <textarea
-                            id='description'
-                            name='description'
-                            value={form.description}
-                            onChange={(e) => setForm({ ...form, description: e.target.value })}
-                            placeholder='Breve descripción de la saga'
-                            rows={4}
-                        />
-                    </div>
-
-                    {/* Saga padre */}
-                    {available_sagas.length > 0 && (
+                    <p>Crea una nueva saga dentro del universo <strong>{universe.name}</strong>.</p>
+                </header>
+                
+                <div className={styles.content}>
+                    <form>
                         <div className={styles.formGroup}>
-                            <label htmlFor='parent_saga_id'>Saga padre (opcional)</label>
-                            <select
-                                id='parent_saga_id'
-                                name='parent_saga_id'
-                                value={form.parent_saga_id || ''}
-                                onChange={(e) =>
-                                    setForm({
-                                        ...form,
-                                        parent_saga_id: e.target.value === '' ? null : e.target.value,
-                                    })
-                                }
-                            >
-                                <option value=''>Ninguna</option>
-                                {available_sagas.map((s) => (
-                                    <option key={s.id} value={s.id}>
-                                        {s.name}
-                                    </option>
-                                ))}
-                            </select>
+                            <label htmlFor='name'>Nombre</label>
+                            <input
+                                type='text'
+                                id='name'
+                                name='name'
+                                value={form.name}
+                                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                                placeholder='Ej. La Guerra del Anillo'
+                            />
                         </div>
-                    )}
-                </form>
+                
+                        <div className={styles.formGroup}>
+                            <label htmlFor='description'>Descripción</label>
+                            <textarea
+                                id='description'
+                                name='description'
+                                value={form.description}
+                                onChange={(e) => setForm({ ...form, description: e.target.value })}
+                                placeholder='Breve descripción de la saga'
+                                rows={4}
+                            />
+                        </div>
+                
+                        {available_sagas.length > 0 && (
+                            <div className={styles.formGroup}>
+                                <label htmlFor='parent_saga_id'>Saga padre (opcional)</label>
+                                <Select
+                                    items={available_sagas}
+                                    selected_item={getSelectedParentSaga()}
+                                    onChange={(selected_saga) => 
+                                        setForm({
+                                            ...form,
+                                            parent_saga_id: selected_saga ? selected_saga.id : null
+                                        })
+                                    }
+                                    display_property='name'
+                                    value_property='id'
+                                    disabled_property='disabled'
+                                    placeholder='Selecciona una saga...'
+                                    searchable={true}
+                                    allow_clear={true}
+                                />
+                                {/* <select
+                                    id='parent_saga_id'
+                                    name='parent_saga_id'
+                                    value={form.parent_saga_id || ''}
+                                    onChange={(e) =>
+                                        setForm({
+                                            ...form,
+                                            parent_saga_id: e.target.value === '' ? null : e.target.value,
+                                        })
+                                    }
+                                >
+                                    <option value=''>Ninguna</option>
+                                    {available_sagas.map((s) => (
+                                        <option key={s.id} value={s.id}>
+                                            {s.name}
+                                        </option>
+                                    ))}
+                                </select> */}
+                            </div>
+                        )}
+                    </form>
+                </div>
             </div>
 
             <footer className={styles.footer}>

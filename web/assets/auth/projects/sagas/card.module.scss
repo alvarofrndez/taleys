@@ -93,7 +93,7 @@
                 background-color: var(--color-muted);
                 border-radius: variables.$border-radius-sm;
 
-                .universeLabel {
+                .universeLabel, .sagaLabel {
                     // decoration
                     color: var(--color-muted-foreground);
                     font-size: variables.$font-size-xs;

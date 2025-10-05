@@ -10,19 +10,21 @@ import { apiCall } from '@/services/apiCall'
 import Loader from '@/components/Loader'
 import { useRouter } from 'next/navigation'
 import Icon from '@/components/iconComponent'
+import Fallback from '@/components/Fallback'
 
 const CreateSagaChild = ({ project, saga }) => {
     const dispatch = useDispatch()
     const router = useRouter()
     const BASE_URL = `/projects/${project.id}`
 
+    const [loading_general, setLoadingGeneral] = useState(false)
     const [loading, setLoading] = useState(false)
 
     const [form, setForm] = useState({
         project_id: project.id,
         name: '',
         description: '',
-        universe_id: saga.universe_id || null, // si pertenece a un universo, lo heredamos
+        universe_id: saga.universe_id || null,
         parent_saga_id: saga.id,
     })
 
@@ -50,71 +52,77 @@ const CreateSagaChild = ({ project, saga }) => {
         setLoading(false)
     }
 
-    return (
+    return loading_general ? (
+        <Fallback type='modal' />
+    ) : (
         <section className={styles.container}>
-            <header className={styles.header}>
-                <div className={styles.title}>
-                    <Icon
-                        name='info'
-                        alt='información'
-                        width={15}
-                        height={15}
-                    />
-                    <h3>Nueva saga hija</h3>
-                </div>
-                <p>Crea una nueva saga dentro de <strong>{saga.name}</strong>.</p>
-            </header>
-
-            <div className={styles.content}>
-                <form>
-                    <div className={styles.formGroup}>
-                        <label htmlFor='name'>Nombre</label>
-                        <input
-                            type='text'
-                            id='name'
-                            name='name'
-                            value={form.name}
-                            onChange={(e) => setForm({ ...form, name: e.target.value })}
-                            placeholder='Ej. La Batalla de los Cinco Ejércitos'
+            <div className={styles.containerTop}>
+                <header className={styles.header}>
+                    <div className={styles.title}>
+                        <Icon
+                            name='saga'
+                            alt='saga'
+                            width={15}
+                            height={15}
                         />
+                        <h3>Nueva saga hija</h3>
                     </div>
+                    <p>Crea una nueva saga dentro de <strong>{saga.name}</strong>.</p>
+                </header>
 
-                    <div className={styles.formGroup}>
-                        <label htmlFor='description'>Descripción</label>
-                        <textarea
-                            id='description'
-                            name='description'
-                            value={form.description}
-                            onChange={(e) => setForm({ ...form, description: e.target.value })}
-                            placeholder='Breve descripción de la saga hija'
-                            rows={4}
-                        />
-                    </div>
-
-                    <div className={styles.formGroup}>
-                        <label htmlFor='parent_saga_id'>Saga padre</label>
-                        <input
-                            type='text'
-                            id='parent_saga_id'
-                            name='parent_saga_id'
-                            value={saga.name}
-                            disabled
-                        />
-                    </div>
-
-                    {form.universe_id && (
+                <div className={styles.content}>
+                    <form>
                         <div className={styles.formGroup}>
-                            <label htmlFor='universe_id'>Universo</label>
+                            <label htmlFor='name'>Nombre</label>
                             <input
                                 type='text'
-                                id='universe_id'
-                                name='universe_id'
-                                value={saga.universe.name}
-                                disabled
+                                id='name'
+                                name='name'
+                                value={form.name}
+                                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                                placeholder='Ej. La Batalla de los Cinco Ejércitos'
                             />
                         </div>
-                    )}
-                </form>
+
+                        <div className={styles.formGroup}>
+                            <label htmlFor='description'>Descripción</label>
+                            <textarea
+                                id='description'
+                                name='description'
+                                value={form.description}
+                                onChange={(e) => setForm({ ...form, description: e.target.value })}
+                                placeholder='Breve descripción de la saga hija'
+                                rows={4}
+                            />
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label htmlFor='parent_saga_id'>Saga padre</label>
+                            <input
+                                type='text'
+                                id='parent_saga_id'
+                                name='parent_saga_id'
+                                value={saga.name}
+                                disabled
+                                className={styles.disabledInput}
+                            />
+                        </div>
+
+                        {form.universe_id && (
+                            <div className={styles.formGroup}>
+                                <label htmlFor='universe_id'>Universo</label>
+                                <input
+                                    type='text'
+                                    id='universe_id'
+                                    name='universe_id'
+                                    value={saga.universe.name}
+                                    disabled
+                                    className={styles.disabledInput}
+                                />
+                            </div>
+                        )}
+                    </form>
+                </div>
             </div>
 
             <footer className={styles.footer}>

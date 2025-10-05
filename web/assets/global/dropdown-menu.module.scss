@@ -1,8 +1,11 @@
 @use '@/assets/variables.scss' as variables;
 @use '@/assets/mixins.scss' as mixins;
 
+.container{
+}
+
 .dropdownTrigger {
-    // size
+    // margin
     padding: variables.$spacing-1;
 
     // decoration
@@ -17,6 +20,10 @@
 }
 
 .dropdownMenu {
+    // position
+    position: relative;
+    z-index: variables.$z-index-dropdown !important;
+
     // margin
     padding: variables.$spacing-1;
 

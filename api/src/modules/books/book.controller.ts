@@ -103,6 +103,21 @@ export const bookController = {
         })
     },
 
+    getByProjectAndSagaSlugAndSlug: async (req: any, res: Response, next: NextFunction) => {
+        /**
+         * Controlador para obtener un libro a través de su title y el slug de la saga.
+         */
+        const { project_id, saga_slug, book_slug } = req.params
+
+        let book = await bookService.getByProjectAndSagaSlugAndSlug(project_id, saga_slug, book_slug)
+
+        res.status(200).json({
+            success: true,
+            data: book,
+            message: 'Libro obtenido'
+        })
+    },
+
     getAllByProject: async (req: any, res: Response, next: NextFunction) => {
         /**
          * Controlador para obtener todos los libros de un projecto a través del project_id.

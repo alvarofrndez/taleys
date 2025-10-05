@@ -23,10 +23,9 @@ const CreateBookCharacter = ({ project, book }) => {
         belonging_level: 'book',
         belonging_id: book.id,
         appearances: [book.id],
-        extra_attributes: [] // atributos flexibles { key, value }
+        extra_attributes: []
     })
 
-    // --- FUNCIONES PARA ATRIBUTOS FLEXIBLES ---
     const addAttribute = () => {
         setForm({
             ...form,
@@ -75,106 +74,108 @@ const CreateBookCharacter = ({ project, book }) => {
 
     return (
         <section className={styles.container}>
-            <header className={styles.header}>
-                <div className={styles.title}>
-                    <Icon name='character' alt='personaje' width={15} height={15} />
-                    <h3>Nuevo Personaje en Libro</h3>
-                </div>
-                <p>Crea un nuevo personaje dentro del libro &quot;{book.title}&quot;.</p>
-            </header>
-        
-            <div className={styles.content}>
-                <form>
-                    <div className={styles.formGroup}>
-                        <label htmlFor='name' className={styles.label}>Nombre</label>
-                        <div className={styles.inputGroup}>
-                            <input
-                                type='text'
-                                id='name'
-                                name='name'
-                                value={form.name}
-                                onChange={(e) => setForm({ ...form, name: e.target.value })}
-                                placeholder='Ej. Aragorn'
-                            />
-                            <Icon
-                                name='cross'
-                                alt='Quitar'
-                                width={15}
-                                height={15}
-                                className={styles.delete}
-                                color='var(--color-danger)'
-                                disabled={true}
-                            />
-                        </div>
-                        
+            <div className={styles.containerTop}>
+                <header className={styles.header}>
+                    <div className={styles.title}>
+                        <Icon name='character' alt='personaje' width={15} height={15} />
+                        <h3>Nuevo Personaje en Libro</h3>
                     </div>
-            
-                    <div className={styles.formGroup}>
-                        <label htmlFor='alias' className={styles.label}>Alias</label>
-                        <div className={styles.inputGroup}>
-                            <input
-                                type='text'
-                                id='alias'
-                                name='alias'
-                                value={form.alias}
-                                onChange={(e) => setForm({ ...form, alias: e.target.value })}
-                                placeholder='Ej. Trancos'
-                            />
-                            <Icon
-                                name='cross'
-                                alt='Quitar'
-                                width={15}
-                                height={15}
-                                className={styles.delete}
-                                color='var(--color-danger)'
-                                disabled={true}
-                            />
-                        </div>
-                    </div>
-
-                    {form.extra_attributes.map((attr, index) => (
-                        <div 
-                            key={index}
-                            className={styles.formGroup} 
-                        >
-                            <input
-                                type='text'
-                                placeholder='Nombre atributo'
-                                value={attr.key}
-                                className={styles.label}
-                                onChange={(e) => updateAttribute(index, 'key', e.target.value)}
-                            />
+                    <p>Crea un nuevo personaje dentro del libro &quot;{book.title}&quot;.</p>
+                </header>
+                
+                <div className={styles.content}>
+                    <form>
+                        <div className={styles.formGroup}>
+                            <label htmlFor='name' className={styles.label}>Nombre</label>
                             <div className={styles.inputGroup}>
                                 <input
                                     type='text'
-                                    placeholder='Valor atributo'
-                                    value={attr.value}
-                                    onChange={(e) => updateAttribute(index, 'value', e.target.value)}
+                                    id='name'
+                                    name='name'
+                                    value={form.name}
+                                    onChange={(e) => setForm({ ...form, name: e.target.value })}
+                                    placeholder='Ej. Aragorn'
                                 />
-
                                 <Icon
                                     name='cross'
                                     alt='Quitar'
                                     width={15}
                                     height={15}
                                     className={styles.delete}
-                                    onClick={() => removeAttribute(index)}
                                     color='var(--color-danger)'
+                                    disabled={true}
+                                />
+                            </div>
+                            
+                        </div>
+                
+                        <div className={styles.formGroup}>
+                            <label htmlFor='alias' className={styles.label}>Alias</label>
+                            <div className={styles.inputGroup}>
+                                <input
+                                    type='text'
+                                    id='alias'
+                                    name='alias'
+                                    value={form.alias}
+                                    onChange={(e) => setForm({ ...form, alias: e.target.value })}
+                                    placeholder='Ej. Trancos'
+                                />
+                                <Icon
+                                    name='cross'
+                                    alt='Quitar'
+                                    width={15}
+                                    height={15}
+                                    className={styles.delete}
+                                    color='var(--color-danger)'
+                                    disabled={true}
                                 />
                             </div>
                         </div>
-                    ))}
-
-                    <button type='button' onClick={addAttribute} className={styles.addInput}>
-                        <Icon 
-                            name='add'
-                            alt='Añadir'
-                            width={15}
-                            height={15}
-                        />
-                        <span>Añadir atributo</span>
-                    </button>
-            </form>
+                
+                        {form.extra_attributes.map((attr, index) => (
+                            <div 
+                                key={index}
+                                className={styles.formGroup} 
+                            >
+                                <input
+                                    type='text'
+                                    placeholder='Nombre atributo'
+                                    value={attr.key}
+                                    className={styles.label}
+                                    onChange={(e) => updateAttribute(index, 'key', e.target.value)}
+                                />
+                                <div className={styles.inputGroup}>
+                                    <input
+                                        type='text'
+                                        placeholder='Valor atributo'
+                                        value={attr.value}
+                                        onChange={(e) => updateAttribute(index, 'value', e.target.value)}
+                                    />
+                
+                                    <Icon
+                                        name='cross'
+                                        alt='Quitar'
+                                        width={15}
+                                        height={15}
+                                        className={styles.delete}
+                                        onClick={() => removeAttribute(index)}
+                                        color='var(--color-danger)'
+                                    />
+                                </div>
+                            </div>
+                        ))}
+                
+                        <button type='button' onClick={addAttribute} className={styles.addInput}>
+                            <Icon 
+                                name='add'
+                                alt='Añadir'
+                                width={15}
+                                height={15}
+                            />
+                            <span>Añadir atributo</span>
+                        </button>
+                </form>
+                </div>
             </div>
         
             <footer className={styles.footer}>

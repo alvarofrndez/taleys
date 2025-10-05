@@ -17,8 +17,6 @@ export default function SagaUniverseViewPage() {
     const [ book, setBook ] = useState(null)
     const [loading, setLoading] = useState(true)
 
-    console.log(`/projects/${project.id}/books/universes/${universe_slug}/books/slug/${book_slug}`)
-
     useEffect(() => {
         async function fetchBook() {
             setLoading(true)

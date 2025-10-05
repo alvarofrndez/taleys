@@ -24,4 +24,6 @@ router.get('/universes/:universe_slug/books/slug/:book_slug', asyncHandler(userS
 // Ruta /api/v1/projects/:project_id/books/universes/:universe_slug/sagas/:saga_slug/books/slug/:book_slug
 router.get('/universes/:universe_slug/sagas/:saga_slug/books/slug/:book_slug', asyncHandler(userSetter), asyncHandler(projectRequired), asyncHandler(projectVisibility), asyncHandler(bookController.getByProjectAndUniverseSlugAndSagaSlugAndSlug))
 
+// Ruta /api/v1/projects/:project_id/books/sagas/:saga:slug/books/name/:book_title
+router.get('/sagas/:saga_slug/books/slug/:book_slug', asyncHandler(userSetter), asyncHandler(projectRequired), asyncHandler(projectVisibility), asyncHandler(bookController.getByProjectAndSagaSlugAndSlug))
 export default router

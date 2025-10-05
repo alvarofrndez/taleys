@@ -7,113 +7,81 @@
     height: 100%;
 
     // display
-    @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-10);
+    @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-6);
 
-    .header{
-        width: 100%;
-
-        // display
-        @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-1);
-        
-        .name{
-            // display
-            @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
-
-            h3{
-                // decoration
-                font-size: variables.$font-size-lg;
-                font-weight: variables.$font-weight-bold;
-            }
-        }
-        
-        p{
-            // decoration
-            font-size: variables.$font-size-sm;
-            font-weight: variables.$font-weight-normal;
-            color: var(--color-muted-foreground);
-        }
-    }
-    
-    .content{
+    .containerTop{
         // size
         width: 100%;
-
+        max-height: 90vh;
+        
         // display
-        @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-6);
+        @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-10);
 
-        form{
+        // decoration
+        overflow-y: auto;
+
+        .header{
             // size
             width: 100%;
 
             // display
-            @include mixins.flex(column, flex-start, flex-start, nowrap, calc(variables.$spacing-6));
+            @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-1);
 
-            .formGroup{
+            // margin
+            padding: variables.$spacing-4 variables.$spacing-4  0 variables.$spacing-4;
+            
+            .name, .title{
+                // display
+                @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
+
+                h3{
+                    // decoration
+                    font-size: variables.$font-size-lg;
+                    font-weight: variables.$font-weight-bold;
+                }
+            }
+            
+            p{
+                // decoration
+                font-size: variables.$font-size-sm;
+                font-weight: variables.$font-weight-normal;
+                color: var(--color-muted-foreground);
+            }
+        }
+    
+        .content{
+            // size
+            width: 100%;
+        
+            // margin
+            padding: 0 variables.$spacing-4;
+
+            // display
+            @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-6);
+
+            form{
                 // size
                 width: 100%;
 
                 // display
-                @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-2);
+                @include mixins.flex(column, flex-start, flex-start, nowrap, calc(variables.$spacing-6));
 
-                label{
-                    // decoration
-                    font-size: variables.$font-size-sm;
-                    font-weight: variables.$font-weight-medium;
-                }
-
-                textarea{
-                    // size
-                    width: 100%;
-
-                    // margin
-                    padding: variables.$spacing-2;
-
-                    // decoration
-                    font-size: variables.$font-size-sm;
-                    font-weight: variables.$font-weight-normal;
-                    background-color: var(--color-muted);
-                    border-radius: variables.$border-radius-md;
-                    border: 1px solid var(--color-border);
-                }
-
-                select{
-                    // margin
-                    padding: variables.$spacing-2;
-
-                    // decoration
-                    font-size: variables.$font-size-sm;
-                    font-weight: variables.$font-weight-normal;
-                    background-color: var(--color-muted);
-                    border-radius: variables.$border-radius-md;
-                    border: 1px solid var(--color-border);
-                    cursor: pointer;
-                }
-
-                .select{
-                    // size
-                    width: 100%;
-                    height: min-content;
-                    min-height: 0;
-                    overflow-y: auto;
-                }
-
-                span{
-                    // decoration
-                    font-size: variables.$font-size-sm;
-                    font-weight: variables.$font-weight-normal;
-                    color: var(--color-muted-foreground);
-                }
-
-                .inputGroup{
+                .formGroup{
                     // size
                     width: 100%;
 
                     // display
-                    @include mixins.flex(row, space-between, center, nowrap, variables.$spacing-2);
+                    @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-2);
 
-                    input{
+                    label{
+                        // decoration
+                        font-size: variables.$font-size-sm;
+                        font-weight: variables.$font-weight-medium;
+                    }
+
+                    textarea{
                         // size
-                        width: 90%;
+                        width: 100%;
 
                         // margin
                         padding: variables.$spacing-2;
@@ -125,36 +93,87 @@
                         border-radius: variables.$border-radius-md;
                         border: 1px solid var(--color-border);
                     }
+
+                    select{
+                        // margin
+                        padding: variables.$spacing-2;
+
+                        // decoration
+                        font-size: variables.$font-size-sm;
+                        font-weight: variables.$font-weight-normal;
+                        background-color: var(--color-muted);
+                        border-radius: variables.$border-radius-md;
+                        border: 1px solid var(--color-border);
+                        cursor: pointer;
+                    }
+
+                    .select{
+                        // size
+                        width: 100%;
+                        height: min-content;
+                        min-height: 0;
+                        overflow-y: auto;
+                    }
+
+                    span{
+                        // decoration
+                        font-size: variables.$font-size-sm;
+                        font-weight: variables.$font-weight-normal;
+                        color: var(--color-muted-foreground);
+                    }
+
+                    .inputGroup{
+                        // size
+                        width: 100%;
+
+                        // display
+                        @include mixins.flex(row, space-between, center, nowrap, variables.$spacing-2);
+
+                        input{
+                            // size
+                            width: 90%;
+
+                            // margin
+                            padding: variables.$spacing-2;
+
+                            // decoration
+                            font-size: variables.$font-size-sm;
+                            font-weight: variables.$font-weight-normal;
+                            background-color: var(--color-muted);
+                            border-radius: variables.$border-radius-md;
+                            border: 1px solid var(--color-border);
+                        }
+                    }
+
+                    .label{
+                        // margin
+                        padding: 0;
+
+                        // decoration
+                        border: none;
+                        background-color: transparent;
+                        outline: none;
+                    }
                 }
 
-                .label{
+                .addInput{
+                    // display
+                    @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-1);
+
                     // margin
-                    padding: 0;
+                    padding: variables.$spacing-1 variables.$spacing-2;
 
-                    // decoration
-                    border: none;
-                    background-color: transparent;
-                    outline: none;
-                }
-            }
+                    //decoration
+                    border: 1px solid var(--color-border);
+                    border-radius: variables.$border-radius-md;
+                    background-color: var(--color-muted);
+                    color: var(--color-primary);
+                    font-size: variables.$font-size-sm;
+                    transition: all .1s ease-in;
 
-            .addInput{
-                // display
-                @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-1);
-
-                // margin
-                padding: variables.$spacing-1 variables.$spacing-2;
-
-                //decoration
-                border: 1px solid var(--color-border);
-                border-radius: variables.$border-radius-md;
-                background-color: var(--color-muted);
-                color: var(--color-primary);
-                font-size: variables.$font-size-sm;
-                transition: all .1s ease-in;
-
-                &:hover{
-                    background-color: var(--color-accent);
+                    &:hover{
+                        background-color: var(--color-accent);
+                    }
                 }
             }
         }
@@ -166,6 +185,13 @@
 
         // display
         @include mixins.flex(row, space-between, center);
+
+        // margin
+        padding: variables.$spacing-4;
+
+        // decoration
+        background-color: var(--color-background);
+        border-top: 1px solid var(--color-border);
 
         .close{
             // display

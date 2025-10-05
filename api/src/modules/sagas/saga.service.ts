@@ -110,15 +110,6 @@ export const sagaService = {
         return await sagaService.getAllData(saga)
     },
 
-    getByProjectAndName: async (project_id: number, name: string) => {
-        // deprecated en favor de slug
-        const saga: ISaga = await sagaModel.getByProjectAndName(project_id, name)
-
-        if(!saga) throw new CustomError('La saga no existe', 404, env.DATA_NOT_FOUND_CODE)
-
-        return await sagaService.getAllData(saga)
-    },
-
     getByUniverseAndSlug: async (universe_id: number, slug: string) => {
         const saga: ISaga = await sagaModel.getByUniverseAndSlug(universe_id, slug)
 
@@ -440,6 +431,7 @@ export const sagaService = {
         const saga = await sagaService.getById(saga_id)
         if(!saga) throw new CustomError('La saga no existe', 404, env.DATA_NOT_FOUND_CODE)
 
+        console.log('borrando saga', saga.id)
         await sagaService.deleteAllSagaChilds(saga_id)
         await bookService.deleteAllBySaga(saga_id)
         await characterService.clearAllByBelonging(CharacterBelongingLevel.saga, saga_id)
@@ -465,6 +457,7 @@ export const sagaService = {
         const sagas = await sagaModel.getAllSagasChilds(saga_id)
 
         for (const saga of sagas) {
+            console.log('entra a borrar saga hija', saga.id)
             await sagaService.delete(saga.id)
         }
     },
@@ -477,7 +470,9 @@ export const sagaService = {
          */
         const sagas = await sagaService.getAllByUniverse(universe_id)
 
+        console.log('entra a borrar sagas hijas del universo en saga service', universe_id)
         for (const saga of sagas) {
+            console.log('entra a borrar saga a traves de universe en saga service', universe_id, saga.id)
             await sagaService.delete(saga.id)
         }
     },
@@ -488,9 +483,11 @@ export const sagaService = {
          * 
          * @param {number} project_id - ID del proyecto al que pertenecen las sagas.
          */
-        const sagas = await sagaService.getAllByProject(project_id)
+        const sagas = await sagaModel.getAllByProjectAndNullParentSaga(project_id)
 
+        console.log('entra metodo borrando sagas de servicio sagas')
         for (const saga of sagas) {
+            console.log('entra metodo borrando saga de servicio sagas saga: ' + saga.id)
             await sagaService.delete(saga.id)
         }
     },

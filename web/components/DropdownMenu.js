@@ -4,28 +4,42 @@ import * as RadixDropdown from '@radix-ui/react-dropdown-menu'
 import Icon from '@/components/iconComponent'
 import styles from '@/assets/global/dropdown-menu.module.scss'
 
-export default function DropdownMenu({options, triggerIcon = 'more-horizontal', triggerIconSize = 18, ariaLabel = 'Opciones de menú', triggerClassName, menuClassName}) {
+export default function DropdownMenu({
+    options,
+    triggerIcon = 'more-horizontal',
+    triggerIconSize = 18,
+    triggerContent = null,
+    ariaLabel = 'Opciones de menú',
+    triggerClassName,
+    menuClassName,
+    sideOffset = 0,
+    align = 'end'
+}) {
     return (
-        <RadixDropdown.Root>
+        <RadixDropdown.Root >
             <RadixDropdown.Trigger asChild>
                 <button
                     className={`${styles.dropdownTrigger} ${triggerClassName || ''}`}
                     aria-label={ariaLabel}
                 >
-                    <Icon
-                        name={triggerIcon}
-                        width={triggerIconSize}
-                        height={triggerIconSize}
-                        alt='menu'
-                    />
+                    {triggerContent ? (
+                        triggerContent
+                    ) : (
+                        <Icon
+                            name={triggerIcon}
+                            width={triggerIconSize}
+                            height={triggerIconSize}
+                            alt='menu'
+                        />
+                    )}
                 </button>
             </RadixDropdown.Trigger>
 
             <RadixDropdown.Portal>
                 <RadixDropdown.Content
                     className={`${styles.dropdownMenu} ${menuClassName || ''}`}
-                    sideOffset={5}
-                    align='end'
+                    sideOffset={sideOffset}
+                    align={align}
                 >
                 {options.map((option, idx) =>
                     option.divider ? (
@@ -37,13 +51,12 @@ export default function DropdownMenu({options, triggerIcon = 'more-horizontal', 
                         <RadixDropdown.Item
                             key={option.id || idx}
                             className={`${styles.dropdownItem} ${option.dangerous ? styles.dangerous : ''}`}
-                            disabled={`${option.disabled}`}
+                            disabled={option.disabled}
                             onClick={(e) => {
                                 e.stopPropagation()
                                 e.preventDefault()
                                 option.onClick?.()
                             }}
-                            {...option}
                         >
                             {option.icon && (
                                 <Icon

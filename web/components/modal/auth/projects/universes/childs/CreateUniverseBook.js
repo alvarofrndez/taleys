@@ -10,6 +10,8 @@ import { apiCall } from '@/services/apiCall'
 import Loader from '@/components/Loader'
 import { useRouter } from 'next/navigation'
 import Icon from '@/components/iconComponent'
+import Select from '@/components/Select'
+import Fallback from '@/components/Fallback'
 
 const CreateUniverseBook = ({ project, universe }) => {
     const dispatch = useDispatch()
@@ -47,19 +49,16 @@ const CreateUniverseBook = ({ project, universe }) => {
         fetchSagas()
     }, [universe.id])
 
-    const handleSagaChange = (saga_id) => {
-        const selected_saga = sagas_filter.find(saga => Number(saga.id) === Number(saga_id))
-        if (selected_saga) {
-            setForm({
-                ...form,
-                saga_id: selected_saga.id,
-            })
-        } else {
-            setForm({
-                ...form,
-                saga_id: null
-            })
-        }
+    // Función helper para encontrar la saga seleccionada
+    const getSelectedSaga = () => {
+        return form.saga_id ? sagas_filter.find(s => s.id === form.saga_id) : null
+    }
+
+    const handleSagaChange = (selected_saga) => {
+        setForm({
+            ...form,
+            saga_id: selected_saga ? selected_saga.id : null
+        })
     }
 
     const handleSubmit = async () => {
@@ -86,76 +85,77 @@ const CreateUniverseBook = ({ project, universe }) => {
     }
 
     return loading_global ? (
-        <Loader />
+        <Fallback type='modal' />
     ) : (
         <section className={styles.container}>
-            <header className={styles.header}>
-                <div className={styles.title}>
-                    <Icon
-                        name='info'
-                        alt='información'
-                        width={15}
-                        height={15}
-                    />
-                    <h3>Nuevo libro</h3>
-                </div>
-                <p>Crea un nuevo libro dentro del universo &quot;{universe.name}&quot;.</p>
-            </header>
-
-            <div className={styles.content}>
-                <form>
-                    <div className={styles.formGroup}>
-                        <label htmlFor='title'>Título</label>
-                        <input
-                            type='text'
-                            id='title'
-                            name='title'
-                            value={form.title}
-                            onChange={(e) => setForm({ ...form, title: e.target.value })}
-                            placeholder='Ej. El Retorno del Rey'
+            <div className={styles.containerTop}>
+                <header className={styles.header}>
+                    <div className={styles.title}>
+                        <Icon
+                            name='book'
+                            alt='Libro'
+                            width={15}
+                            height={15}
                         />
+                        <h3>Nuevo libro</h3>
                     </div>
+                    <p>Crea un nuevo libro dentro del universo &quot;{universe.name}&quot;.</p>
+                </header>
 
-                    <div className={styles.formGroup}>
-                        <label htmlFor='synopsis'>Sinopsis</label>
-                        <textarea
-                            id='synopsis'
-                            name='synopsis'
-                            value={form.synopsis}
-                            onChange={(e) => setForm({ ...form, synopsis: e.target.value })}
-                            placeholder='Breve resumen del libro'
-                            rows={4}
-                        />
-                    </div>
-
-                    <div className={styles.formGroup}>
-                        <label>Universo</label>
-                        <input
-                            type='text'
-                            value={universe.name}
-                            disabled
-                        />
-                    </div>
-
-                    {sagas_filter.length > 0 && (
+                <div className={styles.content}>
+                    <form>
                         <div className={styles.formGroup}>
-                            <label htmlFor='saga_id'>Saga (opcional)</label>
-                            <select
-                                id='saga_id'
-                                name='saga_id'
-                                value={form.saga_id || ''}
-                                onChange={(e) => handleSagaChange(e.target.value)}
-                            >
-                                <option value=''>Ninguna</option>
-                                {sagas_filter.map((saga) => (
-                                    <option key={saga.id} value={saga.id}>
-                                        {saga.name}
-                                    </option>
-                                ))}
-                            </select>
+                            <label htmlFor='title'>Título</label>
+                            <input
+                                type='text'
+                                id='title'
+                                name='title'
+                                value={form.title}
+                                onChange={(e) => setForm({ ...form, title: e.target.value })}
+                                placeholder='Ej. El Retorno del Rey'
+                            />
                         </div>
-                    )}
-                </form>
+
+                        <div className={styles.formGroup}>
+                            <label htmlFor='synopsis'>Sinopsis</label>
+                            <textarea
+                                id='synopsis'
+                                name='synopsis'
+                                value={form.synopsis}
+                                onChange={(e) => setForm({ ...form, synopsis: e.target.value })}
+                                placeholder='Breve resumen del libro'
+                                rows={4}
+                            />
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label>Universo</label>
+                            <input
+                                type='text'
+                                value={universe.name}
+                                disabled
+                                className={styles.disabledInput}
+                            />
+                        </div>
+
+                        {sagas_filter.length > 0 && (
+                            <div className={styles.formGroup}>
+                                <label htmlFor='saga_id'>Saga (opcional)</label>
+                                <Select
+                                    items={sagas_filter}
+                                    selected_item={getSelectedSaga()}
+                                    onChange={handleSagaChange}
+                                    display_property='name'
+                                    value_property='id'
+                                    disabled_property='disabled'
+                                    placeholder='Selecciona una saga...'
+                                    searchable={true}
+                                    allow_clear={true}
+                                />
+                            </div>
+                        )}
+                    </form>
+                </div>
             </div>
 
             <footer className={styles.footer}>

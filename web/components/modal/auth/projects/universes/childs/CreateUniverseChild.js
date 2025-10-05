@@ -2,14 +2,14 @@
 
 import styles from '@/assets/global/modal/create-project.module.scss'
 import { useDispatch } from 'react-redux'
-import Image from 'next/image'
 import { closeModal } from '@/stores/modalSlice'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import pushToast from '@/utils/pushToast'
 import { apiCall } from '@/services/apiCall'
 import Loader from '@/components/Loader'
 import { useRouter } from 'next/navigation'
 import Icon from '@/components/iconComponent'
+import Fallback from '@/components/Fallback'
 
 const CreateUniverseChild = ({ project, universe }) => {
     const dispatch = useDispatch()
@@ -44,60 +44,62 @@ const CreateUniverseChild = ({ project, universe }) => {
     }
 
     return loading_general ? (
-      <Loader />
+        <Fallback type='modal' />
     ) 
     : 
     (
         <section className={styles.container}>
-            <header className={styles.header}>
-                <div className={styles.title}>
-                    <Icon
-                        name='info'
-                        alt='información'
-                        width={15}
-                        height={15}
-                    />
-                    <h3>Nuevo universo</h3>
-                </div>
-                <p>Crea un nuevo universo para organizar tus historias y sagas.</p>
-            </header>
-
-            <div className={styles.content}>
-                <form>
-                    <div className={styles.formGroup}>
-                        <label htmlFor='name'>Nombre</label>
-                        <input
-                            type='text'
-                            id='name'
-                            name='name'
-                            value={form.name}
-                            onChange={(e) => setForm({ ...form, name: e.target.value })}
-                            placeholder='Ej. Tierra Media'
+            <div className={styles.containerTop}>
+                <header className={styles.header}>
+                    <div className={styles.title}>
+                        <Icon
+                            name='internet'
+                            alt='Universo'
+                            width={15}
+                            height={15}
                         />
+                        <h3>Nuevo universo</h3>
                     </div>
-
-                    <div className={styles.formGroup}>
-                        <label htmlFor='description'>Descripción</label>
-                        <textarea
-                            id='description'
-                            name='description'
-                            value={form.description}
-                            onChange={(e) => setForm({ ...form, description: e.target.value })}
-                            placeholder='Breve descripción del universo'
-                            rows={4}
-                        />
-                    </div>
+                    <p>Crea un nuevo universo para organizar tus historias y sagas.</p>
+                </header>
+                
+                <div className={styles.content}>
+                    <form>
                         <div className={styles.formGroup}>
-                            <label htmlFor='parent_universe_id'>Universo padre</label>
+                            <label htmlFor='name'>Nombre</label>
                             <input
                                 type='text'
-                                id='universe-name'
-                                name='universe-name'
-                                value={universe.name}
-                                disabled
+                                id='name'
+                                name='name'
+                                value={form.name}
+                                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                                placeholder='Ej. Tierra Media'
                             />
                         </div>
-                </form>
+                
+                        <div className={styles.formGroup}>
+                            <label htmlFor='description'>Descripción</label>
+                            <textarea
+                                id='description'
+                                name='description'
+                                value={form.description}
+                                onChange={(e) => setForm({ ...form, description: e.target.value })}
+                                placeholder='Breve descripción del universo'
+                                rows={4}
+                            />
+                        </div>
+                            <div className={styles.formGroup}>
+                                <label htmlFor='parent_universe_id'>Universo padre</label>
+                                <input
+                                    type='text'
+                                    id='universe-name'
+                                    name='universe-name'
+                                    value={universe.name}
+                                    disabled
+                                />
+                            </div>
+                    </form>
+                </div>
             </div>
 
             <footer className={styles.footer}>

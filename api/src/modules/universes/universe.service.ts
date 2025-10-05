@@ -334,7 +334,9 @@ export const universeService = {
         const universe = await universeService.getById(universe_id)
         if(!universe) throw new CustomError('El proyecto no existe', 404, env.DATA_NOT_FOUND_CODE)
 
+        console.log('borrando universo', universe.id)
         await universeService.deleteAllUniverseChilds(universe_id)
+        console.log('entra a borrar sagas hijas del universo', universe.id)
         await sagaService.deleteAllByUniverse(universe_id)
         await bookService.deleteAllByUniverse(universe_id)
         await characterService.clearAllByBelonging(CharacterBelongingLevel.universe, universe_id)
@@ -352,9 +354,11 @@ export const universeService = {
          * 
          * @param {number} project_id - ID del universo a eliminar.
          */
-        const universes = await universeService.getAllByProject(project_id)
+        const universes = await universeModel.getAllByProjectAndNullParentUniverse(project_id)
 
+        console.log('entra metodo borrando universos de servicio universe')
         for(let universe of universes) {
+            console.log('entra a borrar universo', universe.id)
             await universeService.delete(universe.id)
         }
     }, 

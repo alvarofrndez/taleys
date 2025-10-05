@@ -30,14 +30,10 @@
 
   .modalContent {
     // size
-    min-width: 300px;
-    max-height: 90%;
+    min-width: variables.$max-width-modal;
 
     // position
     position: relative;
-
-    // margin
-    padding: variables.$spacing-6 variables.$spacing-4 variables.$spacing-4 variables.$spacing-4;
 
     // decoration
     border-radius: variables.$border-radius-md;
@@ -48,16 +44,6 @@
 
     @media (min-width: variables.$breakpoint-sm) {
         max-width: 485px;
-    }
-
-    .closeButton {
-      // position
-      position: absolute;
-      top: variables.$spacing-2;
-      right: variables.$spacing-2;
-
-      // decoration
-      cursor: pointer;
     }
   }
 }

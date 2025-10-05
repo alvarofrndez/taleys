@@ -15,7 +15,8 @@ export default function MultiSelect({
   show_select_all = true,
   custom_renderer = null,
   filterFunction = null,
-  empty_message = 'No hay elementos disponibles'
+  empty_message = 'No hay elementos disponibles',
+  disabled_property = null,
 }) {
     const [is_open, setIsOpen] = useState(false)
     const [search_term, setSearchTerm] = useState('')
@@ -41,6 +42,11 @@ export default function MultiSelect({
         return typeof item === 'object' ? item[display_property] : item
     }
 
+    const isItemDisabled = (item) => {
+        if (!disabled_property) return false
+        return typeof item === 'object' ? item[disabled_property] === true : false
+    }
+
     const isSelected = (item) => {
         const item_value = getItemValue(item)
         return selected_items.some(selected => getItemValue(selected) === item_value)
@@ -61,18 +67,22 @@ export default function MultiSelect({
     }
 
     const handleSelectAll = () => {
-        const allSelected = filtered_iems.length > 0 && 
-        filtered_iems.every(item => isSelected(item))
-        
+        const selectableItems = filtered_iems.filter((item) => !isItemDisabled(item))
+        const allSelected = selectableItems.length > 0 &&
+            selectableItems.every(item => isSelected(item))
+
         if (allSelected) {
-            const filteredValues = filtered_iems.map(getItemValue)
-            const new_selection = selected_items.filter(selected => !filteredValues.includes(getItemValue(selected)))
+            const filteredValues = selectableItems.map(getItemValue)
+            const new_selection = selected_items.filter(
+                (selected) => !filteredValues.includes(getItemValue(selected))
+            )
             onChange(new_selection)
         } else {
-            const toAdd = filtered_iems.filter(item => !isSelected(item))
+            const toAdd = selectableItems.filter(item => !isSelected(item))
             onChange([...selected_items, ...toAdd])
         }
     }
+
 
     const removeSelected = (itemToRemove, e) => {
         e.stopPropagation()
@@ -106,21 +116,23 @@ export default function MultiSelect({
   return (
     <div ref={container_ref} className={`${styles.multiselectContainer} ${disabled ? styles.disabled : ''} ${className}`}>
         <div className={styles.multiselectInput} onClick={() => !disabled && setIsOpen(!is_open)}>
-            {selected_items.map((item) => (
-                <span key={getItemValue(item)} className={styles.selectedTag}>
+            {selected_items.map((item) => {
+                const disabledItem = isItemDisabled(item)
+                return (
+                    <span key={getItemValue(item)} className={styles.selectedTag}>
                     {getItemDisplay(item)}
-                    {!disabled && (
+                    {!disabled && !disabledItem && (
                         <Icon
-                            name='cross'
-                            alt='Quitar'
-                            width={12}
-                            height={12}
-                            onClick={(e) => removeSelected(item, e)}
+                        name="cross"
+                        alt="Quitar"
+                        width={12}
+                        height={12}
+                        onClick={(e) => removeSelected(item, e)}
                         />
                     )}
-                </span>
-            ))}
-
+                    </span>
+                )
+            })}
             {selected_items.length === 0 && (
                 <span className={styles.placeholder}>{placeholder}</span>
             )}
@@ -176,15 +188,13 @@ export default function MultiSelect({
                         ) : (
                         filtered_iems.map((item) => {
                             const selected = isSelected(item)
-                                return (
+                            return (
                                 <div
                                     key={getItemValue(item)}
-                                    className={`${styles.item} ${
-                                    selected ? styles.selected : ''
-                                    }`}
-                                    onClick={() => handleItemToggle(item)}
+                                    className={`${styles.item} ${selected ? styles.selected : ''} ${isItemDisabled(item) ? styles.disabled : ''}`}
+                                    onClick={() => !isItemDisabled(item) && handleItemToggle(item)}
                                 >
-                                    <input type='checkbox' checked={selected} readOnly />
+                                    <input type="checkbox" checked={selected} readOnly disabled={isItemDisabled(item)} />
                                     {getItemDisplay(item)}
                                 </div>
                             )

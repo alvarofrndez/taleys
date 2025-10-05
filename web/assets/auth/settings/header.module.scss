@@ -26,11 +26,11 @@
 
         &.active{
             font-weight: variables.$font-weight-medium;
-            background-color: var(--color-accent);
+            background-color: var(--color-muted);
         }
 
         &:hover{
-            background-color: var(--color-accent);
+            background-color: var(--color-muted);
         }
     }
 

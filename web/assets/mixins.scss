@@ -156,14 +156,14 @@
   font-weight: variables.$font-weight-semibold;
   
   // transition
-  transition: background-color 0.3s ease;
+  transition: background-color 0.1s ease-in;
 
   &:hover {
     // decoration
     background-color: var(--color-danger-hover);
 
     // transition
-    transition: background-color 0.3s ease;
+    transition: background-color 0.1s ease-in;
   }
 }
 

@@ -73,6 +73,11 @@ const CreateCharacterAppearance = ({ project, character, onClose }) => {
         setLoading(false)
     }
 
+    const bookParent = (book) => {
+        if(book.saga) return book.saga.name
+        if(book.universe) return book.universe.name
+    }
+
     if (global_loading) return <Loader />
 
     return (
@@ -106,7 +111,7 @@ const CreateCharacterAppearance = ({ project, character, onClose }) => {
                                     <option value='' disabled>-- Seleccione --</option>
                                     {books.map((book) => (
                                         <option key={book.id} value={book.id}>
-                                            {book.title}
+                                            {book.title} {bookParent(book)}
                                         </option>
                                     ))}
                                 </select>

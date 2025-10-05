@@ -1,15 +1,19 @@
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import Link from 'next/link'
 import styles from '@/assets/auth/header.module.scss'
-import Image from 'next/image'
 import UserAvatar from '@/components/auth/MeAvatar'
 import { useRouter, usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import React from 'react'
 import Icon from '@/components/iconComponent'
+import { openModal } from '@/stores/modalSlice'
+import DropdownMenu from '@/components/DropdownMenu'
+import { logout } from '@/stores/authSlice'
+import { apiCall } from '@/services/apiCall'
 
 const HeaderComponent = () => {
     const user = useSelector((state) => state.auth.user)
+    const dispatch = useDispatch()
     const router = useRouter()
     const pathname = usePathname()
     const [component, setComponent] = useState(null)
@@ -26,7 +30,6 @@ const HeaderComponent = () => {
             let bookName = null
             let characterName = null
 
-            // Detect characters
             if (parts[3] === 'characters' && parts[4]) {
                 characterName = decodeURIComponent(parts[4])
                 setComponent({
@@ -36,7 +39,6 @@ const HeaderComponent = () => {
                     characterName
                 })
             }
-            // Detect universes/sagas/books
             else if (parts[3] === 'universes' && parts[4]) {
                 universeName = decodeURIComponent(parts[4])
                 if (parts[5] === 'sagas' && parts[6]) {
@@ -97,6 +99,49 @@ const HeaderComponent = () => {
         }
     }, [pathname])
 
+    const handleLogout = async () => {
+        const response = await apiCall('GET', '/auth/logout')
+    
+        if(response){
+          if(response.success){
+            dispatch(logout())
+          }
+    
+          pushToast(response.message, response.success ? 'success' : 'error')
+        }
+    }
+
+    const userMenuOptions = [
+        {
+            id: 'profile',
+            label: 'Mi cuenta',
+            icon: 'user',
+            onClick: () => router.push(`/${user?.username}`)
+        },
+        {
+            id: 'projects',
+            label: 'Mis proyectos',
+            icon: 'project',
+            onClick: () => router.push(`/${user?.username}/projects`)
+        },
+        {
+            id: 'settings',
+            label: 'Ajustes',
+            icon: 'settings',
+            onClick: () => router.push('/settings')
+        },
+        {
+            divider: true
+        },
+        {
+            id: 'logout',
+            label: 'Cerrar sesión',
+            icon: 'logout',
+            dangerous: true,
+            onClick: handleLogout
+        }
+    ]
+
     const AuthButtons = () => (
         <div className={styles.auth}>
             <Link href={'/login'}>Iniciar sesión</Link>
@@ -122,9 +167,21 @@ const HeaderComponent = () => {
                     height={15}
                 />
             </Link>
-            <div className={styles.avatar}>
-                <UserAvatar />
+            <div className={styles.upload} onClick={handleCreateProyect}>
+                <Icon
+                    name='add'
+                    alt='Crear proyecto'
+                    width={15}
+                    height={15}
+                />
+                <p>Nuevo proyecto</p>
             </div>
+            <DropdownMenu 
+                options={userMenuOptions}
+                triggerContent={<UserAvatar />}
+                ariaLabel='Menú de usuario'
+                sideOffset={10}
+            />
         </div>
     )
 
@@ -190,6 +247,12 @@ const HeaderComponent = () => {
         )
     }
 
+    const handleCreateProyect = () => {
+        dispatch(openModal({
+            component: 'CreateProject'
+        }))
+    }
+
     return (
         <>
         {component === null && (
@@ -221,7 +284,7 @@ const HeaderComponent = () => {
                         height={15}
                         onClick={() => router.back()}
                     />
-                    <h3>Usuario</h3>
+                    <h3>{component.username}</h3>
                 </div>
                 {user ? <UserMenu /> : <AuthButtons />}
             </header>
@@ -229,7 +292,7 @@ const HeaderComponent = () => {
 
         {component?.type === 'projects/create' && (
             <header className={styles.header}>
-                <div className={styles.logo}>
+                <div className={styles.logo} onClick={handleCreateProyect}>
                     <Icon
                         name='arrow'
                         alt='flecha'
@@ -289,7 +352,7 @@ const HeaderComponent = () => {
                                 height={15}
                             />
                         </Link>
-                        <div className={styles.upload} onClick={() => router.push('/projects/create')}>
+                        <div className={styles.upload} onClick={handleCreateProyect}>
                             <Icon
                                 name='add'
                                 alt='Crear proyecto'
@@ -298,9 +361,12 @@ const HeaderComponent = () => {
                             />
                             <p>Nuevo proyecto</p>
                         </div>
-                        <div className={styles.avatar}>
-                            <UserAvatar />
-                        </div>
+                        <DropdownMenu 
+                            options={userMenuOptions}
+                            triggerContent={<UserAvatar />}
+                            ariaLabel='Menú de usuario'
+                            sideOffset={12}
+                        />
                     </div>
                 ) : <AuthButtons />}
             </header>

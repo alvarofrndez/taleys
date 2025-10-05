@@ -10,6 +10,8 @@ import { apiCall } from '@/services/apiCall'
 import Loader from '@/components/Loader'
 import { useRouter } from 'next/navigation'
 import Icon from '@/components/iconComponent'
+import Fallback from '@/components/Fallback'
+import Select from '@/components/Select'
 
 const CreateUniverse = ({ project }) => {
     const dispatch = useDispatch()
@@ -38,9 +40,13 @@ const CreateUniverse = ({ project }) => {
         fetchUniverses()
     }, [])
 
+    const getSelectedParentUniverse = () => {
+        return form.parent_universe_id ? parent_universes.find(u => u.id === form.parent_universe_id) : null
+    }
+
     const handleSubmit = async () => {
         if (form.name.trim() === '' || form.description.trim() === '') {
-            pushToast('Rellene todos los campos obligatorios', 'error')
+            pushToast('Rellene todos los campos', 'error')
             return
         }
 
@@ -58,76 +64,75 @@ const CreateUniverse = ({ project }) => {
     }
 
     return loading_general ? (
-      <Loader />
+        <Fallback type='modal' />
     ) 
     : 
     (
         <section className={styles.container}>
-            <header className={styles.header}>
-                <div className={styles.title}>
-                    <Icon
-                        name='info'
-                        alt='información'
-                        width={15}
-                        height={15}
-                    />
-                    <h3>Nuevo universo</h3>
-                </div>
-                <p>Crea un nuevo universo para organizar tus historias y sagas.</p>
-            </header>
-
-            <div className={styles.content}>
-                <form>
-                    <div className={styles.formGroup}>
-                        <label htmlFor='name'>Nombre</label>
-                        <input
-                            type='text'
-                            id='name'
-                            name='name'
-                            value={form.name}
-                            onChange={(e) => setForm({ ...form, name: e.target.value })}
-                            placeholder='Ej. Tierra Media'
+            <div className={styles.containerTop}>
+                <header className={styles.header}>
+                    <div className={styles.title}>
+                        <Icon
+                            name='internet'
+                            alt='Universo'
+                            width={15}
+                            height={15}
                         />
+                        <h3>Nuevo universo</h3>
                     </div>
-
-                    <div className={styles.formGroup}>
-                        <label htmlFor='description'>Descripción</label>
-                        <textarea
-                            id='description'
-                            name='description'
-                            value={form.description}
-                            onChange={(e) => setForm({ ...form, description: e.target.value })}
-                            placeholder='Breve descripción del universo'
-                            rows={4}
-                        />
-                    </div>
-
-                    {
-                        parent_universes.length > 0 &&
+                    <p>Crea un nuevo universo para organizar tus historias y sagas.</p>
+                </header>
+                
+                <div className={styles.content}>
+                    <form>
                         <div className={styles.formGroup}>
-                            <label htmlFor='parent_universe_id'>Universo padre (opcional)</label>
-                            <select
-                                id='parent_universe_id'
-                                name='parent_universe_id'
-                                value={form.parent_universe_id || ''}
-                                onChange={(e) =>
-                                    setForm({
-                                        ...form,
-                                        parent_universe_id: e.target.value === '' ? null : e.target.value,
-                                    })
-                                }
-                            >
-                                <option disabled>-- Seleccione --</option>
-                                <option value=''>Ninguno</option>
-                                {parent_universes.map((u) => (
-                                    <option key={u.id} value={u.id}>
-                                        {u.name}
-                                    </option>
-                                ))}
-                            </select>
+                            <label htmlFor='name'>Nombre</label>
+                            <input
+                                type='text'
+                                id='name'
+                                name='name'
+                                value={form.name}
+                                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                                placeholder='Ej. Tierra Media'
+                            />
                         </div>
-                    }
-                </form>
+                
+                        <div className={styles.formGroup}>
+                            <label htmlFor='description'>Descripción</label>
+                            <textarea
+                                id='description'
+                                name='description'
+                                value={form.description}
+                                onChange={(e) => setForm({ ...form, description: e.target.value })}
+                                placeholder='Breve descripción del universo'
+                                rows={4}
+                            />
+                        </div>
+                
+                        {
+                            parent_universes.length > 0 &&
+                            <div className={styles.formGroup}>
+                                <label htmlFor='parent_universe_id'>Universo padre (opcional)</label>
+                                <Select
+                                    items={parent_universes}
+                                    selected_item={getSelectedParentUniverse()}
+                                    onChange={(selected_universe) => 
+                                        setForm({
+                                            ...form,
+                                            parent_universe_id: selected_universe ? selected_universe.id : null
+                                        })
+                                    }
+                                    display_property='name'
+                                    value_property='id'
+                                    disabled_property='disabled'
+                                    placeholder='Selecciona un universo...'
+                                    searchable={true}
+                                    allow_clear={true}
+                                />
+                            </div>
+                        }
+                    </form>
+                </div>
             </div>
 
             <footer className={styles.footer}>

@@ -27,6 +27,9 @@
             // display
             @include mixins.flex(row, space-between, center);
 
+            // margin
+            padding-top: 0;
+
             // decoration
             border-bottom: 1px solid var(--color-border);
 

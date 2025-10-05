@@ -18,7 +18,7 @@ export default function SagaBookPage() {
 
     useEffect(() => {
         async function fetchBook() {
-            const response = await apiCall('GET', `/projects/${project.id}/sagas/${saga_slug}/books/slug/${book_slug}`)
+            const response = await apiCall('GET', `/projects/${project.id}/books/sagas/${saga_slug}/books/slug/${book_slug}`)
             if (response.success) setBook(response.data)
             else router.push('/not-found')
             setLoading(false)

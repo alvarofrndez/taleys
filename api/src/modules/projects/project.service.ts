@@ -580,11 +580,15 @@ export const projectService = {
         const project = await projectService.getById(project_id)
         if(!project) throw new CustomError('El proyecto no existe', 404, env.DATA_NOT_FOUND_CODE)
 
-        await projectMemberService.deleteAllByProject(project_id)
         await bookService.deleteAllByProject(project_id)
+        console.log('entra metodo borrando sagas de servicio project')
         await sagaService.deleteAllByProject(project_id)
+        console.log('entra metodo borrando universos de servicio project')
         await universeService.deleteAllByProject(project_id)
         await characterService.clearAllByBelonging(CharacterBelongingLevel.project, project_id)
+        await projectMemberService.deleteAllByProject(project_id)
+        await projectLikeService.deleteAllByProject(project_id)
+        await projectSaveService.deleteAllByProject(project_id)
 
         return await projectModel.delete(project_id)
     }
