@@ -1,9 +1,6 @@
 @use '@/assets/variables.scss' as variables;
 @use '@/assets/mixins.scss' as mixins;
 
-.container{
-}
-
 .dropdownTrigger {
     // margin
     padding: variables.$spacing-1;
@@ -25,13 +22,13 @@
     z-index: variables.$z-index-dropdown !important;
 
     // margin
-    padding: variables.$spacing-1;
+    padding: variables.$spacing-2;
 
     // decoration
     background: var(--color-background);
     border-radius: variables.$border-radius-lg;
     border: 1px solid var(--color-border);
-    box-shadow: variables.$shadow-md;
+    border: 1px solid var(--color-border);
 }
 
 .dropdownItem {

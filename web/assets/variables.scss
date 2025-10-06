@@ -1,8 +1,12 @@
-// Colores base
+// ============================================
+// COLORES BASE
+// ============================================
 $color-white: #ffffff;
 $color-black: #000000;
 
-// Paleta de colores (modo claro)
+// ============================================
+// PALETA DE COLORES - MODO CLARO
+// ============================================
 $color-background-light: #ffffff;
 $color-foreground-light: #111111;
 $color-primary-light: #1a1a1a;
@@ -19,7 +23,7 @@ $color-muted-foreground-light: #71717a;
 $color-muted-hover-light: #e6e4e4;
 $color-accent-light: #e3e3e3;
 $color-accent-foreground-light: #1a1a1a;
-$color-accent-hover-light:#d5d5d5;
+$color-accent-hover-light: #d5d5d5;
 $color-border-light: #e4e4e7;
 $color-card-light: #ffffff;
 $color-card-foreground-light: #111111;
@@ -38,17 +42,18 @@ $color-warning-dot-light: #f59e0b;
 $color-active-light: #dbeafe;
 $color-active-foreground-light: #1e40af;
 $color-active-border-light: #93c5fd;
-$color-universe-light:#dbeafe;
-$color-universe-foreground-light:#193cb8;
-$color-saga-light:#ffedd4;
-$color-saga-foreground-light:#9f2d00;
+$color-universe-light: #dbeafe;
+$color-universe-foreground-light: #193cb8;
+$color-saga-light: #ffedd4;
+$color-saga-foreground-light: #9f2d00;
 $color-book-light: #dcfce7;
 $color-book-foreground-light: #314a32;
 $color-character-light: #f3e8ff;
 $color-character-foreground-light: #6e11b0;
 
-
-// Paleta de colores (modo oscuro)
+// ============================================
+// PALETA DE COLORES - MODO OSCURO
+// ============================================
 $color-background-dark: #09090b;
 $color-foreground-dark: #fafafa;
 $color-primary-dark: #fafafa;
@@ -89,68 +94,188 @@ $color-book-foreground-dark: #4dca51;
 $color-character-dark: #2a053f;
 $color-character-foreground-dark: #e9d5ff;
 
-// Breakpoints
-$breakpoint-sm: 640px;
-$breakpoint-md: 768px;
-$breakpoint-lg: 1024px;
-$breakpoint-xl: 1280px;
+// ============================================
+// BREAKPOINTS - WIDTH
+// ============================================
+$breakpoint-xs: 480px;   // Extra small devices
+$breakpoint-sm: 640px;   // Small devices (móviles grandes)
+$breakpoint-md: 768px;   // Medium devices (tablets)
+$breakpoint-lg: 1024px;  // Large devices (tablets landscape, laptops)
+$breakpoint-xl: 1280px;  // Extra large devices (desktop)
+$breakpoint-2xl: 1536px; // 2X Extra large devices (large desktop)
 
-// Espaciado
-$spacing-1: 0.25rem;
-$spacing-2: 0.5rem;
-$spacing-3: 0.75rem;
-$spacing-4: 1rem;
-$spacing-5: 1.25rem;
-$spacing-6: 1.5rem;
-$spacing-8: 2rem;
-$spacing-10: 2.5rem;
-$spacing-12: 3rem;
-$spacing-16: 4rem;
+// ============================================
+// BREAKPOINTS - HEIGHT (para responsive vertical)
+// ============================================
+$breakpoint-height-xs: 480px;  // Pantallas muy bajas
+$breakpoint-height-sm: 600px;  // Móviles en landscape
+$breakpoint-height-md: 768px;  // Tablets en portrait
+$breakpoint-height-lg: 900px;  // Laptops estándar
+$breakpoint-height-xl: 1080px; // Desktop HD
 
-// Tamaños
-$size-height-header: 5vh;
-$size-width-navigation-default: $spacing-10;
-$size-width-navigation-pointer: 10vw;
-$max-width-modal: 300px;
+// ============================================
+// ESPACIADO
+// ============================================
+$spacing-0: 0;
+$spacing-1: 0.25rem;   // 4px
+$spacing-2: 0.5rem;    // 8px
+$spacing-3: 0.75rem;   // 12px
+$spacing-4: 1rem;      // 16px
+$spacing-5: 1.25rem;   // 20px
+$spacing-6: 1.5rem;    // 24px
+$spacing-8: 2rem;      // 32px
+$spacing-10: 2.5rem;   // 40px
+$spacing-12: 3rem;     // 48px
+$spacing-16: 4rem;     // 64px
+$spacing-20: 5rem;     // 80px
+$spacing-24: 6rem;     // 96px
 
-// Bordes
-$border-radius-sm: 0.125rem;
-$border-radius: 0.25rem;
-$border-radius-md: 0.375rem;
-$border-radius-lg: 0.5rem;
-$border-radius-xl: 0.75rem;
-$border-radius-2xl: 1rem;
+// ============================================
+// TAMAÑOS RESPONSIVE - HEADER
+// ============================================
+// Mobile first approach
+$size-height-header-xs: 3.5rem;      // 56px - móviles pequeños
+$size-height-header-sm: 3.75rem;     // 60px - móviles grandes
+$size-height-header-md: 4rem;        // 64px - tablets
+$size-height-header-lg: 4.5rem;      // 72px - laptops
+$size-height-header-xl: 5rem;        // 80px - desktop
+$size-height-header: $size-height-header-md; // Valor por defecto
+
+// ============================================
+// TAMAÑOS RESPONSIVE - NAVIGATION
+// ============================================
+$size-width-navigation-collapsed: $spacing-10; // 40px (tu valor original)
+
+$size-width-navigation-expanded-xs: 14rem;      // 224px
+$size-width-navigation-expanded-sm: 16rem;      // 256px
+$size-width-navigation-expanded-md: 18rem;      // 288px
+$size-width-navigation-expanded-lg: calc($spacing-16 * 3); // 192px (tu valor original)
+
+// Valores por defecto (backward compatibility)
+$size-width-navigation-default: $size-width-navigation-collapsed;
+$size-width-navigation-pointer: $size-width-navigation-expanded-md;
+
+// ============================================
+// TAMAÑOS - MODALES Y CONTENEDORES
+// ============================================
+$max-width-modal-xs: 280px;
+$max-width-modal-sm: 320px;
+$max-width-modal-md: 400px;
+$max-width-modal-lg: 500px;
+$max-width-modal-xl: 600px;
+$max-width-modal: $max-width-modal-xs; // Valor por defecto
+$min-width-modal: $max-width-modal-xs; // Valor por defecto
+
+$max-width-container-sm: 640px;
+$max-width-container-md: 768px;
+$max-width-container-lg: 1024px;
+$max-width-container-xl: 1280px;
+$max-width-container-2xl: 1536px;
+
+// ============================================
+// BORDES
+// ============================================
+$border-radius-none: 0;
+$border-radius-sm: 0.125rem;    // 2px
+$border-radius: 0.25rem;        // 4px
+$border-radius-md: 0.375rem;    // 6px
+$border-radius-lg: 0.5rem;      // 8px
+$border-radius-xl: 0.75rem;     // 12px
+$border-radius-2xl: 1rem;       // 16px
+$border-radius-3xl: 1.5rem;     // 24px
 $border-radius-full: 9999px;
 
-// Tipografía
-$font-size-xs: 0.75rem;
-$font-size-sm: 0.875rem;
-$font-size-base: 1rem;
-$font-size-lg: 1.125rem;
-$font-size-xl: 1.25rem;
-$font-size-2xl: 1.5rem;
-$font-size-3xl: 1.875rem;
-$font-size-4xl: 2.25rem;
+$border-width-thin: 1px;
+$border-width-normal: 2px;
+$border-width-thick: 4px;
 
-// Font weight
+// ============================================
+// TIPOGRAFÍA
+// ============================================
+$font-size-xs: 0.75rem;      // 12px
+$font-size-sm: 0.875rem;     // 14px
+$font-size-base: 1rem;       // 16px
+$font-size-lg: 1.125rem;     // 18px
+$font-size-xl: 1.25rem;      // 20px
+$font-size-2xl: 1.5rem;      // 24px
+$font-size-3xl: 1.875rem;    // 30px
+$font-size-4xl: 2.25rem;     // 36px
+$font-size-5xl: 3rem;        // 48px
+$font-size-6xl: 3.75rem;     // 60px
+
+// Line heights
+$line-height-none: 1;
+$line-height-tight: 1.25;
+$line-height-snug: 1.375;
+$line-height-normal: 1.5;
+$line-height-relaxed: 1.625;
+$line-height-loose: 2;
+
+// ============================================
+// FONT WEIGHT
+// ============================================
+$font-weight-thin: 100;
+$font-weight-extralight: 200;
 $font-weight-light: 300;
 $font-weight-normal: 400;
 $font-weight-medium: 500;
 $font-weight-semibold: 600;
 $font-weight-bold: 700;
+$font-weight-extrabold: 800;
+$font-weight-black: 900;
 
-
-// Sombras
+// ============================================
+// SOMBRAS
+// ============================================
+$shadow-none: none;
+$shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 $shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 $shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-$shadow-md: 0 0px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-$shadow-lg: 0 0px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+$shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+$shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+$shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
 
-// z-index
+// ============================================
+// Z-INDEX
+// ============================================
+$z-index-base: 0;
+$z-index-sticky: 100;
 $z-index-navigation: 100;
 $z-index-header: 100;
+$z-index-overlay: 150;
 $z-index-modal: 200;
+$z-index-dropdown: 300;
 $z-index-toast: 300;
 $z-index-tooltip: 400;
-$z-index-dropdown: 500;
+$z-index-popover: 500;
 $z-index-loader: 600;
+$z-index-maximum: 9999;
+
+// ============================================
+// TRANSICIONES
+// ============================================
+$transition-fast: 150ms;
+$transition-normal: 200ms;
+$transition-slow: 300ms;
+$transition-slower: 500ms;
+
+$transition-ease-in: cubic-bezier(0.4, 0, 1, 1);
+$transition-ease-out: cubic-bezier(0, 0, 0.2, 1);
+$transition-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+// ============================================
+// OPACIDAD
+// ============================================
+$opacity-0: 0;
+$opacity-10: 0.1;
+$opacity-20: 0.2;
+$opacity-30: 0.3;
+$opacity-40: 0.4;
+$opacity-50: 0.5;
+$opacity-60: 0.6;
+$opacity-70: 0.7;
+$opacity-80: 0.8;
+$opacity-90: 0.9;
+$opacity-100: 1;

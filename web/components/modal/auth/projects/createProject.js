@@ -81,12 +81,6 @@ const CreateProject = () => {
             <div className={styles.containerTop}>
                 <header className={styles.header}>
                     <div className={styles.title}>
-                        <Icon
-                            name='info'
-                            alt='información'
-                            width={15}
-                            height={15}
-                        />
                         <h3>Nuevo proyecto</h3>
                     </div>
                     <p>Crea un nuevo proyecto, como partida, para poder empezar a escribir tus historias.</p>

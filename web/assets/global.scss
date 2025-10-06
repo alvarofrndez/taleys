@@ -1,96 +1,208 @@
 @use './variables.scss' as variables;
 @use './mixins.scss' as mixins;
 
+// ============================================
+// ROOT - CSS CUSTOM PROPERTIES
+// ============================================
 :root {
-    --color-white: #{variables.$color-white};
-    --color-black: #{variables.$color-black};
-    --color-background: #{variables.$color-background-light};
-    --color-foreground: #{variables.$color-foreground-light};
-    --color-primary: #{variables.$color-primary-light};
-    --color-primary-foreground: #{variables.$color-primary-foreground-light};
-    --color-primary-hover: #{variables.$color-primary-hover-light};
-    --color-secondary: #{variables.$color-secondary-light};
-    --color-secondary-foreground: #{variables.$color-secondary-foreground-light};
-    --color-secondary-hover: #{variables.$color-secondary-hover-light};
-    --color-terciary: #{variables.$color-terciary-light};
-    --color-terciary-foreground: #{variables.$color-terciary-foreground-light};
-    --color-terciary-hover: #{variables.$color-terciary-hover-light};
-    --color-muted: #{variables.$color-muted-light};
-    --color-muted-foreground: #{variables.$color-muted-foreground-light};
-    --color-muted-hover: #{variables.$color-muted-hover-light};
-    --color-accent: #{variables.$color-accent-light};
-    --color-accent-foreground: #{variables.$color-accent-foreground-light};
-    --color-accent-hover: #{variables.$color-accent-hover-light};
-    --color-border: #{variables.$color-border-light};
-    --color-card: #{variables.$color-card-light};
-    --color-card-foreground: #{variables.$color-card-foreground-light};
-    --color-flashy: #{variables.$color-flashy-light};
-    --color-flashy-foreground: #{variables.$color-flashy-foreground-light};
-    --color-flashy-hover: #{variables.$color-flashy-hover-light};
-    --color-danger: #{variables.$color-danger-light};
-    --color-danger-hover: #{variables.$color-danger-hover-light};
-    --color-danger-hover-rgba: #{variables.$color-danger-hover-rgba-light};
-    --color-success: #{variables.$color-success-light};
-    --color-success-hover: #{variables.$color-success-hover-light};
-    --color-warning: #{variables.$color-warning-light};
-    --color-warning-border: #{variables.$color-warning-border-light};
-    --color-warning-foreground: #{variables.$color-warning-foreground-light};
-    --color-warning-dot: #{variables.$color-warning-dot-light};
-    --color-active: #{variables.$color-active-light};
-    --color-active-foreground: #{variables.$color-active-foreground-light};
-    --color-active-border: #{variables.$color-active-border-light};
-    --color-universe: #{variables.$color-universe-light};
-    --color-universe-foreground: #{variables.$color-universe-foreground-light};
-    --color-saga: #{variables.$color-saga-light};
-    --color-saga-foreground: #{variables.$color-saga-foreground-light};
-    --color-book: #{variables.$color-book-light};
-    --color-book-foreground: #{variables.$color-book-foreground-light};
-    --color-character: #{variables.$color-character-light};
-    --color-character-foreground: #{variables.$color-character-foreground-light};
+  // Colores base
+  --color-white: #{variables.$color-white};
+  --color-black: #{variables.$color-black};
+  
+  // Colores modo claro (default)
+  --color-background: #{variables.$color-background-light};
+  --color-foreground: #{variables.$color-foreground-light};
+  --color-primary: #{variables.$color-primary-light};
+  --color-primary-foreground: #{variables.$color-primary-foreground-light};
+  --color-primary-hover: #{variables.$color-primary-hover-light};
+  --color-secondary: #{variables.$color-secondary-light};
+  --color-secondary-foreground: #{variables.$color-secondary-foreground-light};
+  --color-secondary-hover: #{variables.$color-secondary-hover-light};
+  --color-terciary: #{variables.$color-terciary-light};
+  --color-terciary-foreground: #{variables.$color-terciary-foreground-light};
+  --color-terciary-hover: #{variables.$color-terciary-hover-light};
+  --color-muted: #{variables.$color-muted-light};
+  --color-muted-foreground: #{variables.$color-muted-foreground-light};
+  --color-muted-hover: #{variables.$color-muted-hover-light};
+  --color-accent: #{variables.$color-accent-light};
+  --color-accent-foreground: #{variables.$color-accent-foreground-light};
+  --color-accent-hover: #{variables.$color-accent-hover-light};
+  --color-border: #{variables.$color-border-light};
+  --color-card: #{variables.$color-card-light};
+  --color-card-foreground: #{variables.$color-card-foreground-light};
+  --color-flashy: #{variables.$color-flashy-light};
+  --color-flashy-foreground: #{variables.$color-flashy-foreground-light};
+  --color-flashy-hover: #{variables.$color-flashy-hover-light};
+  --color-danger: #{variables.$color-danger-light};
+  --color-danger-hover: #{variables.$color-danger-hover-light};
+  --color-danger-hover-rgba: #{variables.$color-danger-hover-rgba-light};
+  --color-success: #{variables.$color-success-light};
+  --color-success-hover: #{variables.$color-success-hover-light};
+  --color-warning: #{variables.$color-warning-light};
+  --color-warning-border: #{variables.$color-warning-border-light};
+  --color-warning-foreground: #{variables.$color-warning-foreground-light};
+  --color-warning-dot: #{variables.$color-warning-dot-light};
+  --color-active: #{variables.$color-active-light};
+  --color-active-foreground: #{variables.$color-active-foreground-light};
+  --color-active-border: #{variables.$color-active-border-light};
+  --color-universe: #{variables.$color-universe-light};
+  --color-universe-foreground: #{variables.$color-universe-foreground-light};
+  --color-saga: #{variables.$color-saga-light};
+  --color-saga-foreground: #{variables.$color-saga-foreground-light};
+  --color-book: #{variables.$color-book-light};
+  --color-book-foreground: #{variables.$color-book-foreground-light};
+  --color-character: #{variables.$color-character-light};
+  --color-character-foreground: #{variables.$color-character-foreground-light};
+
+  // ============================================
+  // TAMAÑOS RESPONSIVE - HEADER
+  // ============================================
+  // Default: móviles pequeños
+  --header-height: #{variables.$size-height-header-xs};
+  
+  // Móviles grandes
+  @media (min-width: #{variables.$breakpoint-sm}) {
+    --header-height: #{variables.$size-height-header-sm};
+  }
+  
+  // Tablets
+  @media (min-width: #{variables.$breakpoint-md}) {
+    --header-height: #{variables.$size-height-header-md};
+  }
+  
+  // Laptops
+  @media (min-width: #{variables.$breakpoint-lg}) {
+    --header-height: #{variables.$size-height-header-lg};
+  }
+  
+  // Desktop
+  @media (min-width: #{variables.$breakpoint-xl}) {
+    --header-height: #{variables.$size-height-header-xl};
+  }
+
+  // Ajustes por altura de pantalla (para pantallas muy bajas)
+  @media (max-height: #{variables.$breakpoint-height-xs}) {
+    --header-height: #{variables.$size-height-header-xs};
+  }
+
+  // ============================================
+  // TAMAÑOS RESPONSIVE - NAVIGATION
+  // ============================================
+  // Navigation expanded
+  --navigation-width-expanded: #{variables.$size-width-navigation-expanded-xs};
+  
+  @media (min-width: #{variables.$breakpoint-sm}) {
+    --navigation-width-expanded: #{variables.$size-width-navigation-expanded-sm};
+  }
+  
+  @media (min-width: #{variables.$breakpoint-md}) {
+    --navigation-width-expanded: #{variables.$size-width-navigation-expanded-md};
+  }
+  
+  @media (min-width: #{variables.$breakpoint-lg}) {
+    --navigation-width-expanded: #{variables.$size-width-navigation-expanded-lg};
+  }
+
+  // ============================================
+  // TAMAÑOS RESPONSIVE - MODALES
+  // ============================================
+   // Max width
+  --modal-max-width: #{variables.$max-width-modal};
+  
+  @media (min-width: #{variables.$breakpoint-xs}) {
+    --modal-max-width: #{variables.$max-width-modal-xs};
+  }
+
+  @media (min-width: #{variables.$breakpoint-sm}) {
+    --modal-max-width: #{variables.$max-width-modal-sm};
+  }
+  
+  @media (min-width: #{variables.$breakpoint-md}) {
+    --modal-max-width: #{variables.$max-width-modal-md};
+  }
+  
+  @media (min-width: #{variables.$breakpoint-lg}) {
+    --modal-max-width: #{variables.$max-width-modal-lg};
+  }
+  
+  @media (min-width: #{variables.$breakpoint-xl}) {
+    --modal-max-width: #{variables.$max-width-modal-xl};
+  }
+
+  // Min width
+  --modal-min-width: #{variables.$min-width-modal};
+  // ============================================
+  // ESPACIADO RESPONSIVE (opcional pero útil)
+  // ============================================
+  --spacing-responsive: #{variables.$spacing-4};
+  
+  @media (min-width: #{variables.$breakpoint-md}) {
+    --spacing-responsive: #{variables.$spacing-6};
+  }
+  
+  @media (min-width: #{variables.$breakpoint-lg}) {
+    --spacing-responsive: #{variables.$spacing-8};
+  }
 }
 
+// ============================================
+// DARK MODE
+// ============================================
+[data-theme="dark"],
 .dark {
-    --color-white: #{variables.$color-white};
-    --color-black: #{variables.$color-black};
-    --color-background: #{variables.$color-background-dark};
-    --color-foreground: #{variables.$color-foreground-dark};
-    --color-primary: #{variables.$color-primary-dark};
-    --color-primary-foreground: #{variables.$color-primary-foreground-dark};
-    --color-secondary: #{variables.$color-secondary-dark};
-    --color-secondary-foreground: #{variables.$color-secondary-foreground-dark};
-    --color-terciary: #{variables.$color-terciary-dark};
-    --color-terciary-foreground: #{variables.$color-terciary-foreground-dark};
-    --color-muted: #{variables.$color-muted-dark};
-    --color-muted-foreground: #{variables.$color-muted-foreground-dark};
-    --color-muted-hover: #{variables.$color-muted-hover-dark};
-    --color-accent: #{variables.$color-accent-dark};
-    --color-accent-foreground: #{variables.$color-accent-foreground-dark};
-    --color-border: #{variables.$color-border-dark};
-    --color-card: #{variables.$color-card-dark};
-    --color-card-foreground: #{variables.$color-card-foreground-dark};
-    --color-flashy: #{variables.$color-flashy-dark};
-    --color-flashy-foreground: #{variables.$color-flashy-foreground-dark};
-    --color-flashy-hover: #{variables.$color-flashy-hover-dark};
-    --color-danger: #{variables.$color-danger-dark};
-    --color-danger-hover: #{variables.$color-danger-hover-dark};
-    --color-danger-hover-rgba: #{variables.$color-danger-hover-rgba-dark};
-    --color-success: #{variables.$color-success-dark};
-    --color-success-hover: #{variables.$color-success-hover-dark};
-    --color-warning: #{variables.$color-warning-dark};
-    --color-warning-border: #{variables.$color-warning-border-dark};
-    --color-warning-foreground: #{variables.$color-warning-foreground-dark};
-    --color-warning-dot: #{variables.$color-warning-dot-dark};
-    --color-active: #{variables.$color-active-dark};
-    --color-active-foreground: #{variables.$color-active-foreground-dark};
-    --color-active-border: #{variables.$color-active-border-dark};
-    --color-universe: #{variables.$color-universe-dark};
-    --color-universe-foreground: #{variables.$color-universe-foreground-dark};
-    --color-saga: #{variables.$color-saga-dark};
-    --color-saga-foreground: #{variables.$color-saga-foreground-dark};
-    --color-book: #{variables.$color-book-dark};
-    --color-book-foreground: #{variables.$color-book-foreground-dark};
-    --color-character: #{variables.$color-character-dark};
-    --color-character-foreground: #{variables.$color-character-foreground-dark};
+  --color-background: #{variables.$color-background-dark};
+  --color-foreground: #{variables.$color-foreground-dark};
+  --color-primary: #{variables.$color-primary-dark};
+  --color-primary-foreground: #{variables.$color-primary-foreground-dark};
+  --color-secondary: #{variables.$color-secondary-dark};
+  --color-secondary-foreground: #{variables.$color-secondary-foreground-dark};
+  --color-terciary: #{variables.$color-terciary-dark};
+  --color-terciary-foreground: #{variables.$color-terciary-foreground-dark};
+  --color-muted: #{variables.$color-muted-dark};
+  --color-muted-foreground: #{variables.$color-muted-foreground-dark};
+  --color-muted-hover: #{variables.$color-muted-hover-dark};
+  --color-accent: #{variables.$color-accent-dark};
+  --color-accent-foreground: #{variables.$color-accent-foreground-dark};
+  --color-border: #{variables.$color-border-dark};
+  --color-card: #{variables.$color-card-dark};
+  --color-card-foreground: #{variables.$color-card-foreground-dark};
+  --color-flashy: #{variables.$color-flashy-dark};
+  --color-flashy-foreground: #{variables.$color-flashy-foreground-dark};
+  --color-flashy-hover: #{variables.$color-flashy-hover-dark};
+  --color-danger: #{variables.$color-danger-dark};
+  --color-danger-hover: #{variables.$color-danger-hover-dark};
+  --color-danger-hover-rgba: #{variables.$color-danger-hover-rgba-dark};
+  --color-success: #{variables.$color-success-dark};
+  --color-success-hover: #{variables.$color-success-hover-dark};
+  --color-warning: #{variables.$color-warning-dark};
+  --color-warning-border: #{variables.$color-warning-border-dark};
+  --color-warning-foreground: #{variables.$color-warning-foreground-dark};
+  --color-warning-dot: #{variables.$color-warning-dot-dark};
+  --color-active: #{variables.$color-active-dark};
+  --color-active-foreground: #{variables.$color-active-foreground-dark};
+  --color-active-border: #{variables.$color-active-border-dark};
+  --color-universe: #{variables.$color-universe-dark};
+  --color-universe-foreground: #{variables.$color-universe-foreground-dark};
+  --color-saga: #{variables.$color-saga-dark};
+  --color-saga-foreground: #{variables.$color-saga-foreground-dark};
+  --color-book: #{variables.$color-book-dark};
+  --color-book-foreground: #{variables.$color-book-foreground-dark};
+  --color-character: #{variables.$color-character-dark};
+  --color-character-foreground: #{variables.$color-character-foreground-dark};
+}
+
+// ============================================
+// PREFERS REDUCED MOTION
+// ============================================
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 * {

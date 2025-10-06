@@ -3,12 +3,12 @@
 
 .navigation{
     // size
-    width: variables.$size-width-navigation-default;
-    height: 100%;
+    width: variables.$size-width-navigation-collapsed;
+    height: calc(100% - var(--header-height));
 
     // position
-    position: sticky;
-    top: variables.$size-height-header;
+    position: absolute;
+    top: var(--header-height);
     left: 0;
     z-index: variables.$z-index-navigation;
 
@@ -20,8 +20,7 @@
 
     // decoration
     border-right: 1px solid var(--color-border);
-    background-color: transparent;
-    backdrop-filter: blur(50px);
+    background-color: var(--color-background);
     overflow: hidden;
 
     //transition
@@ -29,7 +28,7 @@
 
     &:hover{
         // size
-        width: variables.$size-width-navigation-pointer;
+        width: var(--navigation-width-expanded);
 
         //transition
         transition: width .2s ease;
@@ -44,99 +43,114 @@
         position: relative;
 
         // display
-        @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-4);
+        @include mixins.flex(column, space-between, flex-start, nowrap, variables.$spacing-4);
 
         //decoration
         overflow: hidden;
 
-        &>*{
-            // margin
-            padding-top: variables.$spacing-4;
-
-            // decoration
-            border-top: 1px solid var(--color-border);
-        }
-
-        .name{
-            // margin
-            padding-top: 0;
-
-            // decoration
-            border-top: none;
-
-            h2{
-                // decoration
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-        }
-
         .nav {
             // size
             width: 100%;
+            max-height: 90%;
 
             // display
-            @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-1);
+            @include mixins.flex(column);
 
             // decoration
             font-size: variables.$font-size-sm;
+            overflow-x: hidden;
+            overflow-y: auto;
+            @include mixins.hideScrollbar;
 
-            &_item{
+            .section {
                 // size
                 width: 100%;
 
                 // display
-                @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
+                @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-1);
 
-                // margin
-                padding: variables.$spacing-1;
+                .section_list {
+                    // size
+                    width: 100%;
 
-                // decoration
-                border-radius: variables.$border-radius;
+                    // display
+                    @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-1);
 
-                *{
                     // decoration
-                    color: var(--color-muted-foreground);
-                }
-                
-                    &:hover{
-                        // decoration
-                        background-color: var(--color-accent);
+                    list-style: none;
 
-                        *{
+                    li {
+                        // size
+                        min-width: 100%;
+
+                        .section_item{
+                            // size
+                            min-width: 100%;
+
+                            // display
+                            @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
+
+                            // margin
+                            padding: variables.$spacing-2 variables.$spacing-1;
+
                             // decoration
-                            color: var(--color-primary);
+                            border-radius: variables.$border-radius;
+
+                            // transition
+                            transition: background-color 0.2s ease, color 0.2s ease;
+
+                            * {
+                                // decoration
+                                color: var(--color-muted-foreground);
+                                
+                                // transition
+                                transition: color 0.2s ease;
+                            }
+
+                            &:hover {
+                                // decoration
+                                background-color: var(--color-muted);
+
+                                * {
+                                    // decoration
+                                    color: var(--color-primary);
+                                }
+                            }
+
+                            span{
+                                // decoration
+                                white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                            }
                         }
                     }
+                    
+                }
 
-                span{
-                    // decoration
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
+                .separator {
+                    width: 100%;    
+                    height: 1px;
+                    background-color: var(--color-border);
+                    opacity: 0.4;
+                    margin: variables.$spacing-3 0;
                 }
             }
         }
 
         .footer{
             // size
-            width: 100%;
-
-            // position
-            position: absolute;
-            bottom: variables.$spacing-4;
-            left: variables.$spacing-2;
+             min-width: 100%;
 
             // margin
-            padding-top: 0;
+            padding-top: variables.$spacing-4;
 
             // decoration
-            border-top: none;
+            border-top: 1px solid var(--color-border);
 
             button{
                 // size
-                width: 100%;
+                 min-width: 100%;
 
                 // display
                 @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
@@ -148,6 +162,4 @@
             }
         }
     }
-
-
 }

@@ -31,7 +31,9 @@ export default function AuthenticatedLayout({ children }) {
         <HeaderComponent/>
         <main className={styles.main}>
             <NavigationComponente />
-            {children}
+            <section className={styles.section}>
+                {children}
+            </section>
         </main>
     </>)
 }

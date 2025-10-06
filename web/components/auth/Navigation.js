@@ -2,51 +2,113 @@
 
 import { useSelector } from 'react-redux'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { usePathname } from 'next/navigation'
 import styles from '@/assets/auth/navigation.module.scss'
-import Image from 'next/image'
 import ProjectCreateButton from '@/components/auth/projects/ProjectCreateButton'
-import Icon from '../iconComponent'
+import Icon from '@/components/iconComponent'
 
-const nav_items = [
-  { name: 'Sagas', href: '/sagas', icon: 'close', icon_alt: 'sagas' },
-  { name: 'Libros', href: '/books', icon: 'close', icon_alt: 'sagas' },
-  { name: 'Personajes', href: '/characters', icon: 'close', icon_alt: 'sagas' },
-  { name: 'Lugares', href: '/locations', icon: 'close', icon_alt: 'sagas'},
-  { name: 'Eventos', href: '/events', icon: 'close', icon_alt: 'sagas'},
-  { name: 'Notas del autor', href: '/notes', icon: 'close', icon_alt: 'sagas'},
-]
+const NavSection = ({ items, is_active }) => (
+  <ul className={styles.section_list}>
+    {items.map((item) => (
+      <li key={item.name}>
+        <Link
+          href={item.href}
+          className={`${styles.section_item} ${is_active(item.href) ? styles.active : ''}`}
+        >
+          <Icon name={item.icon} alt={item.icon_alt} width={15} height={15} />
+          <span>{item.name}</span>
+        </Link>
+      </li>
+    ))}
+  </ul>
+)
 
 const Navigation = () => {
   const user = useSelector((state) => state.auth.user)
   const pathname = usePathname()
-  const router = useRouter()
+  const is_active = (path) => pathname.startsWith(path)
 
-  const isActive = (path) => pathname.startsWith(path)
+  const NAV_SECTIONS = {
+    authenticated: [
+      {
+        key: 'projects',
+        items: [
+          { name: 'Proyectos', href: (user) => `/${user.username}/projects`, icon: 'project', icon_alt: 'Proyectos' },
+          { name: 'Colaboraciones', href: '/collaborations', icon: 'users', icon_alt: 'Colaboraciones' },
+          { name: 'Favoritos', href: '/favorites', icon: 'star', icon_alt: 'Favoritos' },
+          { name: 'Actividad', href: '/activity', icon: 'activity', icon_alt: 'Actividad reciente' },
+        ],
+      },
+      {
+        key: 'explore',
+        items: [
+          { name: 'Explorar', href: '/explore', icon: 'search', icon_alt: 'Explorar proyectos' },
+          { name: 'Historias destacadas', href: '/featured', icon: 'sparkles', icon_alt: 'Proyectos destacados' },
+          { name: 'Autores populares', href: '/authors', icon: 'users', icon_alt: 'Autores' },
+          { name: 'Categorías', href: '/categories', icon: 'tags', icon_alt: 'Categorías' },
+        ],
+      },
+      {
+        key: 'account',
+        items: [
+          { name: 'Perfil', href: (user) => `/profile/${user.username}`, icon: 'user', icon_alt: 'Tu perfil' },
+          { name: 'Ajustes', href: '/settings', icon: 'settings', icon_alt: 'Ajustes' },
+        ],
+      },
+      {
+        key: 'info',
+        items: [
+          { name: 'Guías', href: '/guides', icon: 'book', icon_alt: 'Guías' },
+          { name: 'Novedades', href: '/news', icon: 'megaphone', icon_alt: 'Novedades' },
+          { name: 'Acerca de', href: '/about', icon: 'info', icon_alt: 'Sobre nosotros' },
+          { name: 'Ayuda', href: '/help', icon: 'help', icon_alt: 'Centro de ayuda' },
+        ],
+      },
+    ],
+
+    guest: [
+      {
+        key: 'explore',
+        items: [
+          { name: 'Explorar', href: '/explore', icon: 'search', icon_alt: 'Explorar proyectos' },
+          { name: 'Historias destacadas', href: '/featured', icon: 'sparkles', icon_alt: 'Proyectos destacados' },
+          { name: 'Autores populares', href: '/authors', icon: 'users', icon_alt: 'Autores' },
+          { name: 'Categorías', href: '/categories', icon: 'tags', icon_alt: 'Categorías' },
+        ],
+      },
+      {
+        key: 'info',
+        items: [
+          { name: 'Guías', href: '/guides', icon: 'book', icon_alt: 'Guías' },
+          { name: 'Novedades', href: '/news', icon: 'megaphone', icon_alt: 'Novedades' },
+          { name: 'Acerca de', href: '/about', icon: 'info', icon_alt: 'Sobre nosotros' },
+          { name: 'Ayuda', href: '/help', icon: 'help', icon_alt: 'Centro de ayuda' },
+        ],
+      },
+    ],
+  }
+
+  const sections = user ? NAV_SECTIONS.authenticated : NAV_SECTIONS.guest
 
   return (
     <aside className={styles.navigation}>
       <div className={styles.container}>
-        <header className={styles.name}>
-          <h2>Cosmere</h2>
-        </header>
-  
         <nav className={styles.nav}>
-          {nav_items.map((item) => (
-            <Link key={item.name} href={item.href} className={`${styles.nav_item} ${isActive(item.href) ? styles.active : ''}`}>
-              <Icon
-                  name={item.icon}
-                  alt='close'
-                  width={15}
-                  height={15}
-                  className={styles.closeButton}
+          {sections.map((section, i) => (
+            <div key={section.key} className={styles.section}>
+              <NavSection
+                items={section.items.map((item) => ({
+                  ...item,
+                  href: typeof item.href === 'function' ? item.href(user) : item.href,
+                }))}
+                is_active={is_active}
               />
-              <span>{item.name}</span>
-            </Link>
+
+              {i !== sections.length - 1 && <div className={styles.separator}></div>}
+            </div>
           ))}
         </nav>
-  
+
         <footer className={styles.footer}>
           <ProjectCreateButton />
         </footer>

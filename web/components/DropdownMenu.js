@@ -12,7 +12,6 @@ export default function DropdownMenu({
     ariaLabel = 'Opciones de menú',
     triggerClassName,
     menuClassName,
-    sideOffset = 0,
     align = 'end'
 }) {
     return (
@@ -38,7 +37,6 @@ export default function DropdownMenu({
             <RadixDropdown.Portal>
                 <RadixDropdown.Content
                     className={`${styles.dropdownMenu} ${menuClassName || ''}`}
-                    sideOffset={sideOffset}
                     align={align}
                 >
                 {options.map((option, idx) =>

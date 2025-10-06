@@ -179,3 +179,23 @@
     }
   }
 }
+
+@mixin reset-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+// _mixins.scss
+@mixin hideScrollbar {
+  // Firefox
+  scrollbar-width: none;
+
+  // Internet Explorer 10+
+  -ms-overflow-style: none;
+
+  // Webkit (Chrome, Safari, Opera)
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

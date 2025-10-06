@@ -1,130 +1,134 @@
 @use '@/assets/variables.scss' as variables;
 @use '@/assets/mixins.scss' as mixins;
 
-.header{
-    // size
-    width: 100%;
-    height: variables.$size-height-header;
-
-    // position
-    position: sticky;
-    top: 0;
-    left: 0;
-    z-index: variables.$z-index-header;
-
-    // display
-    @include mixins.flex(row, space-between, center);
-
-    // margin
-    padding: variables.$spacing-4 variables.$spacing-6;
-
-    // decoration
-    border-bottom: 1px solid var(--color-border);
-    background-color: var(--color-white);
-    backdrop-filter: blur(50px);
-
-    .info{
-        // display
-        @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-4);
+.header {
+  // Size
+  width: 100%;
+  height: var(--header-height);
+  
+  // Position
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: variables.$z-index-header;
+  
+  // Display
+  @include mixins.flex(row, space-between, center);
+  
+  // Margin - Espaciado responsive usando los nuevos mixins
+  padding: 0 variables.$spacing-4;
+  
+  // Decoration
+  border-bottom: variables.$border-width-thin solid var(--color-border);
+  background-color: var(--color-white);
+  backdrop-filter: blur(50px);
+  
+  .info {
+    @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-3);
+    
+    .logo {
+      @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
+      cursor: pointer;
+      
+      h3 {
+        font-size: variables.$font-size-base;
+        font-weight: variables.$font-weight-semibold;
+      }
+    }
+    
+    .separator {
+      color: var(--color-accent);
+    }
+    
+    .breadcrumbs {
+      @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
+      
+      ul {
+        @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
+        @include mixins.reset-list;
         
-        .logo{
-            // display
-            @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-4);
-
-            // decoration
-            cursor: pointer;
-
-            h3{
-                // decoration
-                font-size: variables.$font-size-lg;
-                font-weight: variables.$font-weight-semibold;
-            }
+        li {
+          font-size: variables.$font-size-sm;
         }
-
-        .separator{
-            // decoration
-            color: var(--color-accent);
-        }
-
-        .breadcums{
-            // display
-            @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-4);
-            
-            ul{
-                // display
-                @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
-
-                li{
-                    
-                }
-            }
-        }
+      }
     }
+  }
 
-    .user{
-        // display
-        @include mixins.flex(row, space-between, center);
-
-        a{
-            // display
-            @include mixins.flex(row, center, center);
-
-            // margin
-            padding: variables.$spacing-3;
-
-            &:hover{
-                // decoration
-                border-radius: 50%;
-                background-color: var(--color-muted);
-                cursor: pointer;
-            }
-        }
-
-        .upload{
-            // display
-            @include mixins.flex(row, flex-end, center, nowrap, variables.$spacing-2);
-
-            // margin
-            padding: variables.$spacing-3;
-
-            // decoration
-            cursor: pointer;
-            p{
-                // decoration
-                font-size: variables.$font-size-sm;
-            }
-        }
-
-        .avatar{
-            // position
-            position: relative;
-            
-            // margin
-            margin-left: variables.$spacing-1;
-
-            // display
-            @include mixins.flex(row, center, center);
-        }
+      .logo {
+      @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
+      cursor: pointer;
+      
+      h3 {
+        font-size: variables.$font-size-base;
+        font-weight: variables.$font-weight-semibold;
+      }
     }
-
-    .logo{
-        // display
-        @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-4);
-
-        // decoration
-        cursor: pointer;
-
-        h3{
-            // decoration
-            font-size: variables.$font-size-lg;
-            font-weight: variables.$font-weight-semibold;
-        }
+  
+  .user {
+    @include mixins.flex(row, space-between, center, nowrap, variables.$spacing-2);
+    
+    a {
+      @include mixins.flex(row, center, center);
+      padding: variables.$spacing-2;
+      border-radius: variables.$border-radius-lg;
+      transition: background-color variables.$transition-normal variables.$transition-ease-out;
+      
     }
-
-    .auth{
-        // display
-        @include mixins.flex(row, space-between, center, nowrap, variables.$spacing-4);
+    
+    .upload {
+      @include mixins.flex(row, flex-end, center, nowrap, variables.$spacing-2);
+      padding: variables.$spacing-2;
+      cursor: pointer;
+      border-radius: variables.$border-radius-md;
+      transition: background-color variables.$transition-normal variables.$transition-ease-out;
+      
+      p {
+        font-size: variables.$font-size-xs;
         
-        
+        // Ocultar texto en pantallas extra pequeñas
+        @media (max-width: calc(#{variables.$breakpoint-xs} - 1px)) {
+          display: none;
+        }
+      }
     }
+    
+    .avatar {
+      position: relative;
+      margin-left: variables.$spacing-1;
+      @include mixins.flex(row, center, center);
+    }
+  }
+  
+  .auth {
+    @include mixins.flex(row, space-between, center, nowrap, variables.$spacing-2);
+  }
+}
+
+// ============================================
+// VARIANTES DEL HEADER (opcional)
+// ============================================
+
+// Header transparente
+.header--transparent {
+  background-color: transparent;
+  border-bottom-color: transparent;
+}
+
+// Header con sombra
+.header--shadow {
+  box-shadow: variables.$shadow-sm;
+}
+
+// Header fijo (sin sticky)
+.header--fixed {
+  position: fixed;
+}
+
+// Header compacto (para cuando se hace scroll)
+.header--compact {
+  --header-height: #{variables.$size-height-header-xs};
+
+  .info .logo h3 {
+    font-size: variables.$font-size-sm;
+  }
 }

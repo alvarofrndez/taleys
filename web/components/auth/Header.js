@@ -116,7 +116,7 @@ const HeaderComponent = () => {
             id: 'profile',
             label: 'Mi cuenta',
             icon: 'user',
-            onClick: () => router.push(`/${user?.username}`)
+            onClick: () => router.push(`/users/${user?.username}`)
         },
         {
             id: 'projects',
@@ -261,14 +261,6 @@ const HeaderComponent = () => {
                     <div className={styles.logo} onClick={() => router.push('/')}>
                         <h3>{process.env.NEXT_PUBLIC_PROJECT_LABEL}</h3>
                     </div>
-                    <div className={styles.separator}>/</div>
-                    <ul className={styles.breadcums}>
-                        <li><span>proyecto</span></li>
-                        <div className={styles.separator}>/</div>
-                        <li><span>cosmere</span></li>
-                        <div className={styles.separator}>/</div>
-                        <li><span>saga</span></li>
-                    </ul>
                 </div>
                 {user ? <UserMenu /> : <AuthButtons />}
             </header>
@@ -365,7 +357,6 @@ const HeaderComponent = () => {
                             options={userMenuOptions}
                             triggerContent={<UserAvatar />}
                             ariaLabel='Menú de usuario'
-                            sideOffset={12}
                         />
                     </div>
                 ) : <AuthButtons />}

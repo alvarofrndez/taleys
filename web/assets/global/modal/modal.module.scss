@@ -30,7 +30,8 @@
 
   .modalContent {
     // size
-    min-width: variables.$max-width-modal;
+    min-width: var(--modal-min-width);
+    max-width: var(--modal-max-width);
 
     // position
     position: relative;
@@ -41,9 +42,5 @@
     cursor: auto;
     background: var(--color-background);
     overflow-y: auto;
-
-    @media (min-width: variables.$breakpoint-sm) {
-        max-width: 485px;
-    }
   }
 }

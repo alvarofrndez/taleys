@@ -1,0 +1,22 @@
+@use '@/assets/variables.scss' as variables;
+@use '@/assets/mixins.scss' as mixins;
+
+.createButton{
+    // display
+    @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-1);
+
+    // margin
+    padding: variables.$spacing-2 variables.$spacing-1;
+
+    // decoration
+    border-radius: variables.$border-radius-md;
+    border: 1px solid transparent;
+    background-color: var(--color-primary);
+    color: var(--color-primary-foreground);
+    border: none;
+    cursor: pointer;
+
+    &:hover{
+        background-color: var(--color-primary-hover);
+    }
+}
