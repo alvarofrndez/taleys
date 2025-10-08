@@ -25,7 +25,7 @@ app.use(express.json())
 app.use(cors(cors_options))
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
-// app.use(limiter)
+app.use(limiter)
 
 // Routes
 app.use(env.V1_API_PREFIX, v1_routes)

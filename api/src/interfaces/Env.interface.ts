@@ -9,6 +9,7 @@ export default interface IEnv {
     JWT_SECRET_REFRESH: string
     JWT_EXPIRES_IN: number
     JWT_EXPIRES_IN_REFRESH: number
+    REDIS_URL: string
     ERROR_STATUS_CODE: number
     ERROR_MESSAGE: string
     ERROR_CODE: string
