@@ -1,5 +1,7 @@
+import { env } from '@/config/config_env'
+
 const cors_options = {
-    origin: 'http://localhost:3000',
+    origin: env.FRONTEND_URL,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization'],
