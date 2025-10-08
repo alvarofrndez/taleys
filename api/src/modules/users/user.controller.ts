@@ -39,17 +39,6 @@ export const userController = {
 
     getByUsername: async (req: any, res: Response, next: NextFunction) => {
         const { username } = req.params
-        const user_me = req.user_me
-
-        if(username == user_me?.username){
-            const user = await userService.getAllData(user_me)
-            res.status(200).json({
-                success: true,
-                message: 'Usuario obtenido',
-                data: user
-            })
-            return
-        }
         
         const user = await userService.getByUsername(username)
 

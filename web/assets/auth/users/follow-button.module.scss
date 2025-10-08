@@ -19,4 +19,13 @@
         background-color: var(--color-terciary-hover);
         transition: background-color .1s ease;
     }
+
+    @media (max-width: variables.$breakpoint-height-sm) {
+        // margin
+        padding: variables.$spacing-1 variables.$spacing-3;
+        
+        // decoration
+        border-radius: variables.$border-radius-md;
+        font-size: variables.$font-size-xs;
+    }
 }

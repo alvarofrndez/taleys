@@ -28,6 +28,7 @@ export default function UserViewPage() {
             const response = await apiCall('GET', `/users/username/${username}`)
 
             if(response.success){
+                console.log(response.data)
                 setUserPage(response.data)
                 setInfoOfUser(response, response.data)
             }else{
@@ -118,7 +119,7 @@ export default function UserViewPage() {
                                 {
                                     user?.id == user_page.id ?
                                     <div className={styles.userInfoBottomActions}>
-                                        <button className={styles.userInfoBottomActionsMessage} onClick={goToSettings}>
+                                        <button className={styles.userInfoBottomActionsSettings} onClick={goToSettings}>
                                             <span>Ajustes</span>
                                         </button>
                                     </div>
@@ -152,7 +153,7 @@ export default function UserViewPage() {
                 <aside className={styles.about}>
                     <div className={styles.aboutItem}>
                         <h3 className={styles.aboutTitle}>Sobre mí</h3>
-                        <span className={styles.aboutDescriptionContent}>{user_page.description}</span>
+                        <span className={styles.aboutDescriptionContent}>{user_page.description ?? <span className={styles.aboutDescriptionUndefined}>Sin descripción</span>}</span>
                     </div>
                     <div className={styles.aboutItem}>
                         <h3 className={styles.aboutTitle}>Información</h3>

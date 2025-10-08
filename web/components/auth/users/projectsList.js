@@ -39,7 +39,6 @@ export default function UserProjectsList({ projects = [] }) {
     return (
         <div className={styles.container}>
             <header>
-                <h3>Proyectos</h3>
                 <nav className={styles.projectsMenu}>
                     {filters.map(({ label, value }) => (
                         <li
@@ -56,7 +55,10 @@ export default function UserProjectsList({ projects = [] }) {
             <div className={styles.body}>
                 {filteredProjects.length > 0 ? (
                     filteredProjects.map((project) => (
-                        <ProjectCard project_param={project} key={project.id}/>
+                        <>
+                            <ProjectCard project_param={project} key={project.id}/>
+                            <ProjectCard project_param={project} key={project.id}/>
+                        </>
                     ))
                 ) : (
                     <h3 className={styles.bodyNoProjects}>No hay proyectos para mostrar.</h3>

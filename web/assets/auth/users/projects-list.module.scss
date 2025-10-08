@@ -6,14 +6,14 @@
     width: 100%;
 
     // display
-    @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-12);
+    @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-6);
 
     header{
         // size
         width: 100%;
 
         // display
-        @include mixins.flex(row, space-between, center);
+        @include mixins.flex(row, flex-end, center);
 
         .projectsMenu{
             // display
@@ -56,6 +56,7 @@
 
     .body{
         // display
-        @include mixins.grid(2, variables.$spacing-6);
+        // @include mixins.grid(2, variables.$spacing-6);
+        @include mixins.flex(row, flex-start, flex-start, wrap, variables.$spacing-6);
     }
 }
