@@ -1,7 +1,6 @@
 import { NextFunction, Response } from 'express'
 import { userService } from './user.service'
 import { userFollowService } from './userFollow.service'
-import { IUser } from './User.interface'
 
 export const userController = {
     getAll: async (req: any, res: Response, next: NextFunction) => {
@@ -39,7 +38,6 @@ export const userController = {
 
     getByUsername: async (req: any, res: Response, next: NextFunction) => {
         const { username } = req.params
-        
         const user = await userService.getByUsername(username)
 
         res.status(200).json({
