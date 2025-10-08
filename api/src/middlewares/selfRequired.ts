@@ -1,5 +1,5 @@
 import { Response, NextFunction } from 'express'
-import CustomError from '@/modules/customError/CustomError'
+import CustomError from '@/modules/customerror/CustomError'
 
 const selfRequired = async (req: any, res: Response, next: NextFunction) => {
     try{

@@ -10,7 +10,7 @@ import { userModel } from '@/modules/users/User'
 import argon2 from 'argon2'
 import { userService } from '@/modules/users/user.service'
 import verifyPassword from '@/modules/auth/utils/verifyPassword'
-import CustomError from '@/modules/customError/CustomError'
+import CustomError from '@/modules/customerror/CustomError'
 
 export const securityService = {
     selectByUserId: async (user_id: number) => {

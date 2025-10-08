@@ -11,14 +11,16 @@ const indexs = [
 
 async function createIndexs() {
   for (const { table, column, index_name } of indexs) {
-    const [rows] = await db.query(
-      `SELECT COUNT(1) as count 
-       FROM information_schema.statistics 
-       WHERE table_schema = DATABASE() 
-         AND table_name = ? 
-         AND index_name = ?`,
-      [table, index_name]
-    )
+    const result = await db.query(
+        `SELECT COUNT(1) as count 
+        FROM information_schema.statistics 
+        WHERE table_schema = DATABASE() 
+            AND table_name = ? 
+            AND index_name = ?`,
+        [table, index_name]
+    );
+
+    const rows = result[0] as any[];
 
     if (rows[0].count === 0) {
       await db.query(`CREATE INDEX ${index_name} ON ${table} (${column})`)

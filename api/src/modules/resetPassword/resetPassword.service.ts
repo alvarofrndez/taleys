@@ -6,7 +6,7 @@ import { IUser } from '@/modules/users/User.interface'
 import { checkPassword } from '@/utils/regEx/checkPassword'
 import { userModel } from '@/modules/users/User'
 import hashedPassword from '@/utils/hashed/hasedPassword'
-import CustomError from '@/modules/customError/CustomError'
+import CustomError from '@/modules/customerror/CustomError'
 
 export const resetPasswordService = {
     forgotPassword: async (email: string) => {

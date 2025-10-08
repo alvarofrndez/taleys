@@ -18,7 +18,7 @@ const getDirname = (importMetaUrl: string) => {
   return directory
 }
 
-const migrations_dir = getDirname(import.meta.url)
+const migrations_dir = __dirname
 
 async function runSeeds() {
   if (!fs.existsSync(migrations_dir)) {

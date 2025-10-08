@@ -3,7 +3,7 @@ import { env } from '@/config/config_env'
 import jwt from 'jsonwebtoken'
 import { getSession, refreshSession } from '@/utils/redis/sessions'
 import { userService } from '@/modules/users/user.service'
-import CustomError from '@/modules/customError/CustomError'
+import CustomError from '@/modules/customerror/CustomError'
 
 const authRequired = async (req: any, res: Response, next: NextFunction) => {
     return await middleware(req, res, next, env.UNAUTHENTICATED_CODE)

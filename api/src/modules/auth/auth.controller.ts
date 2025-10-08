@@ -9,7 +9,7 @@ import { removeAuthToken } from '@/utils/cookies/removeAuthToken'
 import { checkFailedAttempts, clearFailedAttempts, incrementFailedAttempts } from '@/utils/redis/loginAttemps'
 import { verifyRecaptcha } from '@/utils/catpcha/verifyCatpcha'
 import { securityService } from '@/modules/security/security.service'
-import CustomError from '@/modules/customError/CustomError'
+import CustomError from '@/modules/customerror/CustomError'
 
 export const authController = {
     signIn: async (req: Request, res: Response, next: NextFunction) => {

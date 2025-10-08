@@ -2,7 +2,7 @@ import { Response, NextFunction } from 'express'
 import { sendEmail } from '@/utils/middlewares/mailgun'
 import { env } from '@/config/config_env'
 import { resetPasswordService } from './resetPassword.service'
-import CustomError from '@/modules/customError/CustomError'
+import CustomError from '@/modules/customerror/CustomError'
 
 export const featuresController = {
     forgotPassword: async (req: any, res: Response, next: NextFunction) => {

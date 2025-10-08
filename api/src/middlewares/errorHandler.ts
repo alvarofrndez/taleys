@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import ICustomError from '@/modules/customError/CustomError.interface'
+import ICustomError from '@/modules/customerror/CustomError.interface'
 import { env } from '@/config/config_env' 
 
 const errorHandler = async (err: ICustomError, req: Request, res: Response, next: NextFunction) => {

@@ -20,7 +20,7 @@ const getDirname = (importMetaUrl: string) => {
     return directory
 }
   
-const migrations_dir = getDirname(import.meta.url)
+const migrations_dir = __dirname
 
 async function runMigrations() {
   const files = fs.readdirSync(migrations_dir).sort()

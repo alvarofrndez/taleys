@@ -1,10 +1,6 @@
 import CustomError from '@/modules/customerror/CustomError'
 import fs from 'fs'
 import path from 'path'
-import { fileURLToPath } from 'url'
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
 
 const loadTempate = (name: string, data: object) => {
     const TEMPLATE_PATH = path.join(__dirname, `../../assets/templates/${name}.html`)

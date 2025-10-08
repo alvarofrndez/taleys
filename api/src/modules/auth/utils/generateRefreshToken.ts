@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
-import { env } from '../../../config/env'
-import IUser from '../../users/User.interface'
+import { env } from '@/config/config_env'
+import { IUser } from '@/modules/users/User.interface'
 
 const generateRefreshToken = (user: IUser) => {
     return jwt.sign({ id: user.id, role: user.role_id }, env.JWT_SECRET_REFRESH, {

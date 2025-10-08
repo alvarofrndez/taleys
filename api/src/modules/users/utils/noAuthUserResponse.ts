@@ -1,4 +1,4 @@
-import IUser from "../User.interface"
+import { IUser } from "../User.interface"
 
 const noAuthUserResponse = (user: IUser) => {
     const {password, ...user_response} = user
