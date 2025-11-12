@@ -11,6 +11,11 @@
     // margin
     padding: variables.$spacing-6;
 
+    @media (max-width: variables.$breakpoint-sm) {
+        // size
+        width:100%;
+    }
+
     a{
         // size
         width: 100%;

@@ -7,14 +7,18 @@
     height: 100%;
 
     // display
-    @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-6);
+    @include mixins.flex(column, flex-start, flex-start, nowrap);
+
     .containerTop{
         // size
         width: 100%;
-        max-height: 90vh;
+        max-height: 80vh;
 
         // display
         @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-10);
+
+        //margin
+        padding-bottom: variables.$spacing-4;
 
         // decoration
         overflow-y: auto;
@@ -127,9 +131,7 @@
 
                     .manual_key_text{
                         // size
-
-                        // display
-                        @include mixins.flex(row, flex-start, center);
+                        max-width: 100%;
 
                         // margin
                         padding: variables.$spacing-2;
@@ -139,6 +141,9 @@
                         font-weight: variables.$font-weight-normal;
                         background-color: var(--color-muted);
                         border-radius: variables.$border-radius-sm;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
                     }
 
                     .buttonCopy{

@@ -15,6 +15,18 @@ const SettingsHeader = () => {
                 <h3>seguridad</h3>
                 <div>
                     <Link className={BASE_PATH + '/security' === pathname ? styles.active : ''} href={BASE_PATH + '/security'}>Contraseña y autenticación</Link>
+                    <Link className={BASE_PATH + '/security' === pathname ? styles.active : ''} href={BASE_PATH + '/security'}>Contraseña y autenticación</Link>
+                    <Link className={BASE_PATH + '/security' === pathname ? styles.active : ''} href={BASE_PATH + '/security'}>Contraseña y autenticación</Link>
+                    <Link className={BASE_PATH + '/security' === pathname ? styles.active : ''} href={BASE_PATH + '/security'}>Contraseña y autenticación</Link>
+                </div>
+            </section>
+            <section className={styles.section}>
+                <h3>seguridad</h3>
+                <div>
+                    <Link className={BASE_PATH + '/security' === pathname ? styles.active : ''} href={BASE_PATH + '/security'}>Contraseña y autenticación</Link>
+                    <Link className={BASE_PATH + '/security' === pathname ? styles.active : ''} href={BASE_PATH + '/security'}>Contraseña y autenticación</Link>
+                    <Link className={BASE_PATH + '/security' === pathname ? styles.active : ''} href={BASE_PATH + '/security'}>Contraseña y autenticación</Link>
+                    <Link className={BASE_PATH + '/security' === pathname ? styles.active : ''} href={BASE_PATH + '/security'}>Contraseña y autenticación</Link>
                 </div>
             </section>
         </nav>

@@ -9,6 +9,7 @@ import LoaderComponent from '@/components/Loader'
 import { apiCall } from '@/services/apiCall'
 import pushToast from '@/utils/pushToast'
 import Icon from '@/components/iconComponent'
+import Fallback from '@/components/Fallback'
 
 export default function ProjectCard({ project_param }) {
     const [project, setProject] = useState(project_param)
@@ -48,6 +49,11 @@ export default function ProjectCard({ project_param }) {
     }
 
     const handleLike = async () => {
+        if(!user){
+            pushToast('Debes iniciar sesión', 'error')
+            return
+        }
+
         setLoadingLike(true)
 
         const response = await apiCall('POST', `/projects/${project.id}/like`)
@@ -61,6 +67,11 @@ export default function ProjectCard({ project_param }) {
     }
 
     const handleSave = async () => {
+        if(!user){
+            pushToast('Debes iniciar sesión', 'error')
+            return
+        }
+
         setLoadingSave(true)
 
         const response = await apiCall('POST', `/projects/${project.id}/save`)
@@ -84,7 +95,7 @@ export default function ProjectCard({ project_param }) {
             loading ?
                 <article className={styles.container}>
                     <div className={styles.loaderContainer}>
-                        <LoaderComponent />
+                        <Fallback type='card' />
                     </div>
                 </article>
             :

@@ -9,6 +9,14 @@
     @include mixins.flex(row, flex-start, flex-start);
 
     .section{
+        // size
+        width: calc(100% - variables.$size-width-navigation-default);
+        max-height: 100%;
+        
+        // margin
         margin-left: variables.$size-width-navigation-default;
+
+        // decoration
+        overflow-y: auto;
     }
 }

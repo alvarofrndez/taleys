@@ -16,6 +16,21 @@
     // margin
     padding: variables.$spacing-8;
 
+    @media (max-width: variables.$breakpoint-lg) {
+        // size
+        width: 80%;
+    }
+
+    @media (max-width: variables.$breakpoint-md) {
+        // size
+        width: 100%;
+    }
+
+     @media (max-width: variables.$breakpoint-sm) {
+        // margin
+        padding: variables.$spacing-4 variables.$spacing-2;
+    }
+
     .header{
         // size
         width: 100%;
@@ -41,6 +56,11 @@
         // display
         @include mixins.flex(row, flex-start, flex-start);
 
+        @media (max-width: variables.$breakpoint-sm) {
+            // display
+            @include mixins.flex(column, flex-start, flex-start);
+        }
+
         .content{
             // size
             width:80%;
@@ -50,6 +70,11 @@
     
             // margin
             padding: variables.$spacing-6;
+
+            @media (max-width: variables.$breakpoint-sm) {
+                // size
+                width:100%;
+            }
         }
     }
 }

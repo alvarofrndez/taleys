@@ -54,7 +54,7 @@
     }
   }
 
-      .logo {
+    .logo {
       @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
       cursor: pointer;
       

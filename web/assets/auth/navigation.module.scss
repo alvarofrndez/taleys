@@ -140,7 +140,7 @@
 
         .footer{
             // size
-             min-width: 100%;
+            width: 100%;
 
             // margin
             padding-top: variables.$spacing-4;
@@ -148,17 +148,26 @@
             // decoration
             border-top: 1px solid var(--color-border);
 
-            button{
+            .containerButton{
                 // size
-                 min-width: 100%;
+                width: 100%;
 
-                // display
-                @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
-
-                // decoration
-                white-space: nowrap;
+                //decoration
+                border-radius: variables.$border-radius;
                 overflow: hidden;
-                text-overflow: ellipsis;
+
+                button{
+                    // size
+                    min-width: 100%;
+
+                    // display
+                    @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
+
+                    // decoration
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
             }
         }
     }

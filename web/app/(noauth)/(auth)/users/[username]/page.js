@@ -28,7 +28,6 @@ export default function UserViewPage() {
             const response = await apiCall('GET', `/users/username/${username}`)
 
             if(response.success){
-                console.log(response.data)
                 setUserPage(response.data)
                 setInfoOfUser(response, response.data)
             }else{

@@ -33,6 +33,7 @@ const Navigation = () => {
       {
         key: 'projects',
         items: [
+          { name: 'Inicio', href: `/`, icon: 'home', icon_alt: 'Inicio' },
           { name: 'Proyectos', href: (user) => `/${user.username}/projects`, icon: 'project', icon_alt: 'Proyectos' },
           { name: 'Colaboraciones', href: '/collaborations', icon: 'users', icon_alt: 'Colaboraciones' },
           { name: 'Favoritos', href: '/favorites', icon: 'star', icon_alt: 'Favoritos' },
@@ -70,6 +71,7 @@ const Navigation = () => {
       {
         key: 'explore',
         items: [
+          { name: 'Inicio', href: `/`, icon: 'home', icon_alt: 'Inicio' },
           { name: 'Explorar', href: '/explore', icon: 'search', icon_alt: 'Explorar proyectos' },
           { name: 'Historias destacadas', href: '/featured', icon: 'sparkles', icon_alt: 'Proyectos destacados' },
           { name: 'Autores populares', href: '/authors', icon: 'users', icon_alt: 'Autores' },
@@ -110,7 +112,9 @@ const Navigation = () => {
         </nav>
 
         <footer className={styles.footer}>
-          <ProjectCreateButton />
+          <div className={styles.containerButton}>
+            <ProjectCreateButton />
+          </div>
         </footer>
       </div>
     </aside>

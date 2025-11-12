@@ -32,10 +32,6 @@ export default function UserProjectsList({ projects = [] }) {
         }
     }, [filter, projects])
 
-    const goToProject = (project) => {
-        router.push(`/projects/${project.id}`)
-    }
-
     return (
         <div className={styles.container}>
             <header>

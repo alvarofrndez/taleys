@@ -57,7 +57,7 @@
 
             @media (max-width: variables.$breakpoint-height-sm) {
                 // display
-                gap: variables.$spacing-4;
+                gap: variables.$spacing-3
             }
 
             .user{
@@ -66,6 +66,11 @@
 
                 // display
                 @include mixins.flex(row, flex-start, flex-start, nowrap, variables.$spacing-8);
+
+                @media (max-width: variables.$breakpoint-height-sm) {
+                    // display
+                    gap: variables.$spacing-4;
+                }
 
                 .userInfo{
                     // size
