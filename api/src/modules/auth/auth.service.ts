@@ -186,5 +186,3 @@ export const authService = {
         return await userModel.updateUser(user_to_update, user_id)
     }
 }
-
-import { createClient } from "redis"
