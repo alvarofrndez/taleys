@@ -34,7 +34,9 @@ export const authController = {
         const needs_captcha = await checkFailedAttempts(req.ip, 3)
 
         if(needs_captcha){
-            if(await checkFailedAttempts(req.ip, 4)) throw new CustomError('Has superado el limite de intentos, vuelva a intentarlo en un rato', 403)
+            if(env.NODE_ENV != 'local'){
+                if(await checkFailedAttempts(req.ip, 4)) throw new CustomError('Has superado el limite de intentos, vuelva a intentarlo en un rato', 403)
+            }
             if(!data.captcha_token){
                 incrementFailedAttempts(req.ip)
                 throw new CustomError('No se ha validado el captcha', 403)
