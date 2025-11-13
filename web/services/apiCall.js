@@ -23,7 +23,6 @@ export const apiCall = async (method, endpoint, body = undefined, token = undefi
         method,
         headers,
         credentials: 'include',
-        cache: 'no-store',
     }
   
     if (body && ['POST', 'PUT', 'DELETE'].includes(method)) {
