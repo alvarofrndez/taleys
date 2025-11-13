@@ -17,6 +17,7 @@
     border-radius: variables.$border-radius-lg;
     cursor: pointer;
     transition: all 0.2s ease;
+    overflow: hidden;
 
     &:hover {
         // decoration
@@ -30,7 +31,7 @@
         width: 100%;
 
         // display
-        @include mixins.flex(row, space-between, center, nowrap);
+        @include mixins.flex(row, space-between, flex-start, nowrap, variables.$spacing-2);
 
         .cardBadge {
             // display

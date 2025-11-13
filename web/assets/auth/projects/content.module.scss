@@ -106,7 +106,7 @@
             width: 100%;
 
             // display
-            @include mixins.flex(row, space-between, center);
+            @include mixins.flex(row, space-between, center, wrap, variables.$spacing-2);
 
             h2 {
                 // decoration
@@ -147,6 +147,16 @@
 
             // display
             @include mixins.grid(3, variables.$spacing-6);
+
+            @media (max-width: variables.$breakpoint-4xl) {
+                // display
+                @include mixins.grid(2, variables.$spacing-6);
+            }
+
+            @media (max-width: variables.$breakpoint-md) {
+                // display
+                @include mixins.grid(1, variables.$spacing-6);
+            }
         }
 
         .listView {
@@ -173,9 +183,13 @@
             background-color: var(--color-muted);
 
             p {
+                // margin
+                margin: 0;
+
+                // decoration
                 font-size: variables.$font-size-base;
                 color: var(--color-muted-foreground);
-                margin: 0;
+                text-align: center;
             }
         }
     }

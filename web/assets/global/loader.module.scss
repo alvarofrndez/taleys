@@ -1,52 +1,52 @@
-// @use '@/assets/variables.scss' as variables;
-// @use '@/assets/mixins.scss' as mixins;
+@use '@/assets/variables.scss' as variables;
+@use '@/assets/mixins.scss' as mixins;
 
-// .loader{
-//     // size
-//     width: 100%;
-//     height: 100%;
+.loader{
+    // size
+    width: 100%;
+    height: 100%;
 
-//     // display
-//     @include mixins.flex(row, center, center);
-//     align-self: center;
-//     justify-self: center;
+    // display
+    @include mixins.flex(row, center, center);
+    align-self: center;
+    justify-self: center;
  
-//     .loader_spinner{
-//         // size
-//         width: 100%;
-//         height: 100%;
-//         max-width: 30px;
-//         max-height: 30px;
+    .loader_spinner{
+        // size
+        width: 100%;
+        height: 100%;
+        max-width: 30px;
+        max-height: 30px;
         
-//         // decoration
-//         border: 2px solid var(--color-primary);
-//         border-top: 2px solid transparent;
-//         border-radius: 50%;
-//         animation: spin 1s linear infinite;
-//         -webkit-animation: spin 1s linear infinite;
+        // decoration
+        border: 2px solid var(--color-primary);
+        border-top: 2px solid transparent;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        -webkit-animation: spin 1s linear infinite;
 
-//         @include mixins.forceAnimation();
-//     }
-// }
+        @include mixins.forceAnimation();
+    }
+}
 
-// .foreground{
-//     .loader_spinner{
-//         // size
-//         width: 15px;
-//         height: 15px;
+.foreground{
+    .loader_spinner{
+        // size
+        width: 15px;
+        height: 15px;
 
-//         // decoration
-//         border: 2px solid var(--color-primary-foreground);
-//         border-top: 2px solid transparent;
-//     }
-// }
+        // decoration
+        border: 2px solid var(--color-primary-foreground);
+        border-top: 2px solid transparent;
+    }
+}
 
-// @keyframes spin {
-//     0% { transform: rotate(0deg); }
-//     100% { transform: rotate(360deg); }
-// }
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
 
-// @-webkit-keyframes spin {
-//   0% { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
-//   100% { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
-// }
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+}

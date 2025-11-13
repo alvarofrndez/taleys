@@ -8,6 +8,16 @@
     // display
     @include mixins.grid(3, variables.$spacing-6);
 
+    @media (max-width: variables.$breakpoint-xl) {
+        // display
+        @include mixins.grid(2, variables.$spacing-6);
+    }
+
+    @media (max-width: variables.$breakpoint-md) {
+        // display
+        @include mixins.grid(1, variables.$spacing-6);
+    }
+
     .card{
         // size
         width: 1fr;

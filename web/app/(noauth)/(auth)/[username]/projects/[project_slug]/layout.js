@@ -27,7 +27,7 @@ export default function ProjectLayout({ children }) {
       if (response.success) {
         setProject(response.data)
       } else {
-        router.push('/not-found')
+        // router.push('/not-found')
       }
       setLoading(false)
     }

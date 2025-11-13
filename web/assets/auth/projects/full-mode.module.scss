@@ -8,23 +8,32 @@
     //display
     @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-8);
 
+    @media (max-width: variables.$breakpoint-xs) {
+        // display
+        gap: variables.$spacing-6;
+    }
+
     .header{
         // size
         width: 100%;
 
         //display
-        @include mixins.flex(column, flex-start, flex-start, nowrap, calc(variables.$spacing-6 - variables.$spacing-1));
+        @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-3);
 
         .top{
             // size
             width: 100%;
 
             //display
-            @include mixins.flex(row, space-between);
+            @include mixins.flex(row, space-between, center, wrap, variables.$spacing-1);
+            
 
             .topActions{
                 //display
                 @include mixins.flex(row, space-between, center, nowrap, variables.$spacing-1);
+
+                // margin
+                margin-left: auto;
 
                 button{
                     //display
@@ -56,8 +65,10 @@
             // size
             width: 100%;
             
-            // decoration
-            color: var(--color-terciary-foreground);
+            @media (max-width: variables.$breakpoint-xs) {
+                // decoration
+                font-size: variables.$font-size-sm;
+            }  
         }
 
         .info{
@@ -65,14 +76,24 @@
             width: 100%;
 
             //display
-            @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-4);
+            @include mixins.flex(row, flex-start, center, wrap);
 
             .created_at, .updated_at, .members{
-                color: var(--color-terciary-foreground);
+                // decoration
+                color: var(--color-muted-foreground);
                 font-size: variables.$font-size-sm;
+
+                @media (max-width: variables.$breakpoint-xs) {
+                    // decoration
+                    font-size: variables.$font-size-xs;
+                }  
             }
 
             .separator{
+                // margin
+                margin: 0 variables.$spacing-2;
+
+                // decoration
                 border: 2px solid var(--color-border);
             }
         }
@@ -83,7 +104,7 @@
         width: 100%;
 
         //display
-        @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-16);
+        @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-4);
 
         .tabMenu {
             // size

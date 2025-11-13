@@ -23,6 +23,13 @@
         border-radius: variables.$border-radius-lg;
         box-shadow: variables.$shadow-sm;
 
+        @media (max-width: variables.$breakpoint-xs) {
+            // decoration
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+        }
+
         .form{
             // display
             @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-10);
@@ -214,11 +221,27 @@
 
                     // display
                     @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-4);
+
+                    @media (max-width: variables.$breakpoint-2xs) {
+                        // display
+                        @include mixins.flex(column, flex-start, flex-start, nowrap, variables.$spacing-2);
+
+                        &>*{
+                            // para el boton de google
+                            width: 100%;
+                        }
+                    }
                     
                     .buttonProvider{
                         // size
                         width: calc(50% - variables.$spacing-2);
                         height: variables.$spacing-10;
+
+                        @media (max-width: variables.$breakpoint-2xs) {
+                            // para el boton de github
+                            // size
+                            width: 100%;
+                        }
 
                         // display
                         @include mixins.flex(row, center, center, nowrap, variables.$spacing-2);

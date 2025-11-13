@@ -17,6 +17,7 @@
     border-radius: variables.$border-radius-lg;
     cursor: pointer;
     transition: all 0.2s ease;
+    overflow: hidden;
 
     &:hover {
         // decoration
@@ -30,7 +31,7 @@
         width: 100%;
 
         // display
-        @include mixins.flex(row, space-between, center, nowrap);
+        @include mixins.flex(row, space-between, flex-start, nowrap, variables.$spacing-2);
 
         .cardBadge {
             // display
@@ -61,6 +62,7 @@
         // display
         @include mixins.flex(column, flex-start, stretch, nowrap, variables.$spacing-6);
 
+
         .cardTitle {
             // typography
             font-size: variables.$font-size-lg;
@@ -82,9 +84,14 @@
         }
 
         .cardMeta {
+            // size
+            max-width: 100%;
             // display
-            @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-1);
+            @include mixins.flex(row, flex-start, center, wrap, variables.$spacing-1);
 
+            // decoration
+            overflow: hidden;
+            
             .metaItem {
                 // display
                 @include mixins.flex(row, center, center, nowrap, variables.$spacing-1);
@@ -99,6 +106,7 @@
                     color: var(--color-muted-foreground);
                     font-size: variables.$font-size-xs;
                     font-weight: variables.$font-weight-medium;
+                    white-space: nowrap;
                 }
             }
         }

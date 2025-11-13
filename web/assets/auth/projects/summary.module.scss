@@ -23,6 +23,11 @@
         border-radius: variables.$border-radius-lg;
         background-color: var(--color-white);
 
+        @media (max-width: variables.$breakpoint-sm) {
+            // margin
+            padding: variables.$spacing-4;
+        }  
+
         header{
             // size
             width: 100%;
@@ -33,12 +38,27 @@
             .title{
                 // display
                 @include mixins.flex(row, flex-start, center, nowrap, variables.$spacing-2);
+
+                h2{
+                    @media (max-width: variables.$breakpoint-sm) {
+                        font-size: variables.$font-size-xl;
+                    }   
+
+                    @media (max-width: variables.$breakpoint-xs) {
+                        font-size: variables.$font-size-lg;
+                    }
+                }
+                
             }
 
             .subtitle{
                 // decoration
                 color: var(--color-muted-foreground);
                 font-size: variables.$font-size-sm;
+
+                @media (max-width: variables.$breakpoint-xs) {
+                    font-size: variables.$font-size-xs;
+                }
             }
         }
     }

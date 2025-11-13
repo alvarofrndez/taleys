@@ -97,13 +97,15 @@ $color-character-foreground-dark: #e9d5ff;
 // ============================================
 // BREAKPOINTS - WIDTH
 // ============================================
-$breakpoint-2xs: 400px;   // Extra small devices
+$breakpoint-2xs: 400px;   // 2x Extra small devices
 $breakpoint-xs: 480px;   // Extra small devices
 $breakpoint-sm: 640px;   // Small devices (móviles grandes)
 $breakpoint-md: 768px;   // Medium devices (tablets)
 $breakpoint-lg: 1024px;  // Large devices (tablets landscape, laptops)
 $breakpoint-xl: 1280px;  // Extra large devices (desktop)
 $breakpoint-2xl: 1536px; // 2X Extra large devices (large desktop)
+$breakpoint-3xl: 1839px; // 3X Extra large devices (large desktop)
+$breakpoint-4xl: 2150px; // 4X Extra large devices (large desktop)
 
 // ============================================
 // BREAKPOINTS - HEIGHT (para responsive vertical)

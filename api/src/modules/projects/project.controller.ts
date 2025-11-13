@@ -42,11 +42,17 @@ export const projectController = {
 
         const project = await projectService.getByIdLite(project_id)
         
-        res.status(200).json({
-            success: true,
-            data: project,
-            message: 'Proyecto obtenido'
-        })
+        const can_res = projectService.checkVisibility(project, req)
+
+        if(can_res){
+            res.status(200).json({
+                success: true,
+                data: project,
+                message: 'Proyecto obtenido'
+            })
+        }else{
+            throw new CustomError('El proyecto no existe', 404, env.DATA_NOT_FOUND_CODE)
+        }
     },
 
     getAllByName: async (req: any, res: Response, next: NextFunction) => {
@@ -100,11 +106,17 @@ export const projectController = {
 
         let project = await projectService.getByUserAndName(project_name, user_id)
         
-        res.status(200).json({
-            success: true,
-            data: project,
-            message: 'Proyecto obtenido'
-        })
+        const can_res = projectService.checkVisibility(project, req)
+
+        if(can_res){
+            res.status(200).json({
+                success: true,
+                data: project,
+                message: 'Proyecto obtenido'
+            })
+        }else{
+            throw new CustomError('El proyecto no existe', 404, env.DATA_NOT_FOUND_CODE)
+        }
     },
 
     getByUserAndSlug: async (req: any, res: Response, next: NextFunction) => {
@@ -112,11 +124,17 @@ export const projectController = {
 
         let project = await projectService.getByUserAndSlug(project_slug, user_id)
         
-        res.status(200).json({
-            success: true,
-            data: project,
-            message: 'Proyecto obtenido'
-        })
+        const can_res = projectService.checkVisibility(project, req)
+
+        if(can_res){
+            res.status(200).json({
+                success: true,
+                data: project,
+                message: 'Proyecto obtenido'
+            })
+        }else{
+            throw new CustomError('El proyecto no existe', 404, env.DATA_NOT_FOUND_CODE)
+        }
     },
 
     getByUserUsernameAndName: async (req: any, res: Response, next: NextFunction) => {
@@ -130,11 +148,17 @@ export const projectController = {
 
         let project = await projectService.getByUserUsernameAndName(project_name, username)
         
-        res.status(200).json({
-            success: true,
-            data: project,
-            message: 'Proyecto obtenido'
-        })
+        const can_res = projectService.checkVisibility(project, req)
+
+        if(can_res){
+            res.status(200).json({
+                success: true,
+                data: project,
+                message: 'Proyecto obtenido'
+            })
+        }else{
+            throw new CustomError('El proyecto no existe', 404, env.DATA_NOT_FOUND_CODE)
+        }
     },
 
     getByUserUsernameAndSlug: async (req: any, res: Response, next: NextFunction) => {
@@ -142,11 +166,17 @@ export const projectController = {
 
         let project = await projectService.getByUserUsernameAndSlug(project_slug, username)
         
-        res.status(200).json({
-            success: true,
-            data: project,
-            message: 'Proyecto obtenido'
-        })
+        const can_res = projectService.checkVisibility(project, req)
+
+        if(can_res){
+            res.status(200).json({
+                success: true,
+                data: project,
+                message: 'Proyecto obtenido'
+            })
+        }else{
+            throw new CustomError('El proyecto no existe', 404, env.DATA_NOT_FOUND_CODE)
+        }
     },
 
     getAllByUser: async (req: any, res: Response, next: NextFunction) => {

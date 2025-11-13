@@ -6,13 +6,13 @@ import { apiCall } from '@/services/apiCall'
 import { apiShare } from '@/services/apiShare'
 import { time } from '@/services/time'
 import { openModal } from '@/stores/modalSlice'
-import Image from 'next/image'
 import { useState } from 'react'
 import LoaderComponent from '@/components/Loader'
 import pushToast from '@/utils/pushToast'
 import ProjectSummary from '@/components/auth/projects/ProjectSummary'
 import ProjectContent from '@/components/auth/projects/ProjectContent'
 import Icon from '@/components/iconComponent'
+import { canModify } from '@/utils/projects/canModify'
 
 const menu_items = [
     { 
@@ -65,7 +65,7 @@ export default function ProjectFullMode({ project }) {
                 <div className={styles.top}>
                     <h2>{project.name}</h2>
                     <div className={styles.topActions}>
-                        {project.members.some((member) => member.user_id === user.id) && (
+                        {canModify(project, user) && (
                             loading_visibility ? (
                                 <button className={styles.topActionsVisibility}>
                                     <LoaderComponent size={20} />

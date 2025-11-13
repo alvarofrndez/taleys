@@ -9,6 +9,7 @@ import pushToast from '@/utils/pushToast'
 import LoaderComponent from '@/components/Loader'
 import ProjectDeleteButton from '@/components/auth/projects/ProjectDeleteButton'
 import Icon from '@/components/iconComponent'
+import { canModify } from '@/utils/projects/canModify'
 
 export function ProjectHeader() {
     const { project, setProject, view_mode, setViewMode } = useProject()
@@ -45,6 +46,11 @@ export function ProjectHeader() {
     }
 
     const handleLike = async () => {
+        if(!user) {
+            pushToast('Debes iniciar sesión', 'error')
+            return
+        }
+
         setLoadingLike(true)
 
         const response = await apiCall('POST', `/projects/${project.id}/like`)
@@ -58,6 +64,11 @@ export function ProjectHeader() {
     }
 
     const handleSave = async () => {
+        if(!user) {
+            pushToast('Debes iniciar sesión', 'error')
+            return
+        }
+
         setLoadingSave(true)
 
         const response = await apiCall('POST', `/projects/${project.id}/save`)
@@ -74,22 +85,8 @@ export function ProjectHeader() {
 
     return (
         <header className={styles.header}>
-            <div className={styles.menuButtons}>
-                <button
-                    className={view_mode === 'full' ? styles.active : ''}
-                    onClick={() => setViewMode('full')}
-                >
-                    Vista completa
-                </button>
-                <div className={styles.separator}/>
-                <button
-                    className={view_mode === 'read' ? styles.active : ''}
-                    onClick={() => setViewMode('read')}
-                >
-                    Modo lectura
-                </button>
-            </div>
-            {project.members.some((member) => member.user_id == user.id) ? 
+            
+            {canModify(project, user) ? 
                 (
                     <div className={styles.actionButtonsMember}>
                         <ProjectDeleteButton project={project} />
@@ -120,10 +117,10 @@ export function ProjectHeader() {
                             ) : (
                                 <>
                                     <Icon
-                                        name='like'
+                                        name='save'
                                         width={15}
                                         height={15}
-                                        alt='like'
+                                        alt='save'
                                         fill={save_by_user ? 'var(--color-primary)' : 'transparent'}
                                     />
                                 </>
@@ -132,6 +129,29 @@ export function ProjectHeader() {
                     </div>
                 )
             }
+
+            <div className={styles.menuButtons}>
+                <button
+                    className={view_mode === 'full' ? styles.active : ''}
+                    onClick={() => setViewMode('full')}
+                >
+                    Vista completa
+                </button>
+                <div className={styles.separator}/>
+                <button
+                    className={view_mode === 'read' ? styles.active : ''}
+                    onClick={() => setViewMode('read')}
+                >
+                    Lectura
+                </button>
+                <div className={styles.separator}/>
+                <button
+                    className={view_mode === 'tree' ? styles.active : ''}
+                    onClick={() => setViewMode('tree')}
+                >
+                    Arbología
+                </button>
+            </div>
         </header>
     )
 }
