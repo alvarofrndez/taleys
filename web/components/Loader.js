@@ -1,12 +1,21 @@
-import styles from '@/assets/global/loader.module.scss'
-import React from 'react'
+import React from 'react';
+import { ClipLoader } from 'react-spinners';
+import styles from '@/assets/global/loader.module.scss';
 
 const Loader = ({ color = 'background', size = 30 }) => {
-    return (
-        <div className={`${styles.loader} ${color === 'foreground' ? styles.foreground : ''}`} style={{ width: size, height: size }}>
-            <div className={styles.loader_spinner}></div>
-        </div>
-    )
-}
+  const spinnerColor =
+    color === 'foreground'
+      ? 'var(--color-primary-foreground)'
+      : 'var(--color-primary)';
 
-export default Loader
+  return (
+    <div
+      className={`${styles.loader} ${color === 'foreground' ? styles.foreground : ''}`}
+      style={{ width: size, height: size, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+    >
+      <ClipLoader size={size} color={spinnerColor} />
+    </div>
+  );
+};
+
+export default Loader;
