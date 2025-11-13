@@ -32,7 +32,9 @@ export const apiCall = async (method, endpoint, body = undefined, token = undefi
             fetch_options.body = body
     }
   
-    console.log(method, endpoint, body, token)
+    if(process.env.NEXT_PUBLIC_ENV == 'local'){
+        console.log(method, endpoint, body, token)
+    }
 
     try{
         const response = await fetch(url, fetch_options)
@@ -41,7 +43,9 @@ export const apiCall = async (method, endpoint, body = undefined, token = undefi
     
         const response_json = await response.json()
 
-        console.log(response)
+        if(process.env.NEXT_PUBLIC_ENV == 'local'){
+            console.log(response)
+        }
     
         return {
             status: response.status,
