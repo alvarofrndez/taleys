@@ -277,3 +277,12 @@ ul{
         padding: 0;
     }
 }
+
+svg {
+  // fallback para color de iconos en navegadores ios
+  color: var(--color-text-primary);
+  stroke: currentColor;
+  fill: none;
+  transition: color 0.2s ease;
+  @include mixins.forceRenderization();
+}

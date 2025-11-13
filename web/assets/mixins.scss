@@ -199,3 +199,16 @@
     display: none;
   }
 }
+
+@mixin forceAnimation(){
+  // fuerza renderización GPU (Safari fix)
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+@mixin forceRenderization(){
+  // fuerza la renderizacion de iconos
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+}
