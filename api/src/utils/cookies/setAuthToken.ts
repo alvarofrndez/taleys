@@ -7,7 +7,7 @@ const setAuthToken = (res: Response, token: string, refresh_token: string = null
     res.cookie('token', token, {
         httpOnly: true,
         secure: !is_local,
-        sameSite: !is_local ? ('none' as const) : ('lax' as const),
+        sameSite: !is_local ? 'none' : 'lax',
         maxAge: env.JWT_EXPIRES_IN,
         path: '/'
     })
@@ -16,7 +16,7 @@ const setAuthToken = (res: Response, token: string, refresh_token: string = null
         res.cookie('refresh_token', refresh_token, {
             httpOnly: true,
             secure: !is_local,
-            sameSite: !is_local ? ('none' as const) : ('lax' as const),
+            sameSite: !is_local ? 'none' : 'lax',
             maxAge: env.JWT_EXPIRES_IN_REFRESH,
             path: '/'
         })

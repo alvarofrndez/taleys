@@ -10,6 +10,7 @@ import { openModal } from '@/stores/modalSlice'
 import DropdownMenu from '@/components/DropdownMenu'
 import { logout } from '@/stores/authSlice'
 import { apiCall } from '@/services/apiCall'
+import pushToast from '@/utils/pushToast'
 
 const HeaderComponent = () => {
     const user = useSelector((state) => state.auth.user)
